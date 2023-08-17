@@ -72,7 +72,7 @@ app.post("/cmd", (req, res) => {
     console.log(std);
 
    
-    res.redirect("/");
+    // res.redirect("/");
   });
 });
 
