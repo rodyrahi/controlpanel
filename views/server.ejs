@@ -45,8 +45,8 @@
                 
             <hr>
             
-            <input type="text" name="" id="" placeholder="Enter a command">
-            <button class="btn btn-success btn-sm" type="submit" id="exe">ADD APP</button>
+            <input type="text" name="giturl" id="giturl" placeholder="Enter a git url">
+            <button class="btn btn-success btn-sm" onclick="addapp()" type="button" id="exe">ADD APP</button>
             
             <hr>
             <textarea class="form-control" name="command" id="command" cols="30" rows="10"></textarea>
@@ -83,6 +83,17 @@
         document.getElementById('exe').click()
 
         // Perform your restart logic using the extracted app name
+      }
+
+      function addapp() {
+        var url = document.getElementById('giturl').value
+        document.getElementById('command').value = 
+        `
+        cd /root/app
+        git clone ${url} 
+        `
+        document.getElementById('exe').click()
+
       }
      
 
