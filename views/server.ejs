@@ -58,10 +58,8 @@
         const cmd= button.getAttribute('data-cmd');
         console.log(appName)
         document.getElementById('command').value = 
-        `
-        cd /app/${appName}
-        git pull
-        `
+        `cd /app/${appName}
+         git pull`
         document.getElementById('exe').click()
 
         // Perform your restart logic using the extracted app name
