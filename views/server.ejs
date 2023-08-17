@@ -23,7 +23,7 @@
 
                     <%} %>
 
-                <button type="button" data-cmd="" data-name="<%= element.name %>"  onclick="gitpull(this)" >git pull</button>
+                <button type="button" data-cmd="<%= element.pm2_env.versioning.repo_path %>" data-name="<%= element.name %>"  onclick="gitpull(this)" >git pull</button>
 
 
 
@@ -58,7 +58,7 @@
         const cmd= button.getAttribute('data-cmd');
         console.log(appName)
         document.getElementById('command').value = 
-        `cd /app/${appName} git pull`
+        `cd ${cmd} git pull`
         document.getElementById('exe').click()
 
         // Perform your restart logic using the extracted app name
