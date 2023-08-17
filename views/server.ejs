@@ -16,7 +16,7 @@
             <% result.forEach(element => { %>
 
 
-                <div class="d-flex my-1" style="border-bottom: 1px black solid;">
+                <div class="d-flex p-1 my-1" style="border-bottom: 1px black solid;">
                     
                     <p><span class="result"><%= element.name %></span></p>
                     <button class="btn btn-warning btn-sm ms-auto me-1" type="button" data-cmd="restart" data-name="<%= element.name %>"  onclick="app(this)" >restart</button>
