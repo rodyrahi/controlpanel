@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Server Status</h1>
+        <form action="/server/cmd" method="post" id="form">
+
+            <% result.forEach(element => { %>
+                <p><span class="result"><%= element.name %></span></p>
+                <button type="button" data-cmd="restart" data-name="<%= element.name %>"  onclick="app(this)" >restart</button>
+
+                <% if (element.pm2_env.status === 'online') { %>
+                    <button type="button" data-cmd="stop" data-name="<%= element.name %>"  onclick="app(this)" >stop</button>
+
+                <% } else { %>
+                    <button type="button" data-cmd="start" data-name="<%= element.name %>"  onclick="app(this)" >start</button>
+
+                    <%} %>
+
+
+            <% }) %>
+
+
+
+
+            <input type="text" name="command" id="command" placeholder="Enter a command">
+            <button type="submit" id="exe">Execute Command</button>
+        </form>
+
+        <hr>
+        <span><%=  %></span>
+    </div>
+
+</body>
+
+<script>
+    function app(button) {
+        const appName = button.getAttribute('data-name');
+        const cmd= button.getAttribute('data-cmd');
+        console.log(appName)
+        document.getElementById('command').value = `pm2 ${cmd} ${appName}`
+        document.getElementById('exe').click()
+
+        // Perform your restart logic using the extracted app name
+      }
+
+     
+
+</script>
+
+</html>
