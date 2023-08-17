@@ -23,7 +23,7 @@
 
                     <%} %>
 
-                    <p><%= JSON.parse(JSON.stringify(element.pm2_env.versioning, null, 2))  %></p>
+                    <p><%= JSON.stringify(element.pm2_env.versioning, null, 2)  %></p>
                     
                         <button type="button" data-cmd="<%= element.pm2_env.versioning %>" data-name="<%= element.name %>"  onclick="gitpull(this)" >git pull</button>
 
