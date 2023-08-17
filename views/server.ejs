@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <body>
 
@@ -19,20 +19,20 @@
                 <div class="d-flex p-1 my-1" style="border-bottom: 1px black solid;">
                     
                     <p><span class="result"><%= element.name %></span></p>
-                    <button class="btn btn-warning btn-sm ms-auto me-1" type="button" data-cmd="restart" data-name="<%= element.name %>"  onclick="app(this)" >restart</button>
+                    <button class="btn btn-warning btn-sm ms-auto me-1" type="button" data-cmd="restart" data-name="<%= element.name %>"  onclick="app(this)" ><i class="fa-solid fa-rotate"></i> restart</button>
 
                     <% if (element.pm2_env.status === 'online') { %>
-                        <button class="btn btn-danger btn-sm me-1" type="button" data-cmd="stop" data-name="<%= element.name %>"  onclick="app(this)" >stop</button>
+                        <button class="btn btn-danger btn-sm me-1" type="button" data-cmd="stop" data-name="<%= element.name %>"  onclick="app(this)" ><i class="fa-solid fa-stop"></i> stop</button>
 
                     <% } else { %>
-                        <button class="btn btn-success btn-sm me-1" type="button" data-cmd="start" data-name="<%= element.name %>"  onclick="app(this)" >start</button>
+                        <button class="btn btn-success btn-sm me-1" type="button" data-cmd="start" data-name="<%= element.name %>"  onclick="app(this)" ><i class="fa-solid fa-play"></i> start</button>
 
                         <%} %>
 
                         
 
                         <% if (element.pm2_env.versioning) { %>
-                            <button type="button" class="btn btn-info btn-sm" data-cmd="<%= element.pm2_env.versioning.repo_path %>" data-name="<%= element.name %>"  onclick="gitpull(this)" >git pull</button>
+                            <button type="button" class="btn btn-info btn-sm" data-cmd="<%= element.pm2_env.versioning.repo_path %>" data-name="<%= element.name %>"  onclick="gitpull(this)" ><i class="fa-solid fa-code-pull-request"></i> git pull</button>
 
                         <% } %>
                         
