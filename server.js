@@ -41,7 +41,7 @@ app.get("/", (req, res) => {
     std = JSON.parse(std);
 
    
-    res.render("server/server", { result: std,error:`${error}`, stderr:`${stderr}` , stdout:`${stdout}` });
+    res.render("server", { result: std,error:`${error}`, stderr:`${stderr}` , stdout:`${stdout}` });
   });
 });
 
