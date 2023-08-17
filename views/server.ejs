@@ -18,10 +18,10 @@
                 <button type="button" data-cmd="restart" data-name="<%= element.name %>"  onclick="app(this)" >restart</button>
 
                 <% if (element.pm2_env.status === 'online') { %>
-                    <button type="button" data-cmd="stop" data-name="<%= element.name %>"  onclick="app(this)" >stop</button>
+                    <button class="btn btn-danger btn-sm" type="button" data-cmd="stop" data-name="<%= element.name %>"  onclick="app(this)" >stop</button>
 
                 <% } else { %>
-                    <button type="button" data-cmd="start" data-name="<%= element.name %>"  onclick="app(this)" >start</button>
+                    <button class="btn btn-success btn-sm" type="button" data-cmd="start" data-name="<%= element.name %>"  onclick="app(this)" >start</button>
 
                     <%} %>
 
