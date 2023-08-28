@@ -3,9 +3,7 @@ const bodyParser = require("body-parser");
 const app = express();
 const port = 9111;
 const { exec } = require("child_process");
-const WebSocket = require('ws');
-const https = require('https');
-const fs = require('fs');
+
 
 
 app.use(express.static('public'));
@@ -20,12 +18,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 
-const server = https.createServer({
-  key: fs.readFileSync('key.pem'),
-  cert: fs.readFileSync('cert.pem'),
-}, app);
 
-const wss = new WebSocket.Server({ server });
 
 app.get('/', (req, res) => {
   res.sendFile(__dirname + '/index.html');
