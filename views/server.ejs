@@ -12,10 +12,12 @@
     <div class="container">
         <h1>Server Status</h1>
         <form action="/cmd" method="post" id="form">
+            <div class="row">
 
+     
             <% result.forEach(element => { %>
 
-
+                
                 
                     <div class="col-6" style="max-width: 15rem;">
                         <div class="m-1 p-2 border shadow text-light" style="background-color: darkslategray; border-radius: 1rem;">
@@ -37,33 +39,10 @@
                                 <% } %>
                         </div>
                     </div>
-              
-<!-- 
-                <div class="d-flex p-1 my-1" style="border-bottom: 1px black solid;">
-                    
-                    <p><span class="result"><%= element.name %></span></p>
-                    <button class="btn btn-warning btn-sm ms-auto me-1" type="button" data-cmd="restart" data-name="<%= element.name %>"  onclick="app(this)" ><i class="fa-solid fa-rotate"></i> restart</button>
-
-                    <% if (element.pm2_env.status === 'online') { %>
-                        <button class="btn btn-danger btn-sm me-1" type="button" data-cmd="stop" data-name="<%= element.name %>"  onclick="app(this)" ><i class="fa-solid fa-stop"></i> stop</button>
-
-                    <% } else { %>
-                        <button class="btn btn-success btn-sm me-1" type="button" data-cmd="start" data-name="<%= element.name %>"  onclick="app(this)" ><i class="fa-solid fa-play"></i> start</button>
-
-                        <%} %>
-
-                        
-
-                        <% if (element.pm2_env.versioning) { %>
-                            <button type="button" class="btn btn-info btn-sm" data-cmd="<%= element.pm2_env.versioning.repo_path %>" data-name="<%= element.name %>"  onclick="gitpull(this)" ><i class="fa-solid fa-code-pull-request"></i> git pull</button>
-
-                        <% } %>
-                        
-                </div> -->
-                    
-              
+               
 
             <% }) %>
+        </div>
   
             <hr>
             
