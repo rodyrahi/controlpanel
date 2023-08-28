@@ -18,10 +18,12 @@ app.use(express.urlencoded({ extended: true }));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-
+const server = http.createServer(app);
+const io = socketIO(server);
 
 
 io.on('connection', (socket) => {
+  console.log('connected');
   const dataInterval = setInterval(() => {
     const randomValue = Math.random() * 100;
     socket.emit('cpuValue', randomValue.toFixed(2));
