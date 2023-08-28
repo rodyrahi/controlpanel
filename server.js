@@ -24,17 +24,7 @@ app.get('/', (req, res) => {
   res.sendFile(__dirname + '/index.html');
 });
 
-wss.on('connection', (socket) => {
-  // Send data to the client every 3 seconds
-  const dataInterval = setInterval(() => {
-    const randomValue = Math.random() * 100;
-    socket.send(JSON.stringify({ value: randomValue }));
-  }, 3000);
 
-  socket.on('close', () => {
-    clearInterval(dataInterval);
-  });
-});
 
 
 
