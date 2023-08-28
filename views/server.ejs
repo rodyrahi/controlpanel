@@ -86,7 +86,9 @@
         const socket = io();
 
         socket.on('cpuValue', (value) => {
-            document.getElementById('cpuValue').textContent = value + ' MB';
+
+            value =  <%= result= %>
+            // document.getElementById('cpuValue').textContent = value + ' MB';
         });
     </script>
 
