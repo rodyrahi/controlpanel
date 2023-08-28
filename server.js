@@ -3,7 +3,8 @@ const bodyParser = require("body-parser");
 const app = express();
 const port = 9111;
 const { exec } = require("child_process");
-
+const http = require('http');
+const socketIO = require('socket.io');
 
 
 app.use(express.static('public'));
@@ -20,13 +21,16 @@ app.use(bodyParser.json());
 
 
 
-app.get('/', (req, res) => {
-  res.sendFile(__dirname + '/index.html');
+io.on('connection', (socket) => {
+  const dataInterval = setInterval(() => {
+    const randomValue = Math.random() * 100;
+    socket.emit('cpuValue', randomValue.toFixed(2));
+  }, 3000);
+
+  socket.on('disconnect', () => {
+    clearInterval(dataInterval);
+  });
 });
-
-
-
-
 
 
 

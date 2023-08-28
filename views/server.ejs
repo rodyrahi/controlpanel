@@ -73,6 +73,23 @@
         <span><%=  %></span>
     </div>
 
+
+    <h6 class="ms-auto">
+        <i class="fa-solid fa-server me-2"></i>
+        <span id="cpuValue">Waiting for data...</span> MB
+    </h6>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        const socket = io();
+
+        socket.on('cpuValue', (value) => {
+            document.getElementById('cpuValue').textContent = value + ' MB';
+        });
+    </script>
+
+
+
 </body>
 
 <script>
