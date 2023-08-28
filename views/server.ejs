@@ -23,7 +23,7 @@
                         <div class=" row m-1 p-2 shadow text-light" style="background-color: darkslategray; border-radius: 1rem;">
                             
                             <div class="col-8">
-                                <h6 class="m-1"><%= element.name %></h6>
+                                <h5 class="m-1 fw-bold"><%= element.name %></h5>
                                 <a class=" ms-auto ms-1 text-warning" type="button" data-cmd="restart" data-name="<%= element.name %>"  onclick="app(this)" ><i class="fa-solid fa-rotate"></i></a>
                                 <% if (element.pm2_env.status === 'online') { %>
                                     <a class=" ms-1 text-danger ms-1" type="button" data-cmd="stop" data-name="<%= element.name %>"  onclick="app(this)" ><i class="fa-solid fa-stop"></i></a>
