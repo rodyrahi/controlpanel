@@ -89,7 +89,7 @@
 
 
             let result = JSON.parse(value.result);
-            
+            let container
             // console.log(result);
             result.forEach(element => {
 
@@ -103,7 +103,7 @@
                 }
             
             
-                document.getElementById('apps').innerHTML = ` 
+                 container +=` 
                 <div class="col" style="max-width: 20rem; min-width: 20rem;">
                     <div class=" row m-1 p-2 shadow text-light" style="background-color: darkslategray; border-radius: 1rem;">
 
@@ -124,6 +124,7 @@
                     </div>
                 </div>
                 `
+                document.getElementById('apps').innerHTML = container
 
             });
 
