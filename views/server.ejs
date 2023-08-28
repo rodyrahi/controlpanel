@@ -11,10 +11,6 @@
 
     <div class="container">
      
-        <h6 class="ms-auto">
-            <i class="fa-solid fa-server me-2"></i>
-            <span id="cpuValue">Waiting for data...</span> MB
-        </h6>
 
 
         <h1>Server Status</h1>
@@ -119,11 +115,6 @@
 
 
 <script>
-    const socket = new WebSocket('ws://admin.kamingo.in');
 
-    socket.addEventListener('message', (event) => {
-        const data = JSON.parse(event.data);
-        document.getElementById('cpuValue').textContent = data.value.toFixed(2);
-    });
 </script>
 </html>
