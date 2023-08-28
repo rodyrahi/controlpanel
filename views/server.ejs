@@ -88,12 +88,11 @@
         const socket = io();
 
         socket.on('cpuValue', (value) => {
-            // value.forEach(element => {
-            //     document.getElementById('log').innerText = element.name
+            value.result.forEach(element => {
+                document.getElementById('log').innerText = element.name
 
-            // });
-            console.log(value);
-             document.getElementById('log').innerText = value.result
+            });
+
 
             // document.getElementById('cpuValue').textContent = value + ' MB';
         });
