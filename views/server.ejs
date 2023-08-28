@@ -20,6 +20,8 @@
         <form action="/cmd" method="post" id="form">
             <div class="row">
 
+
+            <p class="log" ></p>
      
             <% result.forEach(element => { %>
 
@@ -86,8 +88,10 @@
         const socket = io();
 
         socket.on('cpuValue', (value) => {
+            value.forEach(element => {
+                document.getElementById('log').innerText = element.name
 
-            value =  <% result%>
+            });
             // document.getElementById('cpuValue').textContent = value + ' MB';
         });
     </script>
