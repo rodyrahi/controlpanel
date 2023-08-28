@@ -24,10 +24,10 @@
                             <h4 class="m-1"><%= element.name %></h4>
                             <a class=" ms-auto ms-1 text-warning" type="button" data-cmd="restart" data-name="<%= element.name %>"  onclick="app(this)" ><i class="fa-solid fa-rotate"></i></a>
                             <% if (element.pm2_env.status === 'online') { %>
-                                <a class=" ms-1 text-success ms-1" type="button" data-cmd="stop" data-name="<%= element.name %>"  onclick="app(this)" ><i class="fa-solid fa-stop"></i></a>
+                                <a class=" ms-1 text-danger ms-1" type="button" data-cmd="stop" data-name="<%= element.name %>"  onclick="app(this)" ><i class="fa-solid fa-stop"></i></a>
         
                             <% } else { %>
-                                <a class=" ms-1 text-danger ms-1" type="button" data-cmd="start" data-name="<%= element.name %>"  onclick="app(this)" ><i class="fa-solid fa-play"></i></a>
+                                <a class=" ms-1 text-success ms-1" type="button" data-cmd="start" data-name="<%= element.name %>"  onclick="app(this)" ><i class="fa-solid fa-play"></i></a>
         
                                 <%} %>
         
