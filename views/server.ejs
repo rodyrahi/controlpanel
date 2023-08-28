@@ -26,36 +26,32 @@
             <% result.forEach(element => { %>
 
                 
-                
-                    <div class="col" style="max-width: 20rem; min-width: 20rem;">
-                        <div class=" row m-1 p-2 shadow text-light" style="background-color: darkslategray; border-radius: 1rem;">
-                            
-                            <div class="col-6">
-                                <h5 class="fw-bold"><%= element.name %></h5>
-                                <a class=" ms-auto ms-1 text-warning" type="button" data-cmd="restart" data-name="<%= element.name %>"  onclick="app(this)" ><i class="fa-solid fa-rotate"></i></a>
-                                <% if (element.pm2_env.status === 'online') { %>
-                                    <a class=" ms-1 text-danger ms-1" type="button" data-cmd="stop" data-name="<%= element.name %>"  onclick="app(this)" ><i class="fa-solid fa-stop"></i></a>
-            
-                                <% } else { %>
-                                    <a class=" ms-1 text-success ms-1" type="button" data-cmd="start" data-name="<%= element.name %>"  onclick="app(this)" ><i class="fa-solid fa-play"></i></a>
-            
-                                    <%} %>
-            
+                <div class="col" style="max-width: 20rem; min-width: 20rem;">
+                  <div class=" row m-1 p-2 shadow text-light" style="background-color: darkslategray; border-radius: 1rem;">
 
-            
-                                    <% if (element.pm2_env.versioning) { %>
-                                        <a type="button" class="text-info ms-1" data-cmd="<%= element.pm2_env.versioning.repo_path %>" data-name="<%= element.name %>"  onclick="gitpull(this)" ><i class="fa-solid fa-code-pull-request"></i></a>
-            
-                                    <% } %>
-                            </div>
-                            <div class="col-6 d-flex" style="flex-direction: column;">
-                                <h6 class="ms-auto" ><i class="fa-solid fa-microchip me-2"></i><%= (element.monit.memory /1024/1024).toFixed(2) %>mb</h6>
-                                <h6 class="ms-auto" ><i class="fa-solid fa-server me-2"> </i><%= element.monit.cpu %>%</h6>
+                    <div class="col-6">
+                      <h5 class="fw-bold"><%= element.name %></h5>
+                      <a class=" ms-auto ms-1 text-warning" type="button" data-cmd="restart" data-name="<%= element.name %>" onclick="app(this)"><i class="fa-solid fa-rotate"></i></a>
+                      <% if (element.pm2_env.status === 'online') { %>
+                      <a class=" ms-1 text-danger ms-1" type="button" data-cmd="stop" data-name="<%= element.name %>" onclick="app(this)"><i class="fa-solid fa-stop"></i></a>
 
-                            </div>
+                      <% } else { %>
+                      <a class=" ms-1 text-success ms-1" type="button" data-cmd="start" data-name="<%= element.name %>" onclick="app(this)"><i class="fa-solid fa-play"></i></a>
 
-                        </div>
+                      <%} %>
+                      <% if (element.pm2_env.versioning) { %>
+                      <a type="button" class="text-info ms-1" data-cmd="<%= element.pm2_env.versioning.repo_path %>" data-name="<%= element.name %>" onclick="gitpull(this)"><i class="fa-solid fa-code-pull-request"></i></a>
+
+                      <% } %>
                     </div>
+                    <div class="col-6 d-flex" style="flex-direction: column;">
+                      <h6 class="ms-auto"><i class="fa-solid fa-microchip me-2"></i><%= (element.monit.memory /1024/1024).toFixed(2) %>mb</h6>
+                      <h6 class="ms-auto"><i class="fa-solid fa-server me-2"> </i><%= element.monit.cpu %>%</h6>
+
+                    </div>
+
+                  </div>
+                </div>
                
 
             <% }) %>
@@ -107,25 +103,27 @@
                 }
             
             
-                document.getElementById('apps').innerHTML =                `  <div class="col" style="max-width: 20rem; min-width: 20rem;">
-                        <div class=" row m-1 p-2 shadow text-light" style="background-color: darkslategray; border-radius: 1rem;">
-                            
-                            <div class="col-6">
-                                <h5 class="fw-bold">${element.name}</h5>
-                                <a class=" ms-auto ms-1 text-warning" type="button" data-cmd="restart" data-name="${element.name}"  onclick="app(this)" ><i class="fa-solid fa-rotate"></i></a>
-                                ${button}
-                                
-                                <a type="button" class="text-info ms-1" data-cmd="${element.pm2_env.versioning.repo_path} " data-name="${element.name }"  onclick="gitpull(this)" ><i class="fa-solid fa-code-pull-request"></i></a>
-            
-                            </div>
+                document.getElementById('apps').innerHTML = ` 
+                <div class="col" style="max-width: 20rem; min-width: 20rem;">
+                    <div class=" row m-1 p-2 shadow text-light" style="background-color: darkslategray; border-radius: 1rem;">
+
+                        <div class="col-6">
+                            <h5 class="fw-bold">${element.name}</h5>
+                            <a class=" ms-auto ms-1 text-warning" type="button" data-cmd="restart" data-name="${element.name}" onclick="app(this)"><i class="fa-solid fa-rotate"></i></a>
+                            ${button}
+
+                            <a type="button" class="text-info ms-1" data-cmd="${element.pm2_env.versioning.repo_path} " data-name="${element.name }" onclick="gitpull(this)"><i class="fa-solid fa-code-pull-request"></i></a>
+
+                      
                             <div class="col-6 d-flex" style="flex-direction: column;">
-                                <h6 class="ms-auto" ><i class="fa-solid fa-microchip me-2"></i>${(element.monit.memory /1024/1024).toFixed(2)}mb</h6>
-                                <h6 class="ms-auto" ><i class="fa-solid fa-server me-2"> </i>${element.monit.cpu }%</h6>
-
+                                <h6 class="ms-auto"><i class="fa-solid fa-microchip me-2"></i>${(element.monit.memory /1024/1024).toFixed(2)}mb</h6>
+                                <h6 class="ms-auto"><i class="fa-solid fa-server me-2"> </i>${element.monit.cpu }%</h6>
                             </div>
-
                         </div>
-                    </div>`
+
+                    </div>
+                </div>
+                `
 
             });
 
