@@ -12,10 +12,33 @@
     <div class="container">
         <h1>Server Status</h1>
         <form action="/cmd" method="post" id="form">
-
+            <div class="row">
             <% result.forEach(element => { %>
 
 
+                
+                    <div class="col" style="max-width: 15rem;">
+                        <div class="m-3 p-2 border text-light" style="background-color: darkslategray; border-radius: 1rem;">
+                            <h4 class="m-1"><%= element.name %></h4>
+                            <a class=" ms-auto me-1 text-warning" type="button" data-cmd="restart" data-name="<%= element.name %>"  onclick="app(this)" ><i class="fa-solid fa-rotate"></i></a>
+                            <% if (element.pm2_env.status === 'online') { %>
+                                <a class=" me-1 text-success" type="button" data-cmd="stop" data-name="<%= element.name %>"  onclick="app(this)" ><i class="fa-solid fa-stop"></i></a>
+        
+                            <% } else { %>
+                                <a class=" me-1 text-danger" type="button" data-cmd="start" data-name="<%= element.name %>"  onclick="app(this)" ><i class="fa-solid fa-play"></i></a>
+        
+                                <%} %>
+        
+                                
+        
+                                <% if (element.pm2_env.versioning) { %>
+                                    <a type="button" class="text-info" data-cmd="<%= element.pm2_env.versioning.repo_path %>" data-name="<%= element.name %>"  onclick="gitpull(this)" ><i class="fa-solid fa-code-pull-request"></i></a>
+        
+                                <% } %>
+                        </div>
+                    </div>
+              
+<!-- 
                 <div class="d-flex p-1 my-1" style="border-bottom: 1px black solid;">
                     
                     <p><span class="result"><%= element.name %></span></p>
@@ -36,12 +59,12 @@
 
                         <% } %>
                         
-                </div>
+                </div> -->
                     
               
 
             <% }) %>
-                
+        </div>
             <hr>
             
             <input type="text" name="giturl" id="giturl" placeholder="Enter a git url">
