@@ -24,82 +24,82 @@ const io = socketIO(server);
 
 console.log('test');
 
-io.on('connection', (socket) => {
-  console.log('connected');
-  const dataInterval = setInterval(() => {
-    // const randomValue = Math.random() * 100;
+// io.on('connection', (socket) => {
+//   console.log('connected');
+//   const dataInterval = setInterval(() => {
+//     // const randomValue = Math.random() * 100;
 
-    const command = "pm2 jlist";
+//     const command = "pm2 jlist";
 
-    var result ;
-    var std ='' ; 
+//     var result ;
+//     var std ='' ; 
   
-    exec(command, (error, stdout, stderr) => {
-      if (error) {
-        // Handle error
-        result = error;
-      }
-      if (stderr) {
+//     exec(command, (error, stdout, stderr) => {
+//       if (error) {
+//         // Handle error
+//         result = error;
+//       }
+//       if (stderr) {
   
-        std = `${stderr}`;
-      }
+//         std = `${stderr}`;
+//       }
       
-      // Store stdout and render the view here, inside the callback
-      std = `${stdout}`;
+//       // Store stdout and render the view here, inside the callback
+//       std = `${stdout}`;
   
       
   
-      std = JSON.parse(std);
-      socket.emit('cpuValue', {result: std });
+//       std = JSON.parse(std);
+//       socket.emit('cpuValue', {result: std });
      
-      // res.render("server", { result: std,error:`${error}`, stderr:`${stderr}` , stdout:`${stdout}` });
-    });
+//       // res.render("server", { result: std,error:`${error}`, stderr:`${stderr}` , stdout:`${stdout}` });
+//     });
 
 
 
     
-  }, 5000);
+//   }, 5000);
 
-  const logInterval = setInterval(() => {
-    // const randomValue = Math.random() * 100;
+//   const logInterval = setInterval(() => {
+//     // const randomValue = Math.random() * 100;
 
-    const command = "pm2 log";
+//     const command = "pm2 log";
 
-    var result ;
-    var std ='' ; 
+//     var result ;
+//     var std ='' ; 
   
-    exec(command, (error, stdout, stderr) => {
-      if (error) {
-        // Handle error
-        result = error;
-      }
-      if (stderr) {
+//     exec(command, (error, stdout, stderr) => {
+//       if (error) {
+//         // Handle error
+//         result = error;
+//       }
+//       if (stderr) {
   
-        std = `${stderr}`;
-      }
+//         std = `${stderr}`;
+//       }
       
-      // Store stdout and render the view here, inside the callback
-      std = `${stdout}`;
+//       // Store stdout and render the view here, inside the callback
+//       std = `${stdout}`;
   
       
   
-      // std = JSON.parse(std);
-      socket.emit('logValue', {result: std });
+//       // std = JSON.parse(std);
+//       socket.emit('logValue', {result: std });
      
-      // res.render("server", { result: std,error:`${error}`, stderr:`${stderr}` , stdout:`${stdout}` });
-    });
+//       // res.render("server", { result: std,error:`${error}`, stderr:`${stderr}` , stdout:`${stdout}` });
+//     });
 
 
 
     
-  }, 3000);
+//   }, 3000);
 
 
-  socket.on('disconnect', () => {
-    clearInterval(dataInterval);
-    clearInterval(logInterval);
-  });
-});
+//   socket.on('disconnect', () => {
+//     clearInterval(dataInterval);
+//     clearInterval(logInterval);
+//   });
+// });
 
 
 
