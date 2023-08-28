@@ -27,8 +27,37 @@ console.log('test');
 io.on('connection', (socket) => {
   console.log('connected');
   const dataInterval = setInterval(() => {
-    const randomValue = Math.random() * 100;
-    socket.emit('cpuValue', randomValue.toFixed(2));
+    // const randomValue = Math.random() * 100;
+
+    const command = "pm2 jlist";
+
+    var result ;
+    var std ='' ; 
+  
+    exec(command, (error, stdout, stderr) => {
+      if (error) {
+        // Handle error
+        result = error;
+      }
+      if (stderr) {
+  
+        std = `${stderr}`;
+      }
+      
+      // Store stdout and render the view here, inside the callback
+      std = `${stdout}`;
+  
+      
+  
+      std = JSON.parse(std);
+  
+     
+      // res.render("server", { result: std,error:`${error}`, stderr:`${stderr}` , stdout:`${stdout}` });
+    });
+
+
+
+    socket.emit('cpuValue', {result: std,error:`${error}`, stderr:`${stderr}` , stdout:`${stdout}` });
   }, 3000);
 
   socket.on('disconnect', () => {
