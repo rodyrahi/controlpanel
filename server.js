@@ -57,7 +57,7 @@ io.on('connection', (socket) => {
 
 
 
-    socket.emit('cpuValue', {result: std,error:`${error}`, stderr:`${stderr}` , stdout:`${stdout}` });
+    socket.emit('cpuValue', {result: std });
   }, 5000);
 
   socket.on('disconnect', () => {
