@@ -31,16 +31,16 @@
 
                     <div class="col-6">
                       <h5 class="fw-bold"><%= element.name %></h5>
-                      <a class=" ms-auto ms-1 text-warning" type="button" data-cmd="restart" data-name="<%= element.name %>" onclick="app(this)"><i class="fa-solid fa-rotate" style="font-size: 1.5rem;"></i></a>
+                      <a class=" ms-auto ms-2 text-warning" type="button" data-cmd="restart" data-name="<%= element.name %>" onclick="app(this)"><i class="fa-solid fa-rotate" style="font-size: 1.5rem;"></i></a>
                       <% if (element.pm2_env.status === 'online') { %>
-                      <a class=" ms-1 text-danger ms-1" type="button" data-cmd="stop" data-name="<%= element.name %>" onclick="app(this)"><i class="fa-solid fa-stop" style="font-size: 1.5rem;"></i></a>
+                      <a class=" ms-1 text-danger ms-2" type="button" data-cmd="stop" data-name="<%= element.name %>" onclick="app(this)"><i class="fa-solid fa-stop" style="font-size: 1.5rem;"></i></a>
 
                       <% } else { %>
-                      <a class=" ms-1 text-success ms-1" type="button" data-cmd="start" data-name="<%= element.name %>" onclick="app(this)"><i class="fa-solid fa-play" style="font-size: 1.5rem;"></i></a>
+                      <a class=" ms-1 text-success ms-2" type="button" data-cmd="start" data-name="<%= element.name %>" onclick="app(this)"><i class="fa-solid fa-play" style="font-size: 1.5rem;"></i></a>
 
                       <%} %>
                       <% if (element.pm2_env.versioning) { %>
-                      <a type="button" class="text-info ms-1" data-cmd="<%= element.pm2_env.versioning.repo_path %>" data-name="<%= element.name %>" onclick="gitpull(this)"><i class="fa-solid fa-code-pull-request" style="font-size: 1.5rem;"></i></a>
+                      <a type="button" class="text-info ms-2" data-cmd="<%= element.pm2_env.versioning.repo_path %>" data-name="<%= element.name %>" onclick="gitpull(this)"><i class="fa-solid fa-code-pull-request" style="font-size: 1.5rem;"></i></a>
 
                       <% } %>
                     </div>
