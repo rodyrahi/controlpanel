@@ -119,7 +119,7 @@
 
 
 <script>
-    const socket = new WebSocket('ws://localhost:3000');
+    const socket = new WebSocket('ws://admin.kamingo.in');
 
     socket.addEventListener('message', (event) => {
         const data = JSON.parse(event.data);
