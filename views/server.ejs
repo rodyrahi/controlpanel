@@ -12,15 +12,15 @@
     <div class="container">
         <h1>Server Status</h1>
         <form action="/cmd" method="post" id="form">
-            <!-- <div class="row"> -->
+            <div class="row">
 
      
             <% result.forEach(element => { %>
 
                 
                 
-                    <div class="row" style="max-width: 15rem;">
-                        <div class=" col m-1 p-2 border shadow text-light" style="background-color: darkslategray; border-radius: 1rem;">
+                    <div class="col" style="max-width: 15rem;">
+                        <div class="m-1 p-2 border shadow text-light" style="background-color: darkslategray; border-radius: 1rem;">
                             <h4 class="m-1"><%= element.name %></h4>
                             <a class=" ms-auto me-1 text-warning" type="button" data-cmd="restart" data-name="<%= element.name %>"  onclick="app(this)" ><i class="fa-solid fa-rotate"></i></a>
                             <% if (element.pm2_env.status === 'online') { %>
@@ -42,7 +42,7 @@
                
 
             <% }) %>
-        <!-- </div> -->
+        </div>
   
             <hr>
             
