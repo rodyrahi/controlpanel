@@ -87,10 +87,10 @@
 
         socket.on('cpuValue', (value) => {
 
-
+            console.log(value.result);
             let result = JSON.parse(value.result);
             let container = ``  
-            // console.log(result);
+
             result.forEach(element => {
 
                 let button;
@@ -129,7 +129,7 @@
             });
 
 
-            // document.getElementById('cpuValue').textContent = value + ' MB';
+        
         });
     
         socket.on('logValue', (value) => {
