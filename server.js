@@ -168,6 +168,40 @@ app.post("/cmd", (req, res) => {
 });
 
 
+app.post("/cmd", (req, res) => {
+  console.log(req.body);
+  const {command } = req.body
+
+  var result ;
+  var std ='' ; 
+
+  exec(command, (error, stdout, stderr) => {
+    if (error) {
+      // Handle error
+      result = error;
+    }
+    if (stderr) {
+
+      std = `${stderr}`;
+    }
+    
+    // Store stdout and render the view here, inside the callback
+    std = `${stdout}`;
+
+
+
+ 
+    console.log(std);
+
+    if (std) {
+      res.redirect("/");
+
+    }
+
+   
+  });
+});
+
 server.listen(port, () => {
     console.log(`Example app listening on port ${port}`);
   });
