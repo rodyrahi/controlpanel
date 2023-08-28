@@ -88,7 +88,12 @@
         const socket = io();
 
         socket.on('cpuValue', (value) => {
-            value.result.forEach(element => {
+
+
+            let result = value.result
+            
+            console.log(result);
+            result.forEach(element => {
                 document.getElementById('log').innerText = element.name
 
             });
