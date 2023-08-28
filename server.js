@@ -3,7 +3,8 @@ const bodyParser = require("body-parser");
 const app = express();
 const port = 9111;
 const { exec } = require("child_process");
-
+const WebSocket = require('ws');
+const http = require('http');
 
 
 app.use(express.static('public'));
@@ -16,6 +17,31 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+
+
+const server = http.createServer(app);
+const wss = new WebSocket.Server({ server });
+
+app.get('/', (req, res) => {
+  res.sendFile(__dirname + '/index.html');
+});
+
+wss.on('connection', (socket) => {
+  // Send data to the client every 3 seconds
+  const dataInterval = setInterval(() => {
+    const randomValue = Math.random() * 100;
+    socket.send(JSON.stringify({ value: randomValue }));
+  }, 3000);
+
+  socket.on('close', () => {
+    clearInterval(dataInterval);
+  });
+});
+
+
+
+
+
 
 app.get("/", (req, res) => {
   const command = "pm2 jlist";
