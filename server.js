@@ -4,7 +4,8 @@ const app = express();
 const port = 9111;
 const { exec } = require("child_process");
 const WebSocket = require('ws');
-const http = require('http');
+const https = require('https');
+const fs = require('fs');
 
 
 app.use(express.static('public'));
@@ -19,7 +20,11 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 
-const server = http.createServer(app);
+const server = https.createServer({
+  key: fs.readFileSync('key.pem'),
+  cert: fs.readFileSync('cert.pem'),
+}, app);
+
 const wss = new WebSocket.Server({ server });
 
 app.get('/', (req, res) => {
