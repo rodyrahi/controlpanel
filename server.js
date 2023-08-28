@@ -49,7 +49,7 @@ io.on('connection', (socket) => {
   
       
   
-      // std = JSON.parse(std);
+      std = JSON.parse(std);
       socket.emit('cpuValue', {result: std });
      
       // res.render("server", { result: std,error:`${error}`, stderr:`${stderr}` , stdout:`${stdout}` });
