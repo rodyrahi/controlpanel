@@ -58,7 +58,7 @@ io.on('connection', (socket) => {
 
 
     socket.emit('cpuValue', {result: std,error:`${error}`, stderr:`${stderr}` , stdout:`${stdout}` });
-  }, 3000);
+  }, 5000);
 
   socket.on('disconnect', () => {
     clearInterval(dataInterval);
