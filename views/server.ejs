@@ -131,6 +131,16 @@
 
             // document.getElementById('cpuValue').textContent = value + ' MB';
         });
+    
+        socket.on('logValue', (value) => {
+            document.getElementById('log').innerText = value.result
+        });
+
+
+        
+    
+    
+    
     </script>
 
 
