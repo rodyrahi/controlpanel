@@ -22,6 +22,8 @@ const server = http.createServer(app);
 const io = socketIO(server);
 
 
+console.log('test');
+
 io.on('connection', (socket) => {
   console.log('connected');
   const dataInterval = setInterval(() => {
