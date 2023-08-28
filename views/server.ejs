@@ -90,9 +90,9 @@
         socket.on('cpuValue', (value) => {
 
 
-            let result = value.result
+            let result = JSON.parse(value.result);
             
-            console.log(result[0]);
+            console.log(result);
             result.forEach(element => {
                 document.getElementById('log').innerText = element.name
 
