@@ -132,28 +132,44 @@ app.get("/logs/:apps", (req, res) => {
 
   
   const apps = req.params.apps
+  const maxProcesses = 1;
+  const processQueue = [];
+  
   io.on('connection', (socket) => {
     console.log('Client connected');
   
-    const command = `pm2 logs ${apps ?apps:''}`;
-    process.kill();
-
-    const process = exec(command);
-    process.stdout.on('data', (data) => {
-      var logLine = data.toString().trim();
-      socket.emit('log', logLine);
+    if (processQueue.length < maxProcesses) {
+      const command = `pm2 logs ${apps?apps:''}`;
   
+      const process = exec(command);
+      processQueue.push(process);
   
+      process.stdout.on('data', (data) => {
+        const logLine = data.toString().trim();
+        socket.emit('log', logLine);
+      });
   
-    });
+      process.on('close', () => {
+        const index = processQueue.indexOf(process);
+        if (index !== -1) {
+          processQueue.splice(index, 1); // Remove the process from the queue
+        }
+      });
+    }
   
     socket.on('disconnect', () => {
       console.log('Client disconnected');
-      process.kill();
+      processQueue.forEach((process) => {
+        process.kill(); // Kill all processes when the client disconnects
+      });
+      processQueue.length = 0; // Clear the process queue
     });
   });
   
-    res.render('logs');
+  const PORT = process.env.PORT || 3000;
+  server.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
+  });
 
 });
 
