@@ -204,31 +204,30 @@ app.post("/cmd", (req, res) => {
 
 
 app.get("/logs", (req, res) => {
-  const command = "pm2 logs";
+  // const command = "pm2 logs";
 
-  var result ;
-  var std ='' ; 
+  // var result ;
+  // var std ='' ; 
 
-  exec(command, (error, stdout, stderr) => {
-    if (error) {
-      // Handle error
-      result = error;
-    }
-    if (stderr) {
+  // exec(command, (error, stdout, stderr) => {
+  //   if (error) {
+  //     // Handle error
+  //     result = error;
+  //   }
+  //   if (stderr) {
 
-      std = `${stderr}`;
-    }
+  //     std = `${stderr}`;
+  //   }
     
-    // Store stdout and render the view here, inside the callback
-    std = `${stdout}`;
+  //   // Store stdout and render the view here, inside the callback
+  //   std = `${stdout}`;
 
-    
+  
+  //   res.render('logs',{logs:std});
+  // });
 
+      res.render('logs',{logs:std});
 
-
-   
-    res.render('logs',{logs:std});
-  });
 });
 
 
