@@ -30,30 +30,32 @@ io.on('connection', (socket) => {
 
   const command = "pm2 logs";
 
-    var result='' ;
-    var std ='' ; 
-  
-    exec(command, (error, stdout, stderr) => {
-      if (error) {
-        // Handle error
-        result = `${error}`;
-      }
-      if (stderr) {
-  
-        std = `${stderr}`;
-      }
+  var result = '';
+  var std = '';
+  var stderr = ''; // Declare stderr variable
 
-      std = `${stdout}`;
-  
-      
-      console.log(std);
-    });
+  exec(command, (error, stdout, stderr) => {
+    if (error) {
+      result = `${error}`;
+    }
+    if (stderr) {
+      stderr = `${stderr}`;
+    }
+    std = `${stdout}`;
+
+    console.log(std);
+  });
+
   const dataInterval = setInterval(() => {
+    socket.emit('logs', { std: std, stdout: stderr, result: result });
+  }, 5000);
 
-    socket.emit('logs', {std: std , stdout:stderr , result:result  });
-
-    
-  }, 5000); });
+  // Clean up interval when the socket disconnects
+  socket.on('disconnect', () => {
+    clearInterval(dataInterval);
+    console.log('disconnected');
+  });
+});
 
 //   const logInterval = setInterval(() => {
 //     // const randomValue = Math.random() * 100;
