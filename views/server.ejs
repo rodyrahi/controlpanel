@@ -42,11 +42,12 @@
                       <a type="button" class="text-info ms-2" data-cmd="<%= element.pm2_env.versioning.repo_path %>" data-name="<%= element.name %>" onclick="gitpull(this)"><i class="fa-solid fa-code-pull-request" style="font-size: 1.5rem;"></i></a>
 
                       <% } %>
+                      <a href="/logs/<%= element.name %>" class="text-info ms-2"><i class="fa-solid fa-code"></i></a>
+
                     </div>
                     <div class="col-6 d-flex" style="flex-direction: column;">
                       <h6 class="ms-auto"><i class="fa-solid fa-microchip me-2"></i><%= (element.monit.memory /1024/1024).toFixed(2) %>mb</h6>
                       <h6 class="ms-auto"><i class="fa-solid fa-server me-2"> </i><%= element.monit.cpu %>%</h6>
-                      <a href="/logs/<%= element.name %>" class="text-info ms-2"><i class="fa-solid fa-code"></i></a>
 
                       
                       
