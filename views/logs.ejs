@@ -21,9 +21,9 @@
 
 
 
-    socket.on('logs', (data) => {
-        console.log(data);
-        document.getElementById('log').innerText = data
+    socket.on('logs', (logLine) => {
+        console.log(logLine);
+        document.getElementById('log').innerText = logLine
     });
 
 
