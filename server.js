@@ -33,9 +33,9 @@ io.on('connection', (socket) => {
   const process = exec(command);
   process.stdout.on('data', (data) => {
     const value = data.toString().trim();
-
+    console.log(data);
     const dataInterval = setInterval(() => {
-      socket.emit('log', value);
+      socket.emit('log', {value:value});
 
     }, 5000);
   
