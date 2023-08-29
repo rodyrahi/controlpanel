@@ -34,21 +34,22 @@ io.on('connection', (socket) => {
   var std=`` ;
   var stderr=`` ; // Declare stderr variable
 
-  exec(command, (error, stdout, stderr) => {
-    if (error) {
-      result = error;
-    }
-    if (stderr) {
-      stderr = stderr;
-    }
-    std = stdout;
 
-    socket.emit('logs', { std: std, stdout: stderr, result: result });
-
-  });
 
   const dataInterval = setInterval(() => {
-  }, 5000);
+    exec(command, (error, stdout, stderr) => {
+      if (error) {
+        result = error;
+      }
+      if (stderr) {
+        stderr = stderr;
+      }
+      std = stdout;
+  
+      socket.emit('logs', { std: std, stdout: stderr, result: result });
+  
+    });
+  }, 50000);
 
   // Clean up interval when the socket disconnects
   socket.on('disconnect', () => {
