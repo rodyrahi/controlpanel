@@ -227,7 +227,7 @@ app.get("/logs", (req, res) => {
 
 
    
-    res.send(std);
+    res.redirect('logs',{logs:std});
   });
 });
 
