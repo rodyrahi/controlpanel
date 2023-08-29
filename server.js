@@ -73,13 +73,9 @@ app.post("/cmd", (req, res) => {
 
       std = `${stderr}`;
     }
-    
-    // Store stdout and render the view here, inside the callback
+
     std = `${stdout}`;
 
-
-
- 
     console.log(std);
 
     if (std) {
@@ -136,26 +132,25 @@ app.get("/logs", (req, res) => {
     console.log('Client connected');
   
     const command = `pm2 logs`;
-    
-
+  
     const process = exec(command);
     process.stdout.on('data', (data) => {
       var logLine = data.toString().trim();
       socket.emit('log', logLine);
-  
-  
-  
     });
+  
     process.on('close', () => {
-      console.log('closed');
-      process.kill()
-       });
+      console.log('Process closed');
+      process.kill();
+    });
+  
     socket.on('disconnect', () => {
       console.log('Client disconnected');
-      process.kill();
+      process.kill(); // Kill the process when the client disconnects
     });
   });
   
+   
     res.render('logs');
 
 });
