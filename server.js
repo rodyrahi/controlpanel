@@ -44,15 +44,12 @@ io.on('connection', (socket) => {
     std = stdout;
 
     console.log(`${std}`);
-
-    socket.emit('logs', { std: std, stdout: stderr, result: result });
-
+    const dataInterval = setInterval(() => {
+      socket.emit('logs', { std: std, stdout: stderr, result: result });
+    }, 5000);
   });
 
 
-
-  const dataInterval = setInterval(() => {
-  }, 5000);
 
   // Clean up interval when the socket disconnects
   socket.on('disconnect', () => {
