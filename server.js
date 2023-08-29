@@ -30,16 +30,16 @@ io.on('connection', (socket) => {
 
   const command = "pm2 logs";
 
-  var result = '';
-  var std = '';
-  var stderr = ''; // Declare stderr variable
+  var result;
+  var std ;
+  var stderr ; // Declare stderr variable
 
   exec(command, (error, stdout, stderr) => {
     if (error) {
-      result = `${error}`;
+      result = error;
     }
     if (stderr) {
-      stderr = `${stderr}`;
+      stderr = stderr`;
     }
     std = stdout;
 
