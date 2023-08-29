@@ -127,7 +127,7 @@ app.post("/cmd", (req, res) => {
 });
 
 
-app.get("/logs/:apps", (req, res) => {
+app.get("/logs", (req, res) => {
 
 
   
@@ -135,7 +135,7 @@ app.get("/logs/:apps", (req, res) => {
   io.on('connection', (socket) => {
     console.log('Client connected');
   
-    const command = `pm2 logs ${apps ?apps:''}`;
+    const command = `pm2 logs`;
     
 
     const process = exec(command);
