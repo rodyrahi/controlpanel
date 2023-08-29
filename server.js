@@ -24,41 +24,39 @@ const io = socketIO(server);
 
 console.log('test');
 
-// io.on('connection', (socket) => {
-//   console.log('connected');
-//   const dataInterval = setInterval(() => {
-//     // const randomValue = Math.random() * 100;
+io.on('connection', (socket) => {
+  console.log('connected');
 
-//     const command = "pm2 jlist";
+  const command = "pm2 logs";
 
-//     var result ;
-//     var std ='' ; 
+    var result ;
+    var std ='' ; 
   
-//     exec(command, (error, stdout, stderr) => {
-//       if (error) {
-//         // Handle error
-//         result = error;
-//       }
-//       if (stderr) {
+    exec(command, (error, stdout, stderr) => {
+      if (error) {
+        // Handle error
+        result = error;
+      }
+      if (stderr) {
   
-//         std = `${stderr}`;
-//       }
+        std = `${stderr}`;
+      }
       
-//       // Store stdout and render the view here, inside the callback
-//       std = `${stdout}`;
+      // Store stdout and render the view here, inside the callback
+      std = `${stdout}`;
   
       
   
-//       std = JSON.parse(std);
-//       socket.emit('cpuValue', {result: std });
+      // std = JSON.parse(std);
      
-//       // res.render("server", { result: std,error:`${error}`, stderr:`${stderr}` , stdout:`${stdout}` });
-//     });
+      // res.render("server", { result: std,error:`${error}`, stderr:`${stderr}` , stdout:`${stdout}` });
+    });
+  const dataInterval = setInterval(() => {
 
-
+    socket.emit('logs', {result: std });
 
     
-//   }, 5000);
+  }, 5000); });
 
 //   const logInterval = setInterval(() => {
 //     // const randomValue = Math.random() * 100;
@@ -204,28 +202,9 @@ app.post("/cmd", (req, res) => {
 
 
 app.get("/logs", (req, res) => {
-  const command = "pm2 logs";
-
-  var result ;
-  var std ='' ; 
-
-  exec(command, (error, stdout, stderr) => {
-    if (error) {
-      // Handle error
-      result = error;
-    }
-    if (stderr) {
-
-      std = `${stderr}`;
-    }
-    
-    // Store stdout and render the view here, inside the callback
-    std = `${stdout}`;
 
   
-    res.render('logs',{logs:std});
-  });
-
+    res.render('logs');
 
 });
 
