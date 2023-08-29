@@ -133,7 +133,7 @@ app.get("/logs/:apps", (req, res) => {
   io.on('connection', (socket) => {
     console.log('Client connected');
   
-    const command = `pm2 logs ${apps ?app:''}`;
+    const command = `pm2 logs ${apps ?apps:''}`;
   
     const process = exec(command);
     process.stdout.on('data', (data) => {
