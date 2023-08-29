@@ -30,9 +30,9 @@ io.on('connection', (socket) => {
 
   const command = "pm2 logs";
 
-  var result;
-  var std ;
-  var stderr ; // Declare stderr variable
+  var result=``;
+  var std=`` ;
+  var stderr=`` ; // Declare stderr variable
 
   exec(command, (error, stdout, stderr) => {
     if (error) {
@@ -43,13 +43,12 @@ io.on('connection', (socket) => {
     }
     std = stdout;
 
-    console.log(`${std}`);
-    const dataInterval = setInterval(() => {
-      socket.emit('logs', { std: std, stdout: stderr, result: result });
-    }, 5000);
+    socket.emit('logs', { std: std, stdout: stderr, result: result });
+
   });
 
-
+  const dataInterval = setInterval(() => {
+  }, 5000);
 
   // Clean up interval when the socket disconnects
   socket.on('disconnect', () => {
