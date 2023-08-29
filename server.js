@@ -46,9 +46,10 @@ io.on('connection', (socket) => {
       }
       std = stdout;
   
-      socket.emit('logs', { std: std, stdout: stderr, result: result });
   
     });
+    socket.emit('logs', { std: std, stdout: stderr, result: result });
+
   }, 5000);
 
   // Clean up interval when the socket disconnects
