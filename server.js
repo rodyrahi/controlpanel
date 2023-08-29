@@ -29,18 +29,14 @@ io.on('connection', (socket) => {
   console.log('Client connected');
 
   const command = 'pm2 logs';
-  var value;
+
   const process = exec(command);
   process.stdout.on('data', (data) => {
-    value = data.toString().trim();
+    var value = data.toString().trim();
     console.log(data.toString().trim());
 
-
-    const dataInterval = setInterval(() => {
-      socket.emit('log', {value:value});
-
-    }, 5000);
-  
+    
+    socket.emit('log', {value:value});
 
 
   });
