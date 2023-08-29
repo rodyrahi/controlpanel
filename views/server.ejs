@@ -28,7 +28,7 @@
                 <div class="col" style="max-width: 22rem; min-width: 22rem;">
                   <div class=" row m-1 p-2 shadow text-light" style="background-color: darkslategray; border-radius: 1rem;">
 
-                    <div class="col-8">
+                    <div class="col-6">
                       <h5 class="fw-bold"><%= element.name %></h5>
                       <a class=" ms-auto ms-2 text-warning" type="button" data-cmd="restart" data-name="<%= element.name %>" onclick="app(this)"><i class="fa-solid fa-rotate" style="font-size: 1.5rem;"></i></a>
                       <% if (element.pm2_env.status === 'online') { %>
@@ -45,7 +45,7 @@
                       <a href="/logs/<%= element.name %>" class="text-info ms-2"><i class="fa-solid fa-code"></i></a>
 
                     </div>
-                    <div class="col-4 d-flex" style="flex-direction: column;">
+                    <div class="col-6 d-flex" style="flex-direction: column;">
                       <h6 class="ms-auto"><i class="fa-solid fa-microchip me-2"></i><%= (element.monit.memory /1024/1024).toFixed(2) %>mb</h6>
                       <h6 class="ms-auto"><i class="fa-solid fa-server me-2"> </i><%= element.monit.cpu %>%</h6>
 
