@@ -132,7 +132,7 @@ app.get("/logs/:apps", (req, res) => {
 
   
   const apps = req.params.apps
-  const maxProcesses = 1;
+  const maxProcesses = 3;
   const processQueue = [];
   
   io.on('connection', (socket) => {
