@@ -223,7 +223,7 @@ app.get("/logs", (req, res) => {
     std = `${stdout}`;
 
   
-    res.render('logs');
+    res.render('logs',{logs:std});
   });
 
 
