@@ -25,25 +25,6 @@ const io = socketIO(server);
 
 console.log('test');
 
-io.on('connection', (socket) => {
-  console.log('Client connected');
-
-  const command = 'pm2 logs';
-
-  const process = exec(command);
-  process.stdout.on('data', (data) => {
-    var logLine = data.toString().trim();
-    socket.emit('log', logLine);
-
-
-
-  });
-
-  socket.on('disconnect', () => {
-    console.log('Client disconnected');
-    process.kill(); // Kill the process when the client disconnects
-  });
-});
 
 
 
@@ -146,8 +127,28 @@ app.post("/cmd", (req, res) => {
 });
 
 
-app.get("/logs", (req, res) => {
+app.get("/logs/:apps", (req, res) => {
 
+  const apps = req.params.apps
+  io.on('connection', (socket) => {
+    console.log('Client connected');
+  
+    const command = `pm2 logs ${apps ?app:''}`;
+  
+    const process = exec(command);
+    process.stdout.on('data', (data) => {
+      var logLine = data.toString().trim();
+      socket.emit('log', logLine);
+  
+  
+  
+    });
+  
+    socket.on('disconnect', () => {
+      console.log('Client disconnected');
+      process.kill(); // Kill the process when the client disconnects
+    });
+  });
   
     res.render('logs');
 
