@@ -147,6 +147,7 @@ app.get("/logs/:apps", (req, res) => {
   
     });
     process.on('close', () => {
+      console.log('closed');
       process.kill()
        });
     socket.on('disconnect', () => {
