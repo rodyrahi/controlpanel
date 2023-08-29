@@ -39,11 +39,11 @@ io.on('connection', (socket) => {
       result = error;
     }
     if (stderr) {
-      stderr = stderr`;
+      stderr = stderr;
     }
     std = stdout;
 
-    console.log(std);
+    console.log(`${std}`);
   });
 
   const dataInterval = setInterval(() => {
