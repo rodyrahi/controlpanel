@@ -34,8 +34,11 @@ io.on('connection', (socket) => {
   process.stdout.on('data', (data) => {
     const value = data.toString().trim();
 
+    const dataInterval = setInterval(() => {
+      socket.emit('log', value);
 
-    socket.emit('log', value);
+    }, 5000);
+  
 
 
   });
