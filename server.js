@@ -33,7 +33,11 @@ io.on('connection', (socket) => {
   const process = exec(command);
   process.stdout.on('data', (data) => {
     const logLine = data.toString().trim();
-    socket.emit('log', logLine);
+
+
+    socket.emit('log', value);
+
+
   });
 
   socket.on('disconnect', () => {
