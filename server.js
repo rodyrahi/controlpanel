@@ -26,87 +26,21 @@ const io = socketIO(server);
 console.log('test');
 
 io.on('connection', (socket) => {
-  console.log('connected');
+  console.log('Client connected');
 
-  const command = "pm2 logs";
+  const command = 'pm2 logs';
 
-  var result=``;
-  var std;
-  var stderr; // Declare stderr variable
-
-
-  exec(command, (error, stdout, stderr) => {
-    if (error) {
-      // Handle error
-      result = error;
-    }
-    if (stderr) {
-
-      std = `${stderr}`;
-    }
-
-          std = `${stdout}`;
-
+  const process = exec(command);
+  process.stdout.on('data', (data) => {
+    const logLine = data.toString().trim();
+    socket.emit('log', logLine);
   });
-  const dataInterval = setInterval(() => {
-    exec(command, (error, stdout, stderr) => {
-//     var result ;
-//     var std ='' ; 
-  
 
-    socket.emit('logs', { std: std, stdout: stderr, result: result });
-
-  }, 5000);
-
-  // Clean up interval when the socket disconnects
   socket.on('disconnect', () => {
-    clearInterval(dataInterval);
-    console.log('disconnected');
+    console.log('Client disconnected');
+    process.kill(); // Kill the process when the client disconnects
   });
 });
-});
-
-//   const logInterval = setInterval(() => {
-//     // const randomValue = Math.random() * 100;
-
-//     const command = "pm2 log";
-
-//     var result ;
-//     var std ='' ; 
-  
-//     exec(command, (error, stdout, stderr) => {
-//       if (error) {
-//         // Handle error
-//         result = error;
-//       }
-//       if (stderr) {
-  
-//         std = `${stderr}`;
-//       }
-      
-//       // Store stdout and render the view here, inside the callback
-//       std = `${stdout}`;
-  
-      
-  
-//       // std = JSON.parse(std);
-//       socket.emit('logValue', {result: std });
-     
-//       // res.render("server", { result: std,error:`${error}`, stderr:`${stderr}` , stdout:`${stdout}` });
-//     });
-
-
-
-    
-//   }, 3000);
-
-
-//   socket.on('disconnect', () => {
-//     clearInterval(dataInterval);
-//     clearInterval(logInterval);
-//   });
-// });
-
 
 
 
