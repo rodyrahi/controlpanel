@@ -32,11 +32,10 @@ io.on('connection', (socket) => {
 
   const process = exec(command);
   process.stdout.on('data', (data) => {
-    var value = data.toString().trim();
-    console.log(data.toString().trim());
+
 
     
-    socket.emit('log', {value:value});
+    socket.emit('log', data);
 
 
   });
