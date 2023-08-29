@@ -5,6 +5,7 @@ const port = 9111;
 const { exec } = require("child_process");
 const http = require('http');
 const socketIO = require('socket.io');
+const { stderr } = require("process");
 
 
 app.use(express.static('public'));
@@ -41,8 +42,7 @@ io.on('connection', (socket) => {
   
         std = `${stderr}`;
       }
-      
-      // Store stdout and render the view here, inside the callback
+
       std = `${stdout}`;
   
       
@@ -53,7 +53,7 @@ io.on('connection', (socket) => {
     });
   const dataInterval = setInterval(() => {
 
-    socket.emit('logs', {result: std });
+    socket.emit('logs', {std: std , stdout:stderr  });
 
     
   }, 5000); });
