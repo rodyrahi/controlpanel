@@ -33,17 +33,16 @@ io.on('connection', (socket) => {
   const process = exec(command);
   process.stdout.on('data', (data) => {
     var logLine = data.toString().trim();
+    socket.emit('log', logLine);
 
 
 
   });
-  var logLine = 'hello'
-  socket.emit('log', logLine);
 
-  // socket.on('disconnect', () => {
-  //   console.log('Client disconnected');
-  //   process.kill(); // Kill the process when the client disconnects
-  // });
+  socket.on('disconnect', () => {
+    console.log('Client disconnected');
+    process.kill(); // Kill the process when the client disconnects
+  });
 });
 
 
