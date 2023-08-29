@@ -32,7 +32,7 @@ io.on('connection', (socket) => {
 
   const process = exec(command);
   process.stdout.on('data', (data) => {
-    const logLine = data.toString().trim();
+    var logLine = data.toString().trim();
 
 
     logLine = 'hello'
