@@ -64,6 +64,7 @@ io.on('connection', (socket) => {
     console.log('disconnected');
   });
 });
+});
 
 //   const logInterval = setInterval(() => {
 //     // const randomValue = Math.random() * 100;
