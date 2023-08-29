@@ -202,6 +202,36 @@ app.post("/cmd", (req, res) => {
   });
 });
 
+
+app.get("/logs", (req, res) => {
+  const command = "pm2 logs";
+
+  var result ;
+  var std ='' ; 
+
+  exec(command, (error, stdout, stderr) => {
+    if (error) {
+      // Handle error
+      result = error;
+    }
+    if (stderr) {
+
+      std = `${stderr}`;
+    }
+    
+    // Store stdout and render the view here, inside the callback
+    std = `${stdout}`;
+
+    
+
+
+
+   
+    res.send(std);
+  });
+});
+
+
 server.listen(port, () => {
     console.log(`Example app listening on port ${port}`);
   });
