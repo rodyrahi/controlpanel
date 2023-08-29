@@ -22,7 +22,8 @@
 
 
     socket.on('logs', (value) => {
-        document.getElementById('log').innerText = value.result
+        console.log(value);
+        document.getElementById('log').innerText = value
     });
 
 
