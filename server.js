@@ -38,15 +38,21 @@ io.on('connection', (socket) => {
 
   const dataInterval = setInterval(() => {
     exec(command, (error, stdout, stderr) => {
+//     var result ;
+//     var std ='' ; 
+  
+    exec(command, (error, stdout, stderr) => {
       if (error) {
+        // Handle error
         result = error;
       }
       if (stderr) {
-        stderr = stderr;
+  
+        std = `${stderr}`;
       }
-      std = `${stdout}`;
-  
-  
+
+            std = `${stdout}`;
+
     });
     socket.emit('logs', { std: std, stdout: stderr, result: result });
 
