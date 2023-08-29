@@ -30,13 +30,13 @@ io.on('connection', (socket) => {
 
   const command = "pm2 logs";
 
-    var result ;
+    var result='' ;
     var std ='' ; 
   
     exec(command, (error, stdout, stderr) => {
       if (error) {
         // Handle error
-        result = error;
+        result = `${error}`;
       }
       if (stderr) {
   
