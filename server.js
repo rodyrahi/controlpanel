@@ -46,10 +46,7 @@ io.on('connection', (socket) => {
       std = `${stdout}`;
   
       
-  
-      // std = JSON.parse(std);
-     
-      // res.render("server", { result: std,error:`${error}`, stderr:`${stderr}` , stdout:`${stdout}` });
+      console.log(std);
     });
   const dataInterval = setInterval(() => {
 
