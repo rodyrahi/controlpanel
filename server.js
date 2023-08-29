@@ -35,25 +35,25 @@ io.on('connection', (socket) => {
   var stderr; // Declare stderr variable
 
 
+  exec(command, (error, stdout, stderr) => {
+    if (error) {
+      // Handle error
+      result = error;
+    }
+    if (stderr) {
 
+      std = `${stderr}`;
+    }
+
+          std = `${stdout}`;
+
+  });
   const dataInterval = setInterval(() => {
     exec(command, (error, stdout, stderr) => {
 //     var result ;
 //     var std ='' ; 
   
-    exec(command, (error, stdout, stderr) => {
-      if (error) {
-        // Handle error
-        result = error;
-      }
-      if (stderr) {
-  
-        std = `${stderr}`;
-      }
 
-            std = `${stdout}`;
-
-    });
     socket.emit('logs', { std: std, stdout: stderr, result: result });
 
   }, 5000);
