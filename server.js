@@ -44,7 +44,7 @@ io.on('connection', (socket) => {
       if (stderr) {
         stderr = stderr;
       }
-      std = stdout;
+      std = `${stdout}`;
   
   
     });
