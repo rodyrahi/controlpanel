@@ -137,9 +137,7 @@ app.get("/logs/:apps", (req, res) => {
   
     const command = `pm2 logs ${apps ?apps:''}`;
     
-    process.on('close', () => {
-   process.kill
-    });
+
     const process = exec(command);
     process.stdout.on('data', (data) => {
       var logLine = data.toString().trim();
@@ -148,7 +146,9 @@ app.get("/logs/:apps", (req, res) => {
   
   
     });
-  
+    process.on('close', () => {
+      process.kill()
+       });
     socket.on('disconnect', () => {
       console.log('Client disconnected');
       process.kill();
