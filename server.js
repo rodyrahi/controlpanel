@@ -35,14 +35,15 @@ io.on('connection', (socket) => {
     var logLine = data.toString().trim();
 
 
-    logLine = 'hello'
-    socket.emit('log', logLine);
-  });
 
-  socket.on('disconnect', () => {
-    console.log('Client disconnected');
-    process.kill(); // Kill the process when the client disconnects
   });
+  var logLine = 'hello'
+  socket.emit('log', logLine);
+
+  // socket.on('disconnect', () => {
+  //   console.log('Client disconnected');
+  //   process.kill(); // Kill the process when the client disconnects
+  // });
 });
 
 
