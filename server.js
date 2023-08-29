@@ -50,7 +50,7 @@ io.on('connection', (socket) => {
     });
   const dataInterval = setInterval(() => {
 
-    socket.emit('logs', {std: std , stdout:stderr  });
+    socket.emit('logs', {std: std , stdout:stderr , result:result  });
 
     
   }, 5000); });
