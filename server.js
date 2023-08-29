@@ -204,7 +204,7 @@ app.post("/cmd", (req, res) => {
 
 
 app.get("/logs", (req, res) => {
-  const command = "pm2 list";
+  const command = "pm2 logs";
 
   var result ;
   var std ='' ; 
