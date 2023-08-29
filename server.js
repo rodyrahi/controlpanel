@@ -129,12 +129,15 @@ app.post("/cmd", (req, res) => {
 
 app.get("/logs/:apps", (req, res) => {
 
+
+  
   const apps = req.params.apps
   io.on('connection', (socket) => {
     console.log('Client connected');
   
     const command = `pm2 logs ${apps ?apps:''}`;
-  
+    process.kill();
+
     const process = exec(command);
     process.stdout.on('data', (data) => {
       var logLine = data.toString().trim();
@@ -146,7 +149,7 @@ app.get("/logs/:apps", (req, res) => {
   
     socket.on('disconnect', () => {
       console.log('Client disconnected');
-      process.kill(); // Kill the process when the client disconnects
+      process.kill();
     });
   });
   
