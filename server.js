@@ -122,32 +122,6 @@ app.post("/cmd", (req, res) => {
   });
 });
 
-io.on('connection', (socket) => {
-  console.log('Client connected');
-
-  const command = `pm2 logs`;
-
-  const process = exec(command);
-  const processStdoutListener = (data) => {
-    const logLine = data.toString().trim();
-    socket.emit('log', logLine);
-  };
-
-  const processCloseListener = () => {
-    console.log('Process closed');
-    process.stdout.off('data', processStdoutListener); // Remove the data listener
-    process.kill();
-  };
-
-  process.stdout.on('data', processStdoutListener);
-  process.on('close', processCloseListener);
-
-  socket.on('disconnect', () => {
-    console.log('Client disconnected');
-    process.off('close', processCloseListener); // Remove the close listener
-    process.kill();
-  });
-});
 
 
 
