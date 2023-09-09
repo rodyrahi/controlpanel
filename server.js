@@ -124,17 +124,12 @@ app.post("/cmd", (req, res) => {
 
 
 
-
-
-app.get("/logs", (req, res) => {
-
-
-  
-  const apps = req.params.apps
+// Wrap your code in a function
+function runCode(apps) {
   io.on('connection', (socket) => {
     console.log('Client connected');
 
-    const command = `pm2 logs --nostream`;
+    const command = `pm2 logs ${apps ? apps : ''} --nostream`;
 
     const process = exec(command);
     process.stdout.on('data', (data) => {
@@ -152,7 +147,16 @@ app.get("/logs", (req, res) => {
       process.kill(); // Kill the process when the client disconnects
     });
   });
-   
+}
+
+
+app.get("/logs/:apps", (req, res) => {
+
+
+  
+  const apps = req.params.apps
+  
+  setInterval(runCode(apps), 5000);
     res.render('logs');
 
 });
