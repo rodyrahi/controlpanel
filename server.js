@@ -9,7 +9,7 @@ const { stderr } = require("process");
 const Database = require('better-sqlite3');
 const {listDBFiles} = require('./public/database.js');
 
-
+const path = require('path');
 
 
 
@@ -179,8 +179,8 @@ app.get("/logs/:apps", (req, res) => {
 app.get('/db', async (req, res) => {
   try {
     const dbFiles = await listDBFiles(directoryPath); // Replace directoryPath with your database directory
-    const db = new Database(dbFiles[0]) 
-    console.log(db);
+    // const db = new Database(dbFiles[0]) 
+  
 
 
 
@@ -192,25 +192,32 @@ app.get('/db', async (req, res) => {
 });
 
 
+function querys( element,query ,dbquery) {
+  const dbPath = path.join(directoryPath, dbquery);
+  const db = new Database(dbPath);
+  return db.prepare(query).all()
+}
+
+
 app.post('/query', async(req, res) => {
   try {
     const dbFiles = await listDBFiles(directoryPath); // Replace directoryPath with your database directory
 
     const {query , dbquery} = req.body;
-
+    var result
+  
     dbFiles.forEach(element => {
 
       if (element === dbquery) {
-        
+          console.log(element , dbquery);
+          result = querys(element , query , dbquery)
 
-      const db = new Database(element) 
-      const result = db.prepare(query).all()
-      res.send(result)
 
-    }
+        }
 
     });
 
+    res.json(result)
 
 
   } catch (error) {
