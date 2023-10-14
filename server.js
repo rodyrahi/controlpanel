@@ -40,7 +40,7 @@ function checkLogsForErrors() {
 
   pm2.stdout.on('data', (data) => {
       const logLines = data.toString().split('\n');
-      const lastLine = logLines[logLines.length - 2]; // Get the last line
+      const lastLine = logLines[logLines.length - 15]; // Get the last line
 
       if (lastLine.includes('error') || /error|fatal/i.test(lastLine)) {
           sendNotificationToBrowser('Error detected in the logs!');
