@@ -42,7 +42,7 @@
                       <a type="button" class="text-info ms-2" data-cmd="<%= element.pm2_env.versioning.repo_path %>" data-name="<%= element.name %>" onclick="gitpull(this)"><i class="fa-solid fa-code-pull-request" style="font-size: 1.5rem;"></i></a>
 
                       <% } %>
-                      <div hx-get="/log" hx-trigger="click" hx-target="#log-container">View PM2 Logs</div>
+                      <div hx-get="/log/<%= element.pid %>" hx-trigger="click" hx-target="#log-container">View PM2 Logs</div>
                       <div id="log-container"></div>
                       <!-- <a target="_blank"  href="/logs/<%= element.name %>" class="text-info ms-2"><i class="fa-solid fa-code"></i></a> -->
 
