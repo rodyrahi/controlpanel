@@ -13,7 +13,7 @@ const path = require('path');
 const cron = require('node-cron');
 const { log } = require("console");
 
-
+const pm2 = require('pm2');
 
 app.use(express.static('public'));
 app.set('view engine', 'ejs');
@@ -35,56 +35,40 @@ const directoryPath = '../database/bundeli';
 
 
 
-const checkPM2Processes = () => {
-  exec('pm2 ls', (error, stdout, stderr) => {
-    if (error) {
-      console.error('Error checking PM2 processes:', error);
+// Initialize PM2
+pm2.connect((error) => {
+  if (error) {
+    console.error('PM2 connection error:', error);
+    return;
+  }
+
+  // Schedule the check every minute (adjust as needed)
+  cron.schedule('* * * * *', checkPM2Processes);
+});
+
+function checkPM2Processes() {
+  pm2.list((err, processList) => {
+    if (err) {
+      console.error('PM2 process list error:', err);
       return;
     }
 
-    const lines = stdout.split('\n');
-    const stoppedApps = [];
+    const stoppedApps = processList
+      .filter((process) => process.pm2_env.status === 'stopped')
+      .map((process) => process.name);
 
-    for (const line of lines) {
-      if (line.includes('stopped')) {
-        const match = line.match(/│\s+(\d+)\s+│\s+([^\s]+)\s+│.*?│\s+stopped\s+│/);
-        if (match) {
-          const appName = match[2].trim();
-          stoppedApps.push(appName);
-        }
-      }
-    }
-    
-    
-  
     if (stoppedApps.length > 0) {
       const message = `The following PM2 app(s) are stopped: ${stoppedApps.join(', ')}`;
-      // sendNotification(message);
-      io.on('connection', (socket) => {
-
-        // console.log('stopped');
-        socket.emit('stopped', message)
-      })
-
-      // console.log('app stopped');
+      io.emit('stopped', message);
     }
   });
-};
+}
 
-// const sendNotification = (message) => {
-//   notifier.notify({
-//     title: 'PM2 Process Monitor',
-//     message,
-//   });
-// };
-
-// Schedule the check every 5 seconds
-cron.schedule('*/5 * * * * *', checkPM2Processes);
-
-console.log('PM2 process monitor started. Checking every 5 seconds.');
-
-
-
+io.on('connection', (socket) => {
+  socket.on('disconnect', () => {
+    console.log('Client disconnected');
+  });
+});
 
 
 app.get("/", (req, res) => {
