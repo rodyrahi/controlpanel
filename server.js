@@ -227,6 +227,44 @@ app.post('/query', async(req, res) => {
 });
 
 
+
+
+// app.js (continued)
+app.get('/terminal', (req, res) => {
+  const term = spawn('bash');
+  term.stdout.on('data', (data) => {
+      res.write(data.toString());
+  });
+  term.on('exit', () => {
+      res.end();
+  });
+});
+
+app.get('/log', (req, res) => {
+  // Use PM2 to retrieve and display logs
+  const pm2 = spawn('pm2', ['logs']);
+
+  pm2.stdout.on('data', (data) => {
+      res.write(data.toString());
+  });
+
+  pm2.on('exit', () => {
+      res.end();
+  });
+});
+
+
+
+
+
+app.get("/test", (req, res) => {
+
+    res.render("test");
+
+});
+
+
+
 server.listen(port, () => {
     console.log(`Example app listening on port ${port}`);
   });
