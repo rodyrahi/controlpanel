@@ -56,7 +56,7 @@ const checkPM2Processes = () => {
       // sendNotification(message);
       io.on('connection', (socket) => {
 
-        socket.emit('logs', message)
+        socket.emit('stopped', message)
       })
 
       // console.log('app stopped');
