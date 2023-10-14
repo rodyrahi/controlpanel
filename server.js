@@ -253,7 +253,7 @@ app.get('/log/:apps', (req, res) => {
 
   pm2.on('exit', () => {
       const logLines = logContent.split('\n');
-      const last15Lines = logLines.slice(-12);
+      const last15Lines = logLines.slice(-9);
 
       // Format the last 15 lines for display, highlighting errors in red
       let formattedLog = '<pre>';
