@@ -49,8 +49,12 @@ const checkPM2Processes = () => {
       if (line.includes('stopped')) {
         const parts = line.split('|').map((part) => part.trim());
         const appName = parts[2];
-        stoppedApps.push(appName);
-        console.log(appName);
+        if (appName) {
+          stoppedApps.push(appName);
+          console.log('App Name:', appName);
+        } else {
+          console.log('Unable to extract app name from line:', line);
+        }
       }
     }
     
