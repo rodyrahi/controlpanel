@@ -217,7 +217,7 @@
 <h1>Web Push Client</h1>
 <script>
   if ('serviceWorker' in navigator && 'PushManager' in window) {
-    navigator.serviceWorker.register('/service-worker.js')
+    navigator.serviceWorker.register('/service-worker.js', { scope: '/' })
       .then((registration) => {
         console.log('Service Worker registered:', registration);
 
