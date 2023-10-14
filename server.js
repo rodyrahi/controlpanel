@@ -8,9 +8,9 @@ const socketIO = require('socket.io');
 const { stderr } = require("process");
 const Database = require('better-sqlite3');
 const {listDBFiles} = require('./public/database.js');
-
+const notifier = require('node-notifier');
 const path = require('path');
-
+const cron = require('node-cron');
 
 
 
@@ -34,7 +34,41 @@ const directoryPath = '../database/bundeli';
 
 
 
+const checkPM2Processes = () => {
+  exec('pm2 ls', (error, stdout, stderr) => {
+    if (error) {
+      console.error('Error checking PM2 processes:', error);
+      return;
+    }
 
+    const lines = stdout.split('\n');
+    const stoppedApps = [];
+
+    for (const line of lines) {
+      if (line.includes('stopped')) {
+        const appName = line.split(/\s+/)[2];
+        stoppedApps.push(appName);
+      }
+    }
+
+    if (stoppedApps.length > 0) {
+      const message = `The following PM2 app(s) are stopped: ${stoppedApps.join(', ')}`;
+      sendNotification(message);
+    }
+  });
+};
+
+const sendNotification = (message) => {
+  notifier.notify({
+    title: 'PM2 Process Monitor',
+    message,
+  });
+};
+
+// Schedule the check every 5 seconds
+cron.schedule('*/5 * * * * *', checkPM2Processes);
+
+console.log('PM2 process monitor started. Checking every 5 seconds.');
 
 
 
