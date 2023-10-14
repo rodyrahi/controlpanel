@@ -37,8 +37,8 @@ const directoryPath = '../database/bundeli';
 
 
 const vapidKeys = {
-  publicKey: 'BDv-ZfYrtKnEv5URazW_kFjRr9ARqODuFHo_UPmpY3R6nW_alRv_J7KEPa7NTeBBmC_1FmcyvlcYjwWEYbAKGwo',
-  privateKey: '--5CLfTLCqSnzUKa0e07CyE7atMpvVjE_pP5zOgXzdI',
+  publicKey: 'BP__PbJMkGDI6ZgZ1MsR3btGgql-bbBf5wTyZWWOWaQns8ibH8g6410VdYfx9T4_bNOlZVLJz5AA2_JYjh0YzTo',
+  privateKey: 'i81qgoWJqCsiWsYODRqYllgDRlqO-SjWfYU8xh2VIqE',
 };
 
 webPush.setVapidDetails(
