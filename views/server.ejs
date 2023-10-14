@@ -21,7 +21,7 @@
 
 
         <h1 class="text-light" >Server Status</h1>
-        <form action="/cmd" method="post" id="form">
+        <form  id="form">
             <div class="row" id="apps">
 
 
@@ -76,7 +76,7 @@
             <hr>
             <textarea class="form-control text-light" name="command" id="command" cols="30" rows="10" style="background-color: black;" ></textarea>
             <!-- <input type="text" name="command" id="command" placeholder="Enter a command"> -->
-            <button class="btn btn-light btn-sm mt-2" type="submit" id="exe">Execute Command</button>
+            <button class="btn btn-light btn-sm mt-2" type="submit"  hx-post="/cmd" id="exe">Execute Command</button>
 
             
         </form>
