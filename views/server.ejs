@@ -47,7 +47,6 @@
 
                       <% } %>
                       <div hx-get="/log/<%= element.name %>" hx-trigger="click" hx-target="#log-container">View PM2 Logs</div>
-                      <div id="log-container"></div>
                       <!-- <a target="_blank"  href="/logs/<%= element.name %>" class="text-info ms-2"><i class="fa-solid fa-code"></i></a> -->
 
                     </div>
@@ -70,7 +69,10 @@
             
             <input type="text" name="giturl" id="giturl" placeholder="Enter a git url">
             <button class="btn btn-success btn-sm" onclick="addapp()" type="button" id="">ADD APP</button>
-            
+            <hr>
+            <div id="log-container"></div>
+
+
             <hr>
             <textarea class="form-control text-light" name="command" id="command" cols="30" rows="10" style="background-color: black;" ></textarea>
             <!-- <input type="text" name="command" id="command" placeholder="Enter a command"> -->
