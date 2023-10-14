@@ -68,30 +68,64 @@ app.post("/cmd", (req, res) => {
   console.log(req.body);
   const {command } = req.body
 
-  var result ;
-  var std ='' ; 
 
-  exec(command, (error, stdout, stderr) => {
-    if (error) {
-      // Handle error
-      result = error;
-    }
-    if (stderr) {
 
-      std = `${stderr}`;
-    }
+  const pm2 = exec(command);
 
-    std = `${stdout}`;
+  let logContent = '';
+  pm2.stdout.on('data', (data) => {
+      logContent += data.toString();
+  });
 
-    console.log(std);
+  pm2.on('exit', () => {
+      const logLines = logContent.split('\n');
+      const last15Lines = logLines.slice(-20);
 
-    if (std) {
-      res.send(std)
+      // Format the last 15 lines for display, highlighting errors in red
+      let formattedLog = '<pre>';
+      last15Lines.forEach((line) => {
+          if (line.includes('error') || /error|fatal/i.test(line)) {
+              formattedLog += `<span style="color: red">${line}</span>\n`;
+          } else {
+              formattedLog += line + '\n';
+          }
+      });
+      formattedLog += '</pre>';
 
-    }
+      // Replace <br> with newline characters (\n)
+      formattedLog = formattedLog.replace(/<br>/g, '\n');
+
+      res.send(formattedLog);
+  });
+
+
+
+
+
+  // var result ;
+  // var std ='' ; 
+
+  // exec(command, (error, stdout, stderr) => {
+  //   if (error) {
+  //     // Handle error
+  //     result = error;
+  //   }
+  //   if (stderr) {
+
+  //     std = `${stderr}`;
+  //   }
+
+  //   std = `${stdout}`;
+
+  //   console.log(std);
+
+  //   if (std) {
+  //     res.send(std)
+
+  //   }
 
    
-  });
+  // });
 });
 
 
