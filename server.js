@@ -8,10 +8,11 @@ const socketIO = require('socket.io');
 const { stderr } = require("process");
 const Database = require('better-sqlite3');
 const {listDBFiles} = require('./public/database.js');
-const notifier = require('node-notifier');
+// const notifier = require('node-notifier');
 const path = require('path');
 const cron = require('node-cron');
 const { log } = require("console");
+const webPush = require('web-push');
 
 const pm2 = require('pm2');
 
@@ -35,39 +36,61 @@ const directoryPath = '../database/bundeli';
 
 
 
-// Initialize PM2
-pm2.connect((error) => {
-  if (error) {
-    console.error('PM2 connection error:', error);
-    return;
-  }
+const vapidKeys = {
+  publicKey: 'BDv-ZfYrtKnEv5URazW_kFjRr9ARqODuFHo_UPmpY3R6nW_alRv_J7KEPa7NTeBBmC_1FmcyvlcYjwWEYbAKGwo',
+  privateKey: '--5CLfTLCqSnzUKa0e07CyE7atMpvVjE_pP5zOgXzdI',
+};
 
-  // Schedule the check every minute (adjust as needed)
-  cron.schedule('* * * * *', checkPM2Processes);
+webPush.setVapidDetails(
+  'mailto:rodyrahi126@gmail.com',
+  vapidKeys.publicKey,
+  vapidKeys.privateKey
+);
+
+// Initialize Web Push
+const subscribers = [];
+
+app.use(express.json());
+
+app.post('/subscribe', (req, res) => {
+  const subscription = req.body;
+  subscribers.push(subscription);
+  res.status(201).json({ message: 'Subscribed successfully' });
 });
 
+
+
+// Schedule the check every 5 seconds (adjust as needed)
+cron.schedule('*/5 * * * * *', checkPM2Processes);
+
 function checkPM2Processes() {
-  pm2.list((err, processList) => {
-    if (err) {
-      console.error('PM2 process list error:', err);
-      return;
-    }
+  // Replace this with your PM2 process checking logic
+  const stoppedApps = ['App1', 'App2']; // Example stopped apps
 
-    const stoppedApps = processList
-      .filter((process) => process.pm2_env.status === 'stopped')
-      .map((process) => process.name);
+  if (stoppedApps.length > 0) {
+    const message = `The following PM2 app(s) are stopped: ${stoppedApps.join(', ')}`;
+    sendNotifications(message);
+  }
+}
 
-    if (stoppedApps.length > 0) {
-      const message = `The following PM2 app(s) are stopped: ${stoppedApps.join(', ')}`;
-      io.emit('stopped', message);
-    }
+function sendNotifications(message) {
+  subscribers.forEach((subscription) => {
+    webPush.sendNotification(subscription, JSON.stringify({ title: 'App Stopped', message }));
   });
 }
 
-io.on('connection', (socket) => {
-  socket.on('disconnect', () => {
-    console.log('Client disconnected');
-  });
+
+
+
+self.addEventListener('push', (event) => {
+  const options = {
+    body: event.data.text(),
+   // Replace with your icon path
+  };
+
+  event.waitUntil(
+    self.registration.showNotification('App Stopped', options)
+  );
 });
 
 

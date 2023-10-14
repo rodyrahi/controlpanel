@@ -214,4 +214,34 @@
 
 
 
+<h1>Web Push Client</h1>
+<script>
+  if ('serviceWorker' in navigator && 'PushManager' in window) {
+    navigator.serviceWorker.register('/service-worker.js').then((registration) => {
+      console.log('Service Worker registered:', registration);
+
+      document.getElementById('subscribe-button').addEventListener('click', () => {
+        registration.pushManager.subscribe({ userVisibleOnly: true }).then((subscription) => {
+          console.log('Subscribed to Push Notifications:', subscription);
+          fetch('/subscribe', {
+            method: 'POST',
+            body: JSON.stringify(subscription),
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          }).then(() => {
+            console.log('Subscribed successfully');
+          }).catch((error) => {
+            console.error('Subscription error:', error);
+          });
+        }).catch((error) => {
+          console.error('Subscription error:', error);
+        });
+      });
+    });
+  }
+</script>
+<button id="subscribe-button">Subscribe to Push Notifications</button>
+
+
 </html>
