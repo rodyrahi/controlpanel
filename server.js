@@ -54,7 +54,7 @@ const checkPM2Processes = () => {
     if (stoppedApps.length > 0) {
       const message = `The following PM2 app(s) are stopped: ${stoppedApps.join(', ')}`;
       sendNotification(message);
-      console.log('app stopped');
+      // console.log('app stopped');
     }
   });
 };
