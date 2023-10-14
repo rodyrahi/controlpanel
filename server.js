@@ -11,6 +11,7 @@ const {listDBFiles} = require('./public/database.js');
 const notifier = require('node-notifier');
 const path = require('path');
 const cron = require('node-cron');
+const { log } = require("console");
 
 
 
@@ -56,6 +57,7 @@ const checkPM2Processes = () => {
       // sendNotification(message);
       io.on('connection', (socket) => {
 
+        console.log('stopped');
         socket.emit('stopped', message)
       })
 
