@@ -231,7 +231,7 @@ app.post('/query', async(req, res) => {
 
 // app.js (continued)
 app.get('/terminal', (req, res) => {
-  const term = spawn('bash');
+  const term = exec('bash');
   term.stdout.on('data', (data) => {
       res.write(data.toString());
   });
@@ -242,7 +242,7 @@ app.get('/terminal', (req, res) => {
 
 app.get('/log', (req, res) => {
   // Use PM2 to retrieve and display logs
-  const pm2 = spawn('pm2', ['logs']);
+  const pm2 = exec('pm2', ['logs']);
 
   pm2.stdout.on('data', (data) => {
       res.write(data.toString());
