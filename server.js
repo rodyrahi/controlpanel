@@ -51,7 +51,6 @@ const checkPM2Processes = () => {
         if (match) {
           const appName = match[2].trim();
           stoppedApps.push(appName);
-          console.log('App Name:', appName);
         }
       }
     }
@@ -63,7 +62,7 @@ const checkPM2Processes = () => {
       // sendNotification(message);
       io.on('connection', (socket) => {
 
-        console.log('stopped');
+        // console.log('stopped');
         socket.emit('stopped', message)
       })
 
