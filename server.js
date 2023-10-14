@@ -139,28 +139,41 @@ function runCode(apps) {
 
 
 
-
 app.get("/logs/:apps", (req, res) => {
-  const apps = req.params.apps;
 
-  const command = `pm2 logs ${apps ? apps : ''} --nostream`;
-  const process = exec(command);
 
-  io.on('connection', (socket) => {
-    console.log('Client connected');
-
-    process.stdout.on('data', (data) => {
-      const logLine = data.toString().trim();
-      socket.emit('log', logLine);
+  
+  const apps = req.params.apps
+  
+  const dataInterval = setInterval(() => {
+    io.on('connection', (socket) => {
+      console.log('Client connected');
+  
+      const command = `pm2 logs ${apps ? apps : ''} --nostream`;
+  
+      const process = exec(command);
+      process.stdout.on('data', (data) => {
+        var logLine = data.toString().trim();
+        socket.emit('log', logLine);
+  
+      });
+  
+      process.on('close', () => {
+        console.log('Process closed');
+        process.kill();
+      });
+  
+      socket.on('disconnect', () => {
+        console.log('Client disconnected');
+        clearInterval(dataInterval);
+        process.kill(); // Kill the process when the client disconnects
+  
+      });
     });
+    // socket.emit('logs', { std: std, stdout: stderr, result: result });
+  }, 5000);
+    res.render('logs');
 
-    socket.on('disconnect', () => {
-      console.log('Client disconnected');
-      process.kill(); // Kill the process when the client disconnects
-    });
-  });
-
-  res.render('logs');
 });
 
 app.get('/db', async (req, res) => {
