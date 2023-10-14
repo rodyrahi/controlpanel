@@ -139,42 +139,42 @@ function runCode(apps) {
 
 
 
-app.get("/logs/:apps", (req, res) => {
+// app.get("/logs/:apps", (req, res) => {
 
 
   
-  const apps = req.params.apps
+//   const apps = req.params.apps
   
-  const dataInterval = setInterval(() => {
-    io.on('connection', (socket) => {
-      console.log('Client connected');
+//   const dataInterval = setInterval(() => {
+//     io.on('connection', (socket) => {
+//       console.log('Client connected');
   
-      const command = `pm2 logs ${apps ? apps : ''} --nostream`;
+//       const command = `pm2 logs ${apps ? apps : ''} --nostream`;
   
-      const process = exec(command);
-      process.stdout.on('data', (data) => {
-        var logLine = data.toString().trim();
-        socket.emit('log', logLine);
+//       const process = exec(command);
+//       process.stdout.on('data', (data) => {
+//         var logLine = data.toString().trim();
+//         socket.emit('log', logLine);
   
-      });
+//       });
   
-      process.on('close', () => {
-        console.log('Process closed');
-        process.kill();
-      });
+//       process.on('close', () => {
+//         console.log('Process closed');
+//         process.kill();
+//       });
   
-      socket.on('disconnect', () => {
-        console.log('Client disconnected');
-        clearInterval(dataInterval);
-        process.kill(); // Kill the process when the client disconnects
+//       socket.on('disconnect', () => {
+//         console.log('Client disconnected');
+//         clearInterval(dataInterval);
+//         process.kill(); // Kill the process when the client disconnects
   
-      });
-    });
-    // socket.emit('logs', { std: std, stdout: stderr, result: result });
-  }, 5000);
-    res.render('logs');
+//       });
+//     });
+//     // socket.emit('logs', { std: std, stdout: stderr, result: result });
+//   }, 5000);
+//     res.render('logs');
 
-});
+// });
 
 app.get('/db', async (req, res) => {
   try {
@@ -240,9 +240,11 @@ app.get('/terminal', (req, res) => {
   });
 });
 
-app.get('/log', (req, res) => {
+app.get('/log/:apps', (req, res) => {
   // Use PM2 to retrieve and display logs
-  const pm2 = exec('pm2 logs --nostream');
+  const apps = req.params.apps
+
+  const pm2 = exec(`pm2 logs ${apps ? apps : ''} --nostream`);
 
   pm2.stdout.on('data', (data) => {
       res.write(data.toString());
