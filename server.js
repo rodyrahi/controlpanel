@@ -86,7 +86,7 @@ app.post("/cmd", (req, res) => {
     console.log(std);
 
     if (std) {
-      res.send(error , stdout ,stderr)
+      res.send(std)
 
     }
 
