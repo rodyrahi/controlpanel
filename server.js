@@ -253,18 +253,21 @@ app.get('/log/:apps', (req, res) => {
 
   pm2.on('exit', () => {
       const logLines = logContent.split('\n');
-      const last15Lines = logLines.slice(-18);
+      const last15Lines = logLines.slice(-15);
 
       // Format the last 15 lines for display, highlighting errors in red
       let formattedLog = '<pre>';
       last15Lines.forEach((line) => {
           if (line.includes('error') || /error|fatal/i.test(line)) {
-              formattedLog += `<span style="color: red">${line}</span><br>`;
+              formattedLog += `<span style="color: red">${line}</span>\n`;
           } else {
-              formattedLog += line + '<br>';
+              formattedLog += line + '\n';
           }
       });
       formattedLog += '</pre>';
+
+      // Replace <br> with newline characters (\n)
+      formattedLog = formattedLog.replace(/<br>/g, '\n');
 
       res.send(formattedLog);
   });
