@@ -217,27 +217,45 @@
 <h1>Web Push Client</h1>
 <script>
   if ('serviceWorker' in navigator && 'PushManager' in window) {
-    navigator.serviceWorker.register('/service-worker.js').then((registration) => {
-      console.log('Service Worker registered:', registration);
+    navigator.serviceWorker.register('/service-worker.js')
+      .then((registration) => {
+        console.log('Service Worker registered:', registration);
 
-      document.getElementById('subscribe-button').addEventListener('click', () => {
-        registration.pushManager.subscribe({ userVisibleOnly: true }).then((subscription) => {
-          console.log('Subscribed to Push Notifications:', subscription);
-          fetch('/subscribe', {
-            method: 'POST',
-            body: JSON.stringify(subscription),
-            headers: {
-              'Content-Type': 'application/json',
-            },
-          }).then(() => {
-            console.log('Subscribed successfully');
-          }).catch((error) => {
-            console.error('Subscription error:', error);
+        document.getElementById('subscribe-button').addEventListener('click', () => {
+          registration.pushManager.getSubscription().then((subscription) => {
+            if (subscription) {
+              console.log('Already subscribed:', subscription);
+            } else {
+              registration.pushManager.subscribe({ userVisibleOnly: true })
+                .then((newSubscription) => {
+                  console.log('Subscribed to Push Notifications:', newSubscription);
+                  sendSubscriptionToServer(newSubscription);
+                })
+                .catch((error) => {
+                  console.error('Subscription error:', error);
+                });
+            }
           });
-        }).catch((error) => {
-          console.error('Subscription error:', error);
         });
+      })
+      .catch((error) => {
+        console.error('Service Worker registration error:', error);
       });
+  }
+
+  function sendSubscriptionToServer(subscription) {
+    fetch('/subscribe', {
+      method: 'POST',
+      body: JSON.stringify(subscription),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+    .then(() => {
+      console.log('Subscribed successfully');
+    })
+    .catch((error) => {
+      console.error('Subscription error:', error);
     });
   }
 </script>
