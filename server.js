@@ -35,29 +35,6 @@ const directoryPath = '../database/bundeli';
 
 
 
-function checkLogsForErrors() {
-  const pm2 = exec('pm2 logs --nostream');
-
-  pm2.stdout.on('data', (data) => {
-      const logLines = data.toString().split('\n');
-      const lastLine = logLines[logLines.length - 15]; // Get the last line
-
-      if (lastLine.includes('error') || /error|fatal/i.test(lastLine)) {
-          sendNotificationToBrowser('Error detected in the logs!');
-      }
-      lastLogContent = data.toString();
-  });
-}
-
-function sendNotificationToBrowser(message) {
-  notifier.notify({
-      title: 'Log Monitor',
-      message: message,
-  });
-}
-
-setInterval(checkLogsForErrors, 5000);
-
 
 
 
