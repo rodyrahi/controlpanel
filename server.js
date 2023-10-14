@@ -242,7 +242,7 @@ app.get('/terminal', (req, res) => {
 
 app.get('/log', (req, res) => {
   // Use PM2 to retrieve and display logs
-  const pm2 = exec('pm2', ['logs']);
+  const pm2 = exec('pm2 logs');
 
   pm2.stdout.on('data', (data) => {
       res.write(data.toString());
