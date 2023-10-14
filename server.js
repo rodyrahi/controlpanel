@@ -246,12 +246,19 @@ app.get('/log/:apps', (req, res) => {
 
   const pm2 = exec(`pm2 logs ${apps ? apps : ''} --nostream`);
 
+  let logContent = '';
   pm2.stdout.on('data', (data) => {
-      res.write(data.toString());
+      logContent += data.toString();
   });
 
   pm2.on('exit', () => {
-      res.end();
+      const logLines = logContent.split('\n');
+      const last15Lines = logLines.slice(-15).join('\n');
+
+      // Format the last 15 lines for display
+      const formattedLog = last15Lines.replace(/\n/g, '<br>');
+
+      res.send(`<pre>${formattedLog}</pre>`);
   });
 });
 
