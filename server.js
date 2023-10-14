@@ -158,10 +158,9 @@ app.get("/logs/:apps", (req, res) => {
   
       });
   
-      process.on('close', () => {
-        console.log('Process closed');
-        process.kill();
-      });
+
+      process.kill();
+     
   
       socket.on('disconnect', () => {
         console.log('Client disconnected');
