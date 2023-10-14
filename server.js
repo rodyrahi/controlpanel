@@ -47,12 +47,13 @@ const checkPM2Processes = () => {
 
     for (const line of lines) {
       if (line.includes('stopped')) {
-        const appName = line.split(/\s+/)[2];
+        const parts = line.split('|').map((part) => part.trim());
+        const appName = parts[2];
         stoppedApps.push(appName);
         console.log(appName);
       }
     }
-
+    
   
     if (stoppedApps.length > 0) {
       const message = `The following PM2 app(s) are stopped: ${stoppedApps.join(', ')}`;
