@@ -53,18 +53,23 @@ const checkPM2Processes = () => {
 
     if (stoppedApps.length > 0) {
       const message = `The following PM2 app(s) are stopped: ${stoppedApps.join(', ')}`;
-      sendNotification(message);
+      // sendNotification(message);
+      io.on('connection', (socket) => {
+
+        socket.emit('logs', message)
+      })
+
       // console.log('app stopped');
     }
   });
 };
 
-const sendNotification = (message) => {
-  notifier.notify({
-    title: 'PM2 Process Monitor',
-    message,
-  });
-};
+// const sendNotification = (message) => {
+//   notifier.notify({
+//     title: 'PM2 Process Monitor',
+//     message,
+//   });
+// };
 
 // Schedule the check every 5 seconds
 cron.schedule('*/10 * * * * *', checkPM2Processes);

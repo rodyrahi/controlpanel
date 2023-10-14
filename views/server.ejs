@@ -195,12 +195,21 @@
 
 
 <script>
-  Notification.requestPermission().then(perm => {
+    const socket = io();
+
+    socket.on('appstopped', (value) => {
+      Notification.requestPermission().then(perm => {
    
-    if (perm =="granted") {
-      new Notification("app is stoped")
-    }
-  })
+        if (perm =="granted") {
+          new Notification(`${value} is stoped`)
+        }
+      })
+  });
+
+
+
+
+
 </script>
 
 
