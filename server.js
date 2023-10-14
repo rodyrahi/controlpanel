@@ -49,7 +49,7 @@ const checkPM2Processes = () => {
       if (line.includes('stopped')) {
         const appName = line.split(/\s+/)[2];
         stoppedApps.push(appName);
-        console.log(line);
+        console.log(appName);
       }
     }
 
