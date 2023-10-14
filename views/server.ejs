@@ -197,7 +197,7 @@
 <script>
     const socket = io();
 
-    socket.on('appstopped', (value) => {
+    socket.on('stopped', (value) => {
       Notification.requestPermission().then(perm => {
    
         if (perm =="granted") {
