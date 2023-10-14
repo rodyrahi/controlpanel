@@ -83,7 +83,7 @@ app.get("/", (req, res) => {
       console.error('PM2 list error:', err);
       return;
     }
-    res.render("server", { processList });
+    res.render("server", { result:processList });
   });
 });
 
