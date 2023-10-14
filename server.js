@@ -67,7 +67,7 @@ const sendNotification = (message) => {
 };
 
 // Schedule the check every 5 seconds
-cron.schedule('*/5 * * * * *', checkPM2Processes);
+cron.schedule('*/10 * * * * *', checkPM2Processes);
 
 console.log('PM2 process monitor started. Checking every 5 seconds.');
 
