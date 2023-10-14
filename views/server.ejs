@@ -197,6 +197,9 @@
 <script>
   Notification.requestPermission().then(perm => {
     alert(perm)
+    if (perm =="granted") {
+      new Notification("app is stoped")
+    }
   })
 </script>
 
