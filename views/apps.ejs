@@ -1,0 +1,90 @@
+<form id="form">
+  <div class="row" id="apps">
+
+
+
+    <% apps.forEach(element => { %>
+
+
+    <div class="col" style="max-width: 22rem; min-width: 22rem;">
+      <div class=" row m-1 p-2 shadow text-light" style="background-color: darkslategray; border-radius: 1rem;">
+
+        <div class="col-6">
+          <h5 class="fw-bold"><%= element.name %></h5>
+          <a class=" ms-auto ms-2 text-warning" type="button" data-cmd="restart" data-name="<%= element.name %>" onclick="app(this)"><i class="fa-solid fa-rotate" style="font-size: 1.5rem;"></i></a>
+          <% if (element.pm2_env.status === 'online') { %>
+          <a class=" ms-1 text-danger ms-2" type="button" data-cmd="stop" data-name="<%= element.name %>" onclick="app(this)"><i class="fa-solid fa-stop" style="font-size: 1.5rem;"></i></a>
+
+          <% } else { %>
+          <a class=" ms-1 text-success ms-2" type="button" data-cmd="start" data-name="<%= element.name %>" onclick="app(this)"><i class="fa-solid fa-play" style="font-size: 1.5rem;"></i></a>
+
+          <%} %>
+          <% if (element.pm2_env.versioning) { %>
+          <a type="button" class="text-info ms-2" data-cmd="<%= element.pm2_env.versioning.repo_path %>" data-name="<%= element.name %>" onclick="gitpull(this)"><i class="fa-solid fa-code-pull-request" style="font-size: 1.5rem;"></i></a>
+
+          <% } %>
+          <i class="fa-solid fa-code text-info ms-2" hx-get="/log/<%= element.name %>" hx-trigger="click" hx-target="#log-container"></i>
+          <!-- <a target="_blank"  href="/logs/<%= element.name %>" class="text-info ms-2"><i class="fa-solid fa-code"></i></a> -->
+
+        </div>
+        <div class="col-6 d-flex" style="flex-direction: column;">
+          <h6 class="ms-auto"><i class="fa-solid fa-microchip me-2"></i><%= (element.monit.memory /1024/1024).toFixed(2) %>mb</h6>
+          <h6 class="ms-auto"><i class="fa-solid fa-server me-2"> </i><%= element.monit.cpu %>%</h6>
+
+
+
+        </div>
+
+      </div>
+    </div>
+
+
+    <% }) %>
+  </div>
+
+</form>
+
+
+
+
+
+</body>
+
+<script>
+  function app(button) {
+    const appName = button.getAttribute('data-name');
+    const cmd = button.getAttribute('data-cmd');
+    console.log(appName)
+    document.getElementById('command').value = `pm2 ${cmd} ${appName}`
+    document.getElementById('exe').click()
+
+    // Perform your restart logic using the extracted app name
+  }
+
+  function gitpull(button) {
+    const appName = button.getAttribute('data-name');
+    const cmd = button.getAttribute('data-cmd');
+    console.log(appName)
+    document.getElementById('command').value =
+      `cd ${cmd} && git pull`
+    document.getElementById('exe').click()
+
+    // Perform your restart logic using the extracted app name
+  }
+
+  function addapp() {
+    var url = document.getElementById('giturl').value
+    document.getElementById('command').value =
+      `
+        cd /root/app
+        git clone ${url} 
+        `
+    document.getElementById('exe').click()
+
+  }
+</script>
+
+
+
+
+</html>
