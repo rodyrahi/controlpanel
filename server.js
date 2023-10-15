@@ -13,6 +13,9 @@ app.get('/', (req, res) => {
     res.render('login');
 });
 
+app.get('/createapp', (req, res) => {
+    res.render('partials/createapp');
+});
 
 app.get('/command/:cmd', async (req, res) => {
 
@@ -133,16 +136,6 @@ app.get('/folders/:dir', async (req, res) => {
 app.post('/execute', async (req, res) => {
     const { command } = req.body;
 
-    // Check if the command is a 'cd' command
-    // if (command.startsWith('cd ')) {
-    //     const newDirectory = command.substring(3); // Extract the target directory
-    //     try {
-    //         const { stdout, stderr } = await ssh.execCommand( 'ls', {cwd: newDirectory});
-    //         res.send(`<pre>${stdout}</pre>`);
-    //     } catch (error) {
-    //         res.send(`Error changing directory to: ${newDirectory}<br>Error: ${error.message}`);
-    //     }
-    // } else {
         try {
             const { stdout, stderr } = await ssh.execCommand( command);
 
