@@ -17,6 +17,26 @@ app.get('/createapp', (req, res) => {
     res.render('partials/createapp');
 });
 
+
+app.get('/gitrepos', async(req, res) => {
+    let folder = [];
+    try {
+
+        const { stdout, stderr } = await ssh.execCommand('ls', { cwd:`/root/app` });
+        folder = stdout.split('\n').filter(Boolean);
+
+        res.render('partials/gitrepos', {folder});
+
+    } catch (error) {
+        res.status(500).send(`Error listing directory: ${error.message}`);
+        return;
+    }
+
+});
+
+
+
+
 app.get('/command/:cmd', async (req, res) => {
 
     const cmd  = req.params.cmd
@@ -149,9 +169,6 @@ app.post('/execute', async (req, res) => {
         }
     
 });
-
-
-
 
 function highlightErrors(text) {
 
