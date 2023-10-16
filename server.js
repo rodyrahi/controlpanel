@@ -92,23 +92,15 @@ app.post('/connect', async (req, res) => {
 });
 
 app.get('/home', async (req, res) => {
-    try {
-        const [lsResult, pm2Result] = await Promise.all([
-            ssh.execCommand('ls'),
-            ssh.execCommand('pm2 jlist')
-        ]);
-
-        // Process lsResult and pm2Result in parallel
-        const [folder, appList] = await Promise.all([
-            processLsResult(lsResult),
-            processPm2Result(pm2Result)
-        ]);
-
-        res.render('index', { folder, apps: appList });
-    } catch (error) {
-        res.send('Failed to connect to the SSH server or encountered an error.');
-    }
+    
+    res.render('index.ejs');
 });
+app.get('/status', async (req, res) => {
+    
+    res.render('partials/status.ejs');
+});
+
+
 
 async function processLsResult(lsResult) {
     const folder = lsResult.stdout.split('\n').filter(Boolean);
