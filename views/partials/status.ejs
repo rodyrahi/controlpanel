@@ -1,11 +1,28 @@
+<form style="display: none;" class="mb-4">
+
+  <div class="mb-3">
+      <label for="command" class="form-label">Command:</label>
+
+      <textarea class="form-control text-light" name="command" id="cmd" cols="30" rows="10" style="background-color: black;" ></textarea>
+
+  </div>
+  <button class="btn btn-light btn-sm mt-2" type="submit"  hx-post="/execute" id="execute" hx-target="#status">Execute Command</button>
+
+</form>
+
 <hr>
-<div id="output" class="output-terminal mb-3 rounded-2" style="max-height: 60vh; overflow-y: auto;">
+<div id="status" class="output-terminal mb-3 rounded-2" style="max-height: 60vh; overflow-y: auto;">
    👏 Yo ready to goo..
 </div>
 
 <script>
-setInterval(function() {
-    document.getElementById('command').value = 'top -b -n 1 | grep -E "^(%Cpu|MiB Mem|MiB Swap)"';
-    document.getElementById('exe').click();
-  }, 1000); // 1000 milliseconds (1 second)
+    setInterval(function() {
+      if (document.getElementById('cmd') !== null) {
+
+      document.getElementById('cmd').value = 'top -b -n 1 | grep -E "^(%Cpu|MiB Mem|MiB Swap)"';
+      document.getElementById('execute').click();
+    }
+  }, 1000);
+ 
+ // 1000 milliseconds (1 second)
 </script>

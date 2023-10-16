@@ -57,6 +57,12 @@
     console.log(appName)
     document.getElementById('command').value = `pm2 ${cmd} ${appName}`
     document.getElementById('exe').click()
+    setTimeout(function() {
+    document.getElementById('apps').click();
+  }, 500);
+
+
+    
 
     // Perform your restart logic using the extracted app name
   }
@@ -68,6 +74,7 @@
     document.getElementById('command').value =
       `cd ${cmd} && git pull`
     document.getElementById('exe').click()
+    // document.getElementById('apps').click()
 
     // Perform your restart logic using the extracted app name
   }
@@ -80,6 +87,7 @@
         git clone ${url} 
         `
     document.getElementById('exe').click()
+    document.getElementById('apps').click()
 
   }
   function log(button) {

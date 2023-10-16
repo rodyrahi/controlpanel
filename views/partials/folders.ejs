@@ -1,0 +1,30 @@
+<div class=" row ">
+<% folder.forEach(element => { %>
+  
+        <div class="col-6 d-flex shadow-sm rounded-4 bg-dark p-2  m-1" style="max-width: 22rem; min-width: 22rem;">
+            <h5 class="m-0 fw-bold text-light" ><%= element %></h5>
+
+           
+            <a  onclick="deleteapp(this)" data-folder="<%= element %>"  class=" btn btn-danger ms-auto"><i class="fa-solid fa-trash"></i></a>
+
+
+        </div>  
+
+    
+<% }) %>
+
+<hr>
+<div id="output" class="output-terminal mb-3 rounded-2" style="max-height: 60vh; overflow-y: auto;">
+  🤠 Log things here...
+</div>
+</div>  
+
+<script>
+    function deleteapp(button) {
+        const folder = button.getAttribute('data-folder');
+        document.getElementById('command').value = `rm -r /root/app/${folder}`
+        document.getElementById('exe').click()
+
+        document.getElementById('folder').click()
+    }
+</script>

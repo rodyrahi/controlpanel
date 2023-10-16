@@ -43,7 +43,7 @@ app.get('/gitrepos', async(req, res) => {
         const { stdout, stderr } = await ssh.execCommand('ls', { cwd:`/root/app` });
         folder = stdout.split('\n').filter(Boolean);
 
-        res.render('partials/gitrepos', {folder});
+        res.render('partials/folders', {folder});
 
     } catch (error) {
         res.status(500).send(`Error listing directory: ${error.message}`);
@@ -134,30 +134,30 @@ app.get('/pm2-apps', async (req, res) => {
 });
 
 
-app.get('/folders/:dir', async (req, res) => {
-    let folder = [];
+// app.get('/folders/:dir', async (req, res) => {
+//     let folder = [];
 
-    const dir = req.params.dir ? req.params.dir : '/';
-    try {
+//     const dir = req.params.dir ? req.params.dir : '/';
+//     try {
   
         
 
 
-        // List the contents of the specified directory within the current directory
-        const { stdout, stderr } = await ssh.execCommand('ls', { cwd:`${dir}` });
-        folder = stdout.split('\n').filter(Boolean);
+//         // List the contents of the specified directory within the current directory
+//         const { stdout, stderr } = await ssh.execCommand('ls', { cwd:`${dir}` });
+//         folder = stdout.split('\n').filter(Boolean);
 
-        res.render('folders', { folder });
+//         res.render('folders', { folder });
    
 
-        // Use '\n' to split lines and filter out empty lines
-    } catch (error) {
-        res.status(500).send(`Error listing directory: ${error.message}`);
-        return;
-    }
+//         // Use '\n' to split lines and filter out empty lines
+//     } catch (error) {
+//         res.status(500).send(`Error listing directory: ${error.message}`);
+//         return;
+//     }
 
     
-});
+// });
 
 
 
