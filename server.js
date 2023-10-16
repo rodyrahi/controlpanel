@@ -13,32 +13,26 @@ app.get('/', (req, res) => {
     res.render('login');
 });
 
-app.get('/createapp', (req, res) => {
-    res.render('partials/createapp');
-});
-
-app.post('/createapp', async(req, res) => {
-    const {appname , giturl}= req.body;
-
-    const parts = giturl.split('/');
-
-    // Extract the repository name
-    const repoName = parts[parts.length - 1].replace('.git', '');
+app.get('/apps', async(req, res) => {
     try {
-        const { stdout, stderr } = await ssh.execCommand(`cd /root/app && git clone ${giturl} && cd /root/app/${repoName} && npm i && pm2 start ${appname}`);
+        const [lsResult, pm2Result] = await Promise.all([
+            ssh.execCommand('ls'),
+            ssh.execCommand('pm2 jlist')
+        ]);
 
-        // Check if the command contains 'error' or 'fatal', and highlight them in red
-        const formattedStdout = highlightErrors(stdout);
-        const formattedStderr = highlightErrors(stderr);
+        // Process lsResult and pm2Result in parallel
+        const [folder, appList] = await Promise.all([
+            processLsResult(lsResult),
+            processPm2Result(pm2Result)
+        ]);
 
-        res.send(`<pre>Status ✨:\n${formattedStdout}\n\nErrors 💀:\n${formattedStderr}</pre>`);
+        res.render('partials/createapp' ,  { folder, apps: appList });
+
     } catch (error) {
-        res.send(`Error executing the command: ${error.message}`);
+        res.send('Failed to connect to the SSH server or encountered an error.');
     }
 
-    res.render('partials/createapp');
 });
-
 
 
 
@@ -61,21 +55,21 @@ app.get('/gitrepos', async(req, res) => {
 
 
 
-app.get('/command/:cmd', async (req, res) => {
+// app.get('/command/:cmd', async (req, res) => {
 
-    const cmd  = req.params.cmd
+//     const cmd  = req.params.cmd
 
-    console.log(cmd);
-    try {
+//     console.log(cmd);
+//     try {
    
-        const { stdout, stderr } = await ssh.execCommand(cmd);
+//         const { stdout, stderr } = await ssh.execCommand(cmd);
         
-        res.redirect('/home');
+//         res.redirect('/home');
 
-    } catch (error) {
-        res.status(500).send(`Error retrieving PM2 apps: ${error.message}`);
-    } 
-});
+//     } catch (error) {
+//         res.status(500).send(`Error retrieving PM2 apps: ${error.message}`);
+//     } 
+// });
 
 
 app.post('/connect', async (req, res) => {
