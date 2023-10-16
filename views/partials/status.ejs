@@ -4,8 +4,8 @@
 </div>
 
 <script>
-
+setInterval(function() {
     document.getElementById('command').value = 'top -b -n 1 | grep -E "^(%Cpu|MiB Mem|MiB Swap)"';
     document.getElementById('exe').click();
-
+  }, 1000); // 1000 milliseconds (1 second)
 </script>
