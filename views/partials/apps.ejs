@@ -11,7 +11,7 @@
 
         <div class="col-6">
           <h5 class="fw-bold"><%= element.name %></h5>
-          <a class=" ms-auto ms-2 text-warning" type="button" data-cmd="restart" data-name="<%= element.name %>" onclick="app(this)"><i class="fa-solid fa-rotate" style="font-size: 1.3rem;"></i></a>
+          <a class=" ms-auto ms-2 text-warning" type="button" data-cmd="restart" data-name="<%= element.name %>" onclick="apprestart(this)"><i class="fa-solid fa-rotate" style="font-size: 1.3rem;"></i></a>
           <% if (element.pm2_env.status === 'online') { %>
           <a class=" ms-1 text-danger ms-2" type="button" data-cmd="stop" data-name="<%= element.name %>" onclick="app(this)"><i class="fa-solid fa-stop" style="font-size: 1.3rem;"></i></a>
 
@@ -61,10 +61,15 @@
     document.getElementById('apps').click();
   }, 500);
 
+  }
+  function apprestart(button) {
+    const appName = button.getAttribute('data-name');
+    const cmd = button.getAttribute('data-cmd');
+    console.log(appName)
+    document.getElementById('command').value = `pm2 ${cmd} ${appName}`
+    document.getElementById('exe').click()
 
-    
 
-    // Perform your restart logic using the extracted app name
   }
 
   function gitpull(button) {
