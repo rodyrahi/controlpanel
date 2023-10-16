@@ -21,10 +21,11 @@
     function createwebsite() {
        
         var website = document.getElementById('website').value
+        var port = document.getElementById('port').value
 
 
         document.getElementById('command').value =
-        `curl -o createwebsite.sh https://admin.kamingo.in/createwebsite.sh && chmod +x createwebsite.sh && ./createwebsite.sh test.com 1111`
+        `curl -o createwebsite.sh https://admin.kamingo.in/createwebsite.sh && chmod +x createwebsite.sh && ./createwebsite.sh ${website} ${port}`
         document.getElementById('exe').click()
 
         // document.getElementById('apps').click()
