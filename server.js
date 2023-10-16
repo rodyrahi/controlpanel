@@ -17,6 +17,30 @@ app.get('/createapp', (req, res) => {
     res.render('partials/createapp');
 });
 
+app.post('/createapp', async(req, res) => {
+    const {appname , giturl}= req.body;
+
+    const parts = giturl.split('/');
+
+    // Extract the repository name
+    const repoName = parts[parts.length - 1].replace('.git', '');
+    try {
+        const { stdout, stderr } = await ssh.execCommand(`cd /root/app && git clone ${giturl} && cd /root/app/${repoName} && npm i && pm2 start ${appname}`);
+
+        // Check if the command contains 'error' or 'fatal', and highlight them in red
+        const formattedStdout = highlightErrors(stdout);
+        const formattedStderr = highlightErrors(stderr);
+
+        res.send(`<pre>Status ✨:\n${formattedStdout}\n\nErrors 💀:\n${formattedStderr}</pre>`);
+    } catch (error) {
+        res.send(`Error executing the command: ${error.message}`);
+    }
+
+    res.render('partials/createapp');
+});
+
+
+
 
 app.get('/gitrepos', async(req, res) => {
     let folder = [];

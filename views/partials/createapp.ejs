@@ -1,11 +1,35 @@
-<form class="p-2">
-    <div class="mb-3">
-        <label for="gitUrl" class="form-label">App File (ex.server.js)</label>
-        <input type="text" class="form-control" id="appname" name="appname" placeholder="server.js">
-    </div>
-    <div class="mb-3">
-        <label for="gitUrl" class="form-label">Git URL</label>
-        <input type="text" class="form-control" id="gitUrl" name="gitUrl" placeholder="Enter Git URL">
-    </div>
-    <button type="submit" class="btn btn-primary">Create App</button>
-</form>
+<div class="m-1">
+  <div class="mb-3">
+    <label for="gitUrl" class="form-label">App File (ex.server.js)</label>
+    <input type="text" class="form-control" id="appname" name="appname" placeholder="server.js">
+  </div>
+  <div class="mb-3">
+    <label for="gitUrl" class="form-label">Git URL</label>
+    <input type="text" class="form-control" id="giturl" name="giturl" placeholder="Enter Git URL">
+  </div>
+  <button onclick="createapp()" class="btn btn-primary" >Create App</button>
+</div>
+<hr>
+<div id="output" class="output-terminal mb-3 rounded-2" style="max-height: 60vh; overflow-y: auto;">
+  🤠 Git things here...
+</div>
+
+
+<script>
+    function createapp() {
+        var url = document.getElementById('giturl').value
+        var appname = document.getElementById('appname').value
+
+        var parts = url.split("/");
+        var repoName = parts[parts.length - 1].replace('.git', ''); 
+
+        
+
+        document.getElementById('command').value =
+        `cd /root/app && git clone ${url} && cd /root/app/${repoName} && npm i && pm2 start ${appname}`
+        document.getElementById('exe').click()
+
+
+
+    }
+</script>
