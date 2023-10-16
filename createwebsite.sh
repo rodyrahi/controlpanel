@@ -14,7 +14,7 @@ NGINX_AVAILABLE_VHOSTS='/etc/nginx/sites-available'
 NGINX_ENABLED_VHOSTS='/etc/nginx/sites-enabled'
 WEB_DIR='/var/www'
 WEB_USER='www-data'
-USER='ali'
+USER='root'
 
 # Sanity check
 [ $(id -u) != 0 ] && die "Script must be run as root."
