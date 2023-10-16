@@ -6,9 +6,9 @@ const SSH = require('simple-ssh');
 app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static('public'));
-
+const path = require('path');
 const ssh = new NodeSSH();
-
+const fs = require('fs');
 app.get('/', (req, res) => {
     res.render('login');
 });
@@ -52,7 +52,9 @@ app.get('/gitrepos', async(req, res) => {
 
 });
 
-
+app.get('/website', (req, res) => {
+    res.render('partials/createwebsite');
+});
 
 
 // app.get('/command/:cmd', async (req, res) => {
@@ -186,6 +188,20 @@ function highlightErrors(text) {
 }
 
 
+
+app.get('/createwebsite.sh', (req, res) => {
+    const filePath = path.join(__dirname, 'createwebsite.sh');
+  
+    fs.readFile(filePath, (err, data) => {
+      if (err) {
+        res.status(500).send('Error reading the file.');
+      } else {
+        res.setHeader('Content-disposition', 'attachment; createwebsite.sh');
+        res.setHeader('Content-type', 'application/x-sh');
+        res.send(data);
+      }
+    });
+  });
 
 app.listen(9111, () => {
     console.log('Server is running on http://localhost:9111');
