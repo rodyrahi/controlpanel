@@ -9,7 +9,7 @@
             <h5><%= element.name %></h5>
             
             <a type="button" class="me-1" data-script="<%= element.script %>" onclick="runscript(this)" style="font-size: 1.5rem; color: rgb(1, 196, 1);"  ><i class="fa-solid fa-circle-play"></i></a>
-            <a type="button" class="me-1" style="font-size: 1.5rem; color: rgb(141, 141, 141);"  ><i class="fa-solid fa-pen-to-square"></i></a>
+            <a type="button" class="me-1" onclick="editscript()" style="font-size: 1.5rem; color: rgb(141, 141, 141);"  ><i class="fa-solid fa-pen-to-square"></i></a>
             <a type="button" class="me-1" hx-get="/deletescript/<%= element.id %>" hx-target="#home" style="font-size: 1.5rem; color: rgb(0, 0, 0);"  ><i class="fa-solid fa-trash"></i></a>
 
         </div>
@@ -36,5 +36,9 @@ pm2 start example
         const script = button.getAttribute('data-script');
         document.getElementById('command').value = `${script}`;
         document.getElementById('exe').click();
+    }
+
+    function editscript() {
+        
     }
 </script>
