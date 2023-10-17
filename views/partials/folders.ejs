@@ -13,13 +13,17 @@
 <div class=" row ">
 
 
-
+<style>
+    .folder{
+        cursor: pointer;
+    }
+</style>
 
 <% folder.forEach(element => { %>
   
-        <div class="col-6 d-flex shadow-sm rounded-4 bg-dark p-2  m-1" style="max-width: 22rem; min-width: 22rem;">
+        <div class="col-6 d-flex shadow-sm  rounded-4 bg-dark p-2  m-1"  style="max-width: 22rem; min-width: 22rem;">
             
-            <h5 class="m-0 fw-bold text-light" data-foldername="<%= element %>" onclick="cd(this)" ><%= element %></h5>
+            <h5 class="m-0 fw-bold text-light folder" data-foldername="<%= element %>" onclick="cd(this)" ><%= element %></h5>
 
            
             <a  onclick="deleteapp(this)" data-folder="<%= element %>"  class=" btn btn-danger ms-auto"><i class="fa-solid fa-trash"></i></a>
