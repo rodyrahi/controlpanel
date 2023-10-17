@@ -31,8 +31,12 @@
             border: none;
         } */
     </style>
+
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Domine&family=Inclusive+Sans&family=Josefin+Sans:wght@400;700&family=Montserrat&family=Noto+Sans+JP&family=Oswald:wght@500;600&family=Plus+Jakarta+Sans:wght@500&family=Poppins:wght@300;700&family=Roboto+Mono:wght@400;500&family=Roboto+Slab&family=Rubik:wght@600&family=Tajawal:wght@700&family=Ysabeau+Infant:wght@700&display=swap');
+  </style>
 </head>
-<body >
+<body style="font-family: 'Inclusive Sans', sans-serif;">
     <div class="container">
         <%- include('./partials/navbar.ejs') %>
 
@@ -70,7 +74,7 @@
                         </a> 
                     </li>
 
-                    <li class="list-group-item "> <a class="btn btn-primary" hx-get="/gitrepos" hx-target="#home"   ><i class="fa-solid fa-database"></i> SQLite3</a> </li>
+                    <li class="list-group-item "> <a class="btn btn-primary" hx-get="/sqlite" hx-target="#home"   ><i class="fa-solid fa-database"></i> SQLite3</a> </li>
 
                 </ul>
             </div>

@@ -272,7 +272,11 @@ app.get('/deletescript/:id', (req, res) => {
    
 });
 
+app.get('/sqlite', (req, res) => {
 
+   
+    res.render('partials/sqlite' )
+});
 
 app.listen(9111, () => {
     console.log('Server is running on http://localhost:9111');
