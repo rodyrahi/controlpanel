@@ -83,12 +83,12 @@
        
         
         if (pathParts.length > 2) {
-            path = pathParts.slice(0, -1).join('/') + '/';
+            path = pathParts.slice(0, -2).join('/') + '/';
         } else {
             path = '/';
         }
         document.getElementById('dir').value = `cd ${path} && ls`;
-        console.log(path);
+        console.log(path , back);
         document.getElementById('dirbtn').click();
     }
 </script>

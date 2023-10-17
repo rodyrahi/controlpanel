@@ -59,8 +59,8 @@
             <div class="col-md-2 p-2">
                 <ul class="list-group">
                     <li class="list-group-item"><a class="btn btn-primary " hx-get="/status" hx-target="#home" ><i class="fa-solid fa-house"></i> Home</a></li>
-                    <li class="list-group-item "> <a class="btn btn-primary" hx-get="/apps" hx-target="#home" id="apps"  ><i class="fa-solid fa-laptop-code"></i> Apps</a> </li>
-                    <li class="list-group-item "> <a class="btn btn-primary" hx-get="/gitrepos" hx-target="#home" id="folder"  ><i class="fa-solid fa-folder"></i> Folders</a> </li>
+                    <li class="list-group-item "> <a class="btn btn-primary" hx-get="/apps" hx-target="#home" id="apps"   ><i class="fa-solid fa-laptop-code"></i> Apps</a> </li>
+                    <li class="list-group-item "> <a class="btn btn-primary" hx-get="/gitrepos" hx-target="#home" id="folder" onclick="resetpath()" ><i class="fa-solid fa-folder"></i> Folders</a> </li>
                     
                     <li class="list-group-item "> <a class="btn btn-primary" hx-get="/scripts" hx-target="#home" id="folder"  ><i class="fa-solid fa-gear"></i> Scripts</a> </li>
 
@@ -90,6 +90,10 @@
 
     <script>
            var path = '/root/app/';
+           function resetpath() {
+            
+            path= '/root/app/';
+           }
     </script>
 </body>
 </html>
