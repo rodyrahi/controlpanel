@@ -1,8 +1,25 @@
+<div class="row">
+    <div class="col">
+        <a class="btn btn-dark m-1" onclick="back()"><i class="fa-solid fa-arrow-left"></i></a>
+        <a class="btn btn-dark m-1"><i class="fa-solid fa-arrow-right"></i></a>
+
+    </div>
+
+
+  
+</div>
+<hr>
+
 <div class=" row ">
+
+
+
+
 <% folder.forEach(element => { %>
   
         <div class="col-6 d-flex shadow-sm rounded-4 bg-dark p-2  m-1" style="max-width: 22rem; min-width: 22rem;">
-            <h5 class="m-0 fw-bold text-light" ><%= element %></h5>
+            
+            <h5 class="m-0 fw-bold text-light" data-foldername="<%= element %>" onclick="cd(this)" ><%= element %></h5>
 
            
             <a  onclick="deleteapp(this)" data-folder="<%= element %>"  class=" btn btn-danger ms-auto"><i class="fa-solid fa-trash"></i></a>
@@ -19,12 +36,56 @@
 </div>
 </div>  
 
+
+
+
+
+
+
+<form  style="display: none;" class="mb-4">
+
+    <div class="mb-3">
+        <label for="command" class="form-label">Command:</label>
+
+        <textarea class="form-control text-light" name="dir" id="dir" cols="30" rows="10" style="background-color: black;" ></textarea>
+    </div>
+    <button class="btn btn-light btn-sm mt-2" type="submit"  hx-post="/changedir" hx-trigger="click" id="dirbtn" hx-target="#home">Execute Command</button>
+
+</form>
+
+
+
 <script>
+    var path = '/root/app/';
+
     function deleteapp(button) {
         const folder = button.getAttribute('data-folder');
-        document.getElementById('command').value = `rm -r /root/app/${folder}`
-        document.getElementById('exe').click()
+        document.getElementById('dir').value = `rm -r ${path}${folder}`;
+        document.getElementById('dirbtn').click();
+    }
 
-        document.getElementById('folder').click()
+    function cd(button) {
+        const foldername = button.getAttribute('data-foldername');
+        console.log(foldername);
+        document.getElementById('dir').value = `cd ${path}${foldername}/ && ls`;
+        path = `${path}${foldername}/`;
+
+        console.log(path);
+        document.getElementById('dirbtn').click();
+    }
+
+    function back() {
+        const pathParts = path.split('/');
+       
+        
+        if (pathParts.length > 2) {
+            path = pathParts.slice(0, -1).join('/') + '/';
+        } else {
+            path = '/';
+        }
+        document.getElementById('dir').value = `cd ${path} && ls`;
+        console.log(path);
+        document.getElementById('dirbtn').click();
     }
 </script>
+

@@ -187,6 +187,29 @@ function highlightErrors(text) {
     return text.replace(/error|fatal/gi, (match) => `<span style="color: red">${match}</span>`);
 }
 
+app.post('/changedir', async (req, res) => {
+    const { dir  } = req.body;
+   
+    console.log(dir);
+        try {
+            const { stdout, stderr } = await ssh.execCommand(dir);
+            folder = stdout.split('\n').filter(Boolean);
+
+            
+            res.render('partials/folders', {folder});
+    
+        } catch (error) {
+            
+            res.send(`Error executing the command: ${error.message}`);
+        }
+    
+});
+
+
+
+
+
+
 
 
 app.get('/createwebsite.sh', (req, res) => {
