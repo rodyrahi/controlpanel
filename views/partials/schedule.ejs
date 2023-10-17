@@ -1,0 +1,60 @@
+<div class="row">
+    <div class="col-md-6">
+        <div class="form-floating">
+            <select class="form-select" id="script" >
+                <% scripts.forEach(element => { %>
+                    <option value="<%= element.script %>"><%= element.name %></option>
+                <% }) %>
+        
+        
+            </select>
+            <label for="floatingSelect">Select Script</label>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="form-floating">
+            <select class="form-select" id="interval" >
+                
+                <option value="Min">Every Min</option>
+                <option value="Day">Every Day</option>
+                <option value="Week">Every Week</option>
+                <option value="Month">Every Month</option>
+                <option value="Year">Every Year</option>
+             
+        
+        
+            </select>
+            <label for="floatingSelect">Set SetInterval</label>
+        </div>
+    </div>
+    <div class="col-md-2 p-2">
+        <button class="btn btn-success me-2" onclick="start()" >start</button>
+        <button class="btn btn-dark"  onclick="stopped()">stop</button>
+    </div>
+      
+</div>
+<div id="output" class="output-terminal mb-3 rounded-2" style="max-height: 60vh; overflow-y: auto;">
+    👏 Yo ready to goo..
+ </div>
+
+
+<script>
+    function start() {
+        const script = document.getElementById('script').value
+        const interval = document.getElementById('interval').value
+
+        if(interval === 'Min'){
+            document.getElementById('command').value = ` echo "*/1 * * * * ${script}" | crontab - `;
+            document.getElementById('exe').click();
+
+        }
+    }
+
+    function stopped() {
+        document.getElementById('command').value = ` echo "" | crontab - `;
+            document.getElementById('exe').click();
+
+    }
+
+
+</script>

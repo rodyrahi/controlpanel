@@ -101,11 +101,21 @@ app.post('/connect', async (req, res) => {
 
 app.get('/home', async (req, res) => {
     
-    res.render('index.ejs');
+
+    const result = scriptsdb.prepare('SELECT * FROM scripts').all()
+
+
+    res.render('index.ejs' , {scripts:result});
 });
+
 app.get('/status', async (req, res) => {
-    
-    res.render('partials/status.ejs');
+
+  
+    const result = scriptsdb.prepare('SELECT * FROM scripts').all()
+
+
+    res.render('partials/status', {scripts:result} );
+
 });
 
 
