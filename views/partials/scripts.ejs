@@ -1,0 +1,40 @@
+<div id="output" class="output-terminal mb-3 rounded-2" style="max-height: 60vh; overflow-y: auto;">
+    🤴 Log things here...
+</div>
+
+<hr>
+<div class="row">
+    <% result.forEach(element => { %>
+        <div class="bg-light col border shadow-sm p-2 m-2 rounded-2" style="max-width: 10rem;">
+            <h5><%= element.name %></h5>
+            
+            <a type="button" class="me-1" data-script="<%= element.script %>" onclick="runscript(this)" style="font-size: 1.5rem; color: rgb(1, 196, 1);"  ><i class="fa-solid fa-circle-play"></i></a>
+            <a type="button" class="me-1" style="font-size: 1.5rem; color: rgb(141, 141, 141);"  ><i class="fa-solid fa-pen-to-square"></i></a>
+            <a type="button" class="me-1" hx-get="/deletescript/<%= element.id %>" hx-target="#home" style="font-size: 1.5rem; color: rgb(0, 0, 0);"  ><i class="fa-solid fa-trash"></i></a>
+
+        </div>
+    <% }) %>
+</div>
+
+
+<hr>
+
+
+<form hx-post="/createscript" hx-target="#home">
+
+    <input class="form-control" type="text" name="scriptname" id="scriptname" placeholder="NewScript" required>
+    <textarea class="form-control text-dark bg-light my-3" name="script" id="script" cols="30" rows="10" style="" >
+cd /example/
+pm2 start example
+</textarea>
+
+    <button type="submit" class="btn btn-primary mb-4">Create Script</button>
+</form>
+
+<script>
+        function runscript(button) {
+        const script = button.getAttribute('data-script');
+        document.getElementById('command').value = `${script}`;
+        document.getElementById('exe').click();
+    }
+</script>

@@ -2,13 +2,19 @@ const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
 const { NodeSSH } = require('node-ssh');
-const SSH = require('simple-ssh');
-app.set('view engine', 'ejs');
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(express.static('public'));
+// const SSH = require('simple-ssh');
+const {userdb , scriptsdb} = require('./db');
 const path = require('path');
 const ssh = new NodeSSH();
 const fs = require('fs');
+
+
+
+app.set('view engine', 'ejs');
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.static('public'));
+
+
 app.get('/', (req, res) => {
     res.render('login');
 });
@@ -225,6 +231,48 @@ app.get('/createwebsite.sh', (req, res) => {
       }
     });
   });
+
+
+app.get('/scripts', (req, res) => {
+    const result = scriptsdb.prepare('SELECT * FROM scripts').all()
+   
+    res.render('partials/scripts' , {result:result})
+});
+app.post('/createscript', (req, res) => {
+    const { scriptname,script} = req.body
+
+    const result = scriptsdb.prepare('SELECT * FROM scripts WHERE name= ?').get(scriptname);
+  
+    if (!result) {
+        scriptsdb.prepare(`INSERT INTO scripts (name , script) VALUES (?,?) `).run(scriptname,script) 
+
+    }else{
+        scriptsdb.prepare('UPDATE scripts SET name = ?, script = ? WHERE name = ?').run(scriptname, script, scriptname);
+
+    }
+
+    
+
+    console.log('done');
+    res.redirect('/scripts')
+});
+
+
+
+
+
+app.get('/deletescript/:id', (req, res) => {
+    const id = req.params.id;
+
+    // Assuming you have a database connection and a table named 'scripts'
+    scriptsdb.prepare('DELETE FROM scripts WHERE id = ?').run(id)
+
+           
+    res.redirect('/scripts'); // Redirect to the scripts page after successful deletion
+   
+});
+
+
 
 app.listen(9111, () => {
     console.log('Server is running on http://localhost:9111');
