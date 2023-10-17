@@ -9,7 +9,8 @@
             <h5><%= element.name %></h5>
             
             <a type="button" class="me-1" data-script="<%= element.script %>" onclick="runscript(this)" style="font-size: 1.5rem; color: rgb(1, 196, 1);"  ><i class="fa-solid fa-circle-play"></i></a>
-            <a type="button" class="me-1" onclick="editscript()" style="font-size: 1.5rem; color: rgb(141, 141, 141);"  ><i class="fa-solid fa-pen-to-square"></i></a>
+            <a type="button" class="me-1" onclick="editscript(this)" data-id="<%= element.id %>" data-name="<%= element.name %>" data-script="<%= element.script %>"  style="font-size: 1.5rem; color: rgb(141, 141, 141);"  >
+                <i class="fa-solid fa-pen-to-square"></i></a>
             <a type="button" class="me-1" hx-get="/deletescript/<%= element.id %>" hx-target="#home" style="font-size: 1.5rem; color: rgb(0, 0, 0);"  ><i class="fa-solid fa-trash"></i></a>
 
         </div>
@@ -21,6 +22,7 @@
 
 
 <form hx-post="/createscript" hx-target="#home">
+    <input class="form-control" type="text" name="id" id="id" style="display: none;">
 
     <input class="form-control" type="text" name="scriptname" id="scriptname" placeholder="NewScript" required>
     <textarea class="form-control text-dark bg-light my-3" name="script" id="script" cols="30" rows="10" style="" >
@@ -28,7 +30,7 @@ cd /example/
 pm2 start example
 </textarea>
 
-    <button type="submit" class="btn btn-primary mb-4">Create Script</button>
+    <button type="submit" id="create" class="btn btn-primary mb-4">Create Script</button>
 </form>
 
 <script>
@@ -38,7 +40,16 @@ pm2 start example
         document.getElementById('exe').click();
     }
 
-    function editscript() {
+    function editscript(button) {
+
+        document.getElementById('create').innerHTML = 'Update'
+        const script = button.getAttribute('data-script');
+        const name = button.getAttribute('data-name');
+        const id = button.getAttribute('data-id');
+        document.getElementById('id').value = `${id}`;
+
+        document.getElementById('scriptname').value = `${name}`;
+        document.getElementById('script').value = `${script}`;
         
     }
 </script>

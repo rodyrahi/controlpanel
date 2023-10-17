@@ -239,15 +239,15 @@ app.get('/scripts', (req, res) => {
     res.render('partials/scripts' , {result:result})
 });
 app.post('/createscript', (req, res) => {
-    const { scriptname,script} = req.body
+    const { scriptname,script , id} = req.body
 
-    const result = scriptsdb.prepare('SELECT * FROM scripts WHERE name= ?').get(scriptname);
+    const result = scriptsdb.prepare('SELECT * FROM scripts WHERE id= ?').get(id);
   
     if (!result) {
         scriptsdb.prepare(`INSERT INTO scripts (name , script) VALUES (?,?) `).run(scriptname,script) 
 
     }else{
-        scriptsdb.prepare('UPDATE scripts SET name = ?, script = ? WHERE name = ?').run(scriptname, script, scriptname);
+        scriptsdb.prepare('UPDATE scripts SET name = ?, script = ? WHERE id = ?').run(scriptname, script, id);
 
     }
 
