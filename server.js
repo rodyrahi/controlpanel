@@ -19,6 +19,11 @@ app.get('/', (req, res) => {
     res.render('login');
 });
 
+
+app.get('/home', (req, res) => {
+    res.render('home');
+});
+
 app.get('/apps', async(req, res) => {
     try {
         const [lsResult, pm2Result] = await Promise.all([
