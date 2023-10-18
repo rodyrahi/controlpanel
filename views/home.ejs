@@ -41,25 +41,10 @@
         }
     }
 
-    h2, h4 {
-        margin: 0;
-        transition: transform 0.5s; /* Add a transition effect for transform (e.g., scale) */
+
+    .btn:hover{
+        box-shadow: none;
     }
-
-    .img:hover h2, .img:hover h4 {
-        transform: scale(1.2); /* Scale the text on hover */
-    }
-    /* CSS for button animation */
-     .animate-button {
-    transition: transform 0.2s ease-in-out, background-color 0.2s ease-in-out;
-}
-
-     .animate-button:hover {
-    transform: scale(1.1); /* Increase the button size on hover */
-    background-color: #007BFF; /* Change the background color on hover */
-    color: white; /* Change the text color on hover */
-}
-
     
 </style>
 
@@ -67,15 +52,15 @@
     <div class="container mt-2 ">
         <%- include('./partials/navbar.ejs') %>
         <div class="row rounded-5 border p-2">
-            <div class="col-md-6 ">
-                <div class="img rounded-3">
+            <div class="col-md-6 " style="border-right: 1px rgb(226, 226, 226) solid;">
+                <div class="img rounded-3 d-flex" style="align-content: center; align-items: center;">
                     <img src="kadminback.png" alt="" class="img-fluid">
                     <div class="animated-background"></div>
                 </div>
             </div>
             <div class="col-md-6  text">
                 <h2 class="fw-bold h" style="font-size: 3rem;">WELCOME TO</h2>
-                <h4 class="">KADMIN</h4>
+                <h4 class="">Kadmin.online</h4>
                 <h5 class="my-5 text-muted">"Effortlessly manage your servers with our user-friendly website, ensuring seamless performance and optimal security."
                 </h5>
             </div>
@@ -83,34 +68,57 @@
         
         <div class="row text-center">
             <div>
-                <button class="btn btn-primary animate-button m-3 btn-lg">GET ACADEMY</button>
+                <button class="btn btn-primary m-3 btn-lg">Get Kadmin</button>
             </div>
         </div>
         <h4 class="text-start ">FEATURES</h4>
         <hr>
         <div class="row mt-4 border rounded-3">
-           
-            <h5>System Status Monitoring:</h5>
-              <p>Real-time monitoring of system health and status, including CPU usage, memory, and disk space.</p>
-            <h5>Scheduling Feature:</h5>
-              <p>Schedule tasks and operations for specific times and dates, such as backups and maintenance.</p>
-            <h5>Node.js Application Management:</h5>
-              <p> Create, deploy, and manage Node.js applications.
-                Directly create apps from Git repositories.
-                Start, stop, and restart Node.js applications.
-                Monitor app storage and memory usage.
-                Access app terminal for debugging and management.</p>
-            <h5>File Explorer:</h5>
-              <p> Explore and manage files and directories on the server.
-                Upload, download, and manipulate files easily.</p>
-            <h5>Custom Scripts:</h5>
-              <p>Execute custom scripts and commands for advanced server and application management.</p>
-            <h5>Web Server (Nginx) Usage:</h5>
-              <p> Configure and manage the Nginx web server for efficient website hosting.
-                Customize server settings and virtual hosts.</p>
+
+            <div class="col-md-4 text-center">
+                <h5>System Status Monitoring:</h5>
+                <p>Real-time monitoring of system health and status, including CPU usage, memory, and disk space.</p>
+
+            </div>
+
+            <div class="col-md-4 text-center">
+                <h5>Scheduling Feature:</h5>
+                <p>Schedule tasks and operations for specific times and dates, such as backups and maintenance.</p>
+
+            </div>
+            <div class="col-md-4 text-center">
+                <h5>Node.js Application Management:</h5>
+                <p> Create, deploy, and manage Node.js applications.
+                  Directly create apps from Git repositories.
+                  Start, stop, and restart Node.js applications.
+                  Monitor app storage and memory usage.
+                  Access app terminal for debugging and management.</p>
+            </div>
+            <div class="col-md-4 text-center">
+                
             <h5>Database Management System:</h5>
-              <p> Integrate with and manage databases (e.g., MySQL, PostgreSQL) for data storage and retrieval.
-                Perform backups, restores, and query execution.</p>
+            <p> Integrate with and manage databases (MySQL) for data storage and retrieval.
+              Perform backups, restores, and query execution.</p>
+            </div>
+            <div class="col-md-4 text-center">
+                <h5>File Explorer:</h5>
+                <p> Explore and manage files and directories on the server.
+                  Upload, download, and manipulate files easily.</p>
+            </div>
+            <div class="col-md-4 text-center">
+                
+            <h5>Custom Scripts:</h5>
+            <p>Execute custom scripts and commands for advanced server and application management.</p>
+            </div>
+            <div class="col-md-4 text-center">
+                
+            <h5>Web Server (Nginx) Usage:</h5>
+            <p> Configure and manage the Nginx web server for efficient website hosting.
+              Customize server settings and virtual hosts.</p>
+            </div>
+
+
+
         </div>
         <div class="row"><div class="container mt-5">
             <div class="row">
