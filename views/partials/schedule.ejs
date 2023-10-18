@@ -44,9 +44,25 @@
         const interval = document.getElementById('interval').value
 
         if(interval === 'Min'){
-            document.getElementById('command').value = ` echo "*/1 * * * * ${script}" | crontab - `;
+            document.getElementById('command').value = `(crontab -l;  echo "*/1 * * * * ${script}") | crontab -`;
             document.getElementById('exe').click();
 
+        }
+        if (interval === 'Day') {
+            document.getElementById('command').value = ` echo "@daily ${script}" | crontab - `;
+            document.getElementById('exe').click();
+        }
+        if (interval === 'Week') {
+            document.getElementById('command').value = ` echo "@weekly ${script}" | crontab - `;
+            document.getElementById('exe').click();
+        }
+        if (interval === 'Month') {
+            document.getElementById('command').value = ` echo "@monthly ${script}" | crontab - `;
+            document.getElementById('exe').click();
+        }
+        if (interval === 'Year') {
+            document.getElementById('command').value = ` echo "@yearly ${script}" | crontab - `;
+            document.getElementById('exe').click();
         }
     }
 
