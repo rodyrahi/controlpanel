@@ -4,18 +4,41 @@
 <%- include('./partials/header.ejs') %>
 
 <style>
-    .row {
-        background-image: url('kadminback.png');
-        background-size: cover;
+    .img {
         width: 100%;
-        height: 80vh;
+        height: 40vh;
         text-align: center;
         color: rgb(0, 0, 0);
         transition: color 0.5s; /* Add a transition effect for color change */
+        overflow: hidden;
+        position: relative;
+        
+        background-repeat: no-repeat;
     }
 
-    .row:hover {
+    .img:hover {
         color: rgb(3, 132, 172); /* Change the text color on hover */
+    }
+
+    .animated-background {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, #FF5733, #33FFBD, #3333FF, #FF33FF, #33FF33, #FFD033); /* Define your gradient colors here */
+        background-size: 600% 600%;
+        animation: animatedBackground 10s linear infinite;
+        opacity: 0.2; /* Adjust the duration and timing function as needed */
+    }
+
+    @keyframes animatedBackground {
+        0% {
+            background-position: 100% 0;
+        }
+        100% {
+            background-position: -100% 0;
+        }
     }
 
     h2, h4 {
@@ -23,19 +46,74 @@
         transition: transform 0.5s; /* Add a transition effect for transform (e.g., scale) */
     }
 
-    .row:hover h2, .row:hover h4 {
+    .img:hover h2, .img:hover h4 {
         transform: scale(1.2); /* Scale the text on hover */
     }
+    /* CSS for button animation */
+     .animate-button {
+    transition: transform 0.2s ease-in-out, background-color 0.2s ease-in-out;
+}
+
+     .animate-button:hover {
+    transform: scale(1.1); /* Increase the button size on hover */
+    background-color: #007BFF; /* Change the background color on hover */
+    color: white; /* Change the text color on hover */
+}
+
+    
 </style>
 
 <body>
-    <div class="container mt-5">
-        <div class="row">
-            <div class="col m-auto">
-                <h2 class="fw-bold">WELCOME TO</h2>
+    <div class="container mt-2 ">
+        <%- include('./partials/navbar.ejs') %>
+        <div class="row rounded-5 border p-2">
+            <div class="col-md-6 ">
+                <div class="img rounded-3">
+                    <img src="kadminback.png" alt="" class="img-fluid">
+                    <div class="animated-background"></div>
+                </div>
+            </div>
+            <div class="col-md-6  text">
+                <h2 class="fw-bold h" style="font-size: 3rem;">WELCOME TO</h2>
                 <h4 class="">KADMIN</h4>
+                <h5 class="my-5 text-muted">"Effortlessly manage your servers with our user-friendly website, ensuring seamless performance and optimal security."
+                </h5>
             </div>
         </div>
+        
+        <div class="row text-center">
+            <div>
+                <button class="btn btn-primary animate-button m-3 btn-lg">GET ACADEMY</button>
+            </div>
+        </div>
+        <h4 class="text-start ">FEATURES</h4>
+        <hr>
+        <div class="row mt-4 border rounded-3">
+           
+            <h5>System Status Monitoring:</h5>
+              <p>Real-time monitoring of system health and status, including CPU usage, memory, and disk space.</p>
+            <h5>Scheduling Feature:</h5>
+              <p>Schedule tasks and operations for specific times and dates, such as backups and maintenance.</p>
+            <h5>Node.js Application Management:</h5>
+              <p> Create, deploy, and manage Node.js applications.
+                Directly create apps from Git repositories.
+                Start, stop, and restart Node.js applications.
+                Monitor app storage and memory usage.
+                Access app terminal for debugging and management.</p>
+            <h5>File Explorer:</h5>
+              <p> Explore and manage files and directories on the server.
+                Upload, download, and manipulate files easily.</p>
+            <h5>Custom Scripts:</h5>
+              <p>Execute custom scripts and commands for advanced server and application management.</p>
+            <h5>Web Server (Nginx) Usage:</h5>
+              <p> Configure and manage the Nginx web server for efficient website hosting.
+                Customize server settings and virtual hosts.</p>
+            <h5>Database Management System:</h5>
+              <p> Integrate with and manage databases (e.g., MySQL, PostgreSQL) for data storage and retrieval.
+                Perform backups, restores, and query execution.</p>
+        </div>
+        <div class="row"></div>
+        
     </div>
 </body>
 </html>
