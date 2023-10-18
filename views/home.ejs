@@ -4,150 +4,184 @@
 <%- include('./partials/header.ejs') %>
 
 <style>
-    .img {
-        width: 100%;
-        height: 40vh;
-        text-align: center;
-        color: rgb(0, 0, 0);
-        transition: color 0.5s; /* Add a transition effect for color change */
-        overflow: hidden;
-        position: relative;
-        
-        background-repeat: no-repeat;
+  .img {
+    width: 100%;
+    height: 40vh;
+    text-align: center;
+    color: rgb(0, 0, 0);
+    transition: color 0.5s;
+    /* Add a transition effect for color change */
+    overflow: hidden;
+    position: relative;
+
+    background-repeat: no-repeat;
+  }
+
+  .img:hover {
+    color: rgb(3, 132, 172);
+    /* Change the text color on hover */
+  }
+
+  .animated-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, #FF5733, #33FFBD, #3333FF, #FF33FF, #33FF33, #FFD033);
+    /* Define your gradient colors here */
+    background-size: 600% 600%;
+    animation: animatedBackground 10s linear infinite;
+    opacity: 0.2;
+    /* Adjust the duration and timing function as needed */
+  }
+
+  @keyframes animatedBackground {
+    0% {
+      background-position: 100% 0;
     }
 
-    .img:hover {
-        color: rgb(3, 132, 172); /* Change the text color on hover */
+    100% {
+      background-position: -100% 0;
     }
-
-    .animated-background {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: linear-gradient(90deg, #FF5733, #33FFBD, #3333FF, #FF33FF, #33FF33, #FFD033); /* Define your gradient colors here */
-        background-size: 600% 600%;
-        animation: animatedBackground 10s linear infinite;
-        opacity: 0.2; /* Adjust the duration and timing function as needed */
-    }
-
-    @keyframes animatedBackground {
-        0% {
-            background-position: 100% 0;
-        }
-        100% {
-            background-position: -100% 0;
-        }
-    }
+  }
 
 
-    .btn:hover{
-        box-shadow: none;
-    }
-    
+  .btn:hover {
+    box-shadow: none;
+  }
 </style>
 
 <body>
-    <div class="container mt-2 ">
-        <%- include('./partials/navbar.ejs') %>
-        <div class="row rounded-5 border p-2 home">
-            <div class="col-md-6 " style="border-right: 1px rgb(226, 226, 226) solid;">
-                <div class="img rounded-3 d-flex" style="align-content: center; align-items: center;">
-                    <img src="kadminback.png" alt="" class="img-fluid">
-                    <div class="animated-background"></div>
-                </div>
-            </div>
-            <div class="col-md-6  text">
-                <h2 class="fw-bold h" style="font-size: 3rem;">WELCOME TO</h2>
-                <h4 class="">Kadmin.online</h4>
-                <h5 class="my-5 text-muted">"Effortlessly manage your servers with our user-friendly website, ensuring seamless performance and optimal security."
-                </h5>
-            </div>
+  <div class="container mt-2 ">
+    <%- include('./partials/navbar.ejs') %>
+    <div class="row rounded-5 border p-2 home">
+      <div class="col-md-6 " style="border-right: 1px rgb(226, 226, 226) solid;">
+        <div class="img rounded-3 d-flex" style="align-content: center; align-items: center;">
+          <img src="kadminback.png" alt="" class="img-fluid">
+          <div class="animated-background"></div>
         </div>
-        
-        <div class="row text-center">
-            <div>
-                <button class="btn btn-outline-primary btn-lg my-3"style="font-family: 'Rubik', sans-serif; ">GET KADMIN</button>
-            </div>
-        </div>
-        <h4 class="text-start"  id="features">FEATURES</h4>
-        <hr>
-        <div class="row mt-4 border rounded-3 " >
-
-            <div class="col-md-4 text-center">
-                <h5>System Status Monitoring:</h5>
-                <p>Real-time monitoring of system health and status, including CPU usage, memory, and disk space.</p>
-
-            </div>
-
-            <div class="col-md-4 text-center">
-                <h5>Scheduling Feature:</h5>
-                <p>Schedule tasks and operations for specific times and dates, such as backups and maintenance.</p>
-
-            </div>
-            <div class="col-md-4 text-center">
-                <h5>Node.js Application Management:</h5>
-                <p> Create, deploy, and manage Node.js applications.
-                  Directly create apps from Git repositories.
-                  Start, stop, and restart Node.js applications.
-                  Monitor app storage and memory usage.
-                  Access app terminal for debugging and management.</p>
-            </div>
-            <div class="col-md-4 text-center">
-                
-            <h5>Database Management System:</h5>
-            <p> Integrate with and manage databases (MySQL) for data storage and retrieval.
-              Perform backups, restores, and query execution.</p>
-            </div>
-            <div class="col-md-4 text-center">
-                <h5>File Explorer:</h5>
-                <p> Explore and manage files and directories on the server.
-                  Upload, download, and manipulate files easily.</p>
-            </div>
-            <div class="col-md-4 text-center">
-                
-            <h5>Custom Scripts:</h5>
-            <p>Execute custom scripts and commands for advanced server and application management.</p>
-            </div>
-            <div class="col-md-4 text-center">
-                
-            <h5>Web Server (Nginx) Usage:</h5>
-            <p> Configure and manage the Nginx web server for efficient website hosting.
-              Customize server settings and virtual hosts.</p>
-            </div>
-
-
-
-        </div>
-        <div class="row "id="pricing"><div class="container mt-5 ">
-            <div class="row">
-               
-                <div class="col text-center ">
-                    <div class="pricing-card">
-                        <div class="pricing-header">
-                            <h3>Premium Plan</h3>
-                        </div>
-                        <div class="pricing-price">
-                            <h2>$19.99/month</h2>
-                        </div>
-                        <div class="pricing-features">
-                            <ul>
-                                <li>20 GB Storage</li>
-                                <li>Unlimited Users</li>
-                                <li>Priority Support</li>
-                            </ul>
-                        </div>
-                        <div class="pricing-button">
-                            <a href="#" class="btn btn-primary">Select Plan</a>
-                        </div>
-                    </div>
-                </div>
-               
-            </div>
-        </div></div>
-        
+      </div>
+      <div class="col-md-6  text">
+        <h2 class="fw-bold h" style="font-size: 3rem;">WELCOME TO</h2>
+        <h4 class="">Kadmin.online</h4>
+        <h5 class="my-5 text-muted">"Effortlessly manage your servers with our user-friendly website, ensuring seamless performance and optimal security."
+        </h5>
+      </div>
     </div>
-    <%- include('./partials/footer.ejs') %>
+
+    <div class="row text-center">
+      <div class="mb-2">
+        <button class="btn btn-outline-primary btn-lg my-3" style="font-family: 'Rubik', sans-serif; ">GET KADMIN</button>
+      </div>
+    </div>
+    <h4 class="text-start" id="features">FEATURES</h4>
+    <hr>
+    <div class="row mt-4  border rounded-3 ">
+
+      <div class="col-md-4 text-center">
+        <h1 style="font-size: 5rem;">💻</h1>
+        <h5>System Status Monitoring</h5>
+        <p class="text-muted">Real-time monitoring of system health and status, including CPU usage, memory, and disk space.</p>
+
+      </div>
+
+      <div class="col-md-4 text-center">
+        <h1 style="font-size: 5rem;">📝</h1>
+        <h5>Scheduling Feature</h5>
+        <p class="text-muted">Schedule tasks and operations for specific times and dates, such as backups and maintenance.</p>
+
+      </div>
+      <div class="col-md-4 text-center">
+        <h1 style="font-size: 5rem;">👨‍💻</h1>
+
+        <h5>Node.js Application Management</h5>
+        <p class="text-muted"> Create, deploy, and manage Node.js applications.
+          Directly create apps from Git repositories.
+          Start, stop, and restart Node.js applications.
+          Monitor app storage and memory usage.
+          Access app terminal for debugging and management.</p>
+      </div>
+      <div class="col-md-4 text-center">
+        <h1 style="font-size: 5rem;">💾</h1>
+
+        <h5>Database Management System</h5>
+        <p class="text-muted"> Integrate with and manage databases (MySQL) for data storage and retrieval.
+          Perform backups, restores, and query execution.</p>
+      </div>
+      <div class="col-md-4 text-center">
+        <h1 style="font-size: 5rem;">🗃</h1>
+
+        <h5>File Explorer</h5>
+        <p class="text-muted"> Explore and manage files and directories on the server.
+          Upload, download, and manipulate files easily.</p>
+      </div>
+      <div class="col-md-4 text-center">
+
+        <h1 style="font-size: 5rem;">⚙</h1>
+
+        <h5>Custom Scripts</h5>
+
+        <p class="text-muted">Execute custom scripts and commands for advanced server and application management.</p>
+      </div>
+      <div class="col-md-4 text-center">
+        <h1 style="font-size: 5rem;">🕸</h1>
+
+        <h5>Web Server (Nginx) Usage</h5>
+        <p class="text-muted"> Configure and manage the Nginx web server for efficient website hosting.
+          Customize server settings and virtual hosts.</p>
+      </div>
+
+
+
+    </div>
+
+
+
+    <div class="row" id="pricing">
+     
+
+    <div class="col-md-4"></div>
+    <div class="col-md-4 text-center mt-5 ">
+        <div class="border rounded-4 " style="max-width: 300px;">
+          <h5 class="fw-bold">Premium</h5>
+          <h1 style="font-size: 5rem;">👑</h1>
+          
+          
+          
+          
+          <h1>$19.99/Yearly</h1>
+
+
+          <div class="text-start m-2">
+
+ 
+          <h5 class="mt-4 " style=""> ✔ System Status Monitoring</h5>
+          <h5> ✔ Scheduling Feature</h5>
+          <h5> ✔ Node.js Application </h5>
+          <h5> ✔ Database Management </h5>
+          <h5> ✔ Custom Scripts</h5>
+          <h5> ✔ File Explorer</h5>
+          <h5> ✔ Web Server (Nginx) Usage</h5>
+        </div>
+
+
+          <div class="mb-2">
+            <button class="btn btn-outline-primary btn-lg my-3" style="font-family: 'Rubik', sans-serif; ">BUY NOW</button>
+          </div>
+
+        </div>
+      </div>
+
+    <div class="col-md-4"></div>
+
+
+     
+
+    </div>
+
+  </div>
+  <%- include('./partials/footer.ejs') %>
 </body>
+
 </html>
