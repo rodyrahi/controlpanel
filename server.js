@@ -72,7 +72,7 @@ app.get('/website', (req, res) => {
    
 //         const { stdout, stderr } = await ssh.execCommand(cmd);
         
-//         res.redirect('/home');
+//         res.redirect('/dashboard');
 
 //     } catch (error) {
 //         res.status(500).send(`Error retrieving PM2 apps: ${error.message}`);
@@ -91,7 +91,7 @@ app.post('/connect', async (req, res) => {
         });
 
 
-        res.redirect('/home');
+        res.redirect('/dashboard');
         // res.json(apps)
 
     } catch (error) {
@@ -99,7 +99,7 @@ app.post('/connect', async (req, res) => {
     }
 });
 
-app.get('/home', async (req, res) => {
+app.get('/dashboard', async (req, res) => {
     
 
     const result = scriptsdb.prepare('SELECT * FROM scripts').all()
