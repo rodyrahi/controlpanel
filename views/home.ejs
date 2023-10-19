@@ -56,29 +56,47 @@
   <div class="container mt-2 ">
     <%- include('./partials/navbar.ejs') %>
     <div class="row rounded-5 border p-2 home">
-      <div class="col-md-6 " style="border-right: 1px rgb(226, 226, 226) solid;">
-        <div class="img rounded-3 d-flex" style="align-content: center; align-items: center;">
-          <img src="kadminback.png" alt="" class="img-fluid">
-          <div class="animated-background"></div>
+
+
+      <div class="col-md-6 ">
+        <h2 class="fw-bold mt-5" style="font-size: 3rem;">Cloud Managment</h2>
+        <div class="d-flex">
+          <h4 class="me-2">Made Easier </h4>
+          <h4 style="font-family: 'Roboto Slab', serif;" >with</h4>
+          <h4 class=" ms-2 fw-bold " style="color: cadetblue;" > KADMIN.ONLINE</h4>
+
         </div>
-      </div>
-      <div class="col-md-6  text">
-        <h2 class="fw-bold h" style="font-size: 3rem;">WELCOME TO</h2>
-        <h4 class="">Kadmin.online</h4>
+
         <h5 class="my-5 text-muted">"Effortlessly manage your servers with our user-friendly website, ensuring seamless performance and optimal security."
         </h5>
+
+        <div class="mb-2">
+          <button class="btn btn-primary btn-lg my-3" style="font-family: 'Rubik', sans-serif; ">TRY KADMIN</button>
+        </div>
       </div>
+
+
+      <div class="col-md-6 d-flex text-center " style="">
+        <img src="kadminback.png"  alt=""  style=" max-width: 25rem; width: 100%; object-fit: scale-down;" class="m-auto">
+
+        <!-- <div class="img rounded-3 d-flex" style="align-content: center; align-items: center;">
+          <img src="kadminback.png" alt="" style="max-width: 5rem;" class="">
+          <div class="animated-background"></div>
+        </div> -->
+      </div>
+
+
+
     </div>
 
-    <div class="row text-center">
-      <div class="mb-2">
-        <button class="btn btn-outline-primary btn-lg my-3" style="font-family: 'Rubik', sans-serif; ">GET KADMIN</button>
-      </div>
-    </div>
-    <h4 class="text-start" id="features">FEATURES</h4>
-    <hr>
-    <div class="row mt-4  border rounded-3 ">
 
+    
+    <div class="row mt-4  border rounded-5 ">
+      <div class=" my-4  text-center">
+        <h3 class=" fw-bold" id="features">FEATURES</h3>
+  
+      </div>
+      
       <div class="col-md-4 text-center">
         <h1 style="font-size: 5rem;">💻</h1>
         <h5>System Status Monitoring</h5>
@@ -138,49 +156,85 @@
 
 
 
-    <div class="row" id="pricing">
-     
-
-    <div class="col-md-4"></div>
-    <div class="col-md-4 text-center mt-5 ">
-        <div class="border rounded-4 " style="max-width: 300px;">
-          <h5 class="fw-bold">Premium</h5>
-          <h1 style="font-size: 5rem;">👑</h1>
-          
-          
-          
-          
-          <h1>$19.99/Yearly</h1>
-
-
-          <div class="text-start m-2">
-
- 
-          <h5 class="mt-4 " style=""> ✔ System Status Monitoring</h5>
-          <h5> ✔ Scheduling Feature</h5>
-          <h5> ✔ Node.js Application </h5>
-          <h5> ✔ Database Management </h5>
-          <h5> ✔ Custom Scripts</h5>
-          <h5> ✔ File Explorer</h5>
-          <h5> ✔ Web Server (Nginx) Usage</h5>
-        </div>
-
-
-          <div class="mb-2">
-            <button class="btn btn-outline-primary btn-lg my-3" style="font-family: 'Rubik', sans-serif; ">BUY NOW</button>
+    <div class="row mt-4 p-3 rounded-5" id="pricing">
+      <div class="mb-2 text-center">
+        <h3 class="fw-bold" id="features">FEATURES</h3>
+      </div>
+    
+      <div class="col-md-4  d-flex justify-content-center">
+        <div class="text-center">
+          <div class="border rounded-4 row" style="max-width: 300px;">
+            <h5 class="fw-bold">Free</h5>
+            <h1 style="font-size: 5rem;">😇</h1>
+            <h1>7 Days Trial</h1>
+            <div class="text-start m-2">
+              <h5 class="mt-4"> ✔ System Status Monitoring</h5>
+              <h5> ✔ Scheduling Feature</h5>
+              <h5> ✔ Node.js Application</h5>
+              <h5> ✔ Database Management</h5>
+              <h5> ✔ Custom Scripts</h5>
+              <h5> ✔ File Explorer</h5>
+              <h5> ✔ Web Server (Nginx) Usage</h5>
+            </div>
+            <div class="mb-2">
+              <button class="btn btn-primary btn-lg my-3" style="font-family: 'Rubik', sans-serif;">Try Now</button>
+            </div>
           </div>
-
+        </div>
+      </div>
+    
+      <div class="col-md-4 d-flex justify-content-center">
+        <div class="text-center">
+          <div class="border rounded-4 row" style="max-width: 300px;">
+            <h5 class="fw-bold">Premium</h5>
+            <h1 style="font-size: 5rem;">👑</h1>
+            <h1>$19.99/Yearly</h1>
+            <div class="text-start m-2">
+              <h5 class="mt-4"> ✔ System Status Monitoring</h5>
+              <h5> ✔ Scheduling Feature</h5>
+              <h5> ✔ Node.js Application</h5>
+              <h5> ✔ Database Management</h5>
+              <h5> ✔ Custom Scripts</h5>
+              <h5> ✔ File Explorer</h5>
+              <h5> ✔ Web Server (Nginx) Usage</h5>
+            </div>
+            <div class="mb-2">
+              <button class="btn btn-primary btn-lg my-3" style="font-family: 'Rubik', sans-serif;">BUY NOW</button>
+            </div>
+          </div>
         </div>
       </div>
 
-    <div class="col-md-4"></div>
+          
+      <div class="col-md-4 d-flex justify-content-center">
+        <div class="text-center">
+          <div class="border rounded-4 row" style="max-width: 300px;">
+            <h5 class="fw-bold">Plus</h5>
+            <h1 style="font-size: 5rem;">💼</h1>
+            <h1>Corporate</h1>
+            <div class="text-start m-2">
+              <h5 class="mt-4"> ✔ System Status Monitoring</h5>
+              <h5> ✔ Scheduling Feature</h5>
+              <h5> ✔ Node.js Application</h5>
+              <h5> ✔ Database Management</h5>
+              <h5> ✔ Custom Scripts</h5>
+              <h5> ✔ File Explorer</h5>
+              <h5> ✔ Web Server (Nginx) Usage</h5>
+              <h5> ✔ Many Many More.....</h5>
+            </div>
+            <div class="mb-2">
+              <button class="btn btn-secondary btn-lg my-3" style="font-family: 'Rubik', sans-serif;">Contact</button>
+            </div>
+          </div>
+        </div>
+      </div>
 
 
-     
 
     </div>
 
   </div>
+
   <%- include('./partials/footer.ejs') %>
 </body>
 
