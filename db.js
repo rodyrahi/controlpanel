@@ -1,15 +1,14 @@
 const Database = require('better-sqlite3');
 
-const userdb = new Database('../database/kadmin/user.db');
+const userdb = new Database('../database/kadmin/userdb.db');
 const scriptsdb = new Database('../database/kadmin/scriptsdb.db');
-
-
 
 userdb.exec(`
   CREATE TABLE IF NOT EXISTS user (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     user TEXT,
-    email TEXT,
+    mail TEXT,
+    expire DATE,
     timestamp DATETIME DEFAULT CURRENT_TIMESTAMP
   )
 `);
@@ -24,8 +23,6 @@ scriptsdb.exec(`
   )
 `);
 
-
-
 console.log('Connected to the database');
 
-module.exports = {userdb,scriptsdb};
+module.exports = { userdb, scriptsdb };

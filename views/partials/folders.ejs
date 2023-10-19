@@ -64,7 +64,7 @@
 
     function deleteapp(button) {
         const folder = button.getAttribute('data-folder');
-        document.getElementById('dir').value = `rm -r ${path}${folder}`;
+        document.getElementById('dir').value = `rm -r ${path}${folder} && ls`;
         document.getElementById('dirbtn').click();
     }
 

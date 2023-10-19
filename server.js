@@ -7,6 +7,7 @@ const {userdb , scriptsdb} = require('./db');
 const path = require('path');
 const ssh = new NodeSSH();
 const fs = require('fs');
+const { auth , requiresAuth } = require('express-openid-connect');
 
 
 
@@ -14,8 +15,26 @@ app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static('public'));
 
+var isWin = process.platform === "win32";
 
-app.get('/server', (req, res) => {
+var baseurl = !isWin ? "https://noobmachine.hellosugar.io" : "http://localhost:9111" ;
+
+const config = {
+  authRequired: false,
+  auth0Logout: true,
+  secret: 'a long, randomly-generated string stored in env',
+  baseURL: baseurl,
+  clientID: 'zj17AAKjTh0ZrdOmD3O7hiXTKc1UwHAy',
+  issuerBaseURL: 'https://dev-t42orpastoaad3st.us.auth0.com'
+};
+app.use(auth(config));
+
+
+
+
+
+
+app.get('/server', requiresAuth() ,(req, res) => {
     res.render('login');
 });
 
@@ -293,6 +312,11 @@ app.get('/sqlite', (req, res) => {
     res.render('partials/sqlite' )
 });
 
+
+
+app.get('/profile', requiresAuth(), (req, res) => {
+    res.send(JSON.stringify(req.oidc.user));
+  });
 app.listen(9111, () => {
     console.log('Server is running on http://localhost:9111');
 });
