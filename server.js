@@ -22,7 +22,7 @@ var baseurl = !isWin ? "https://admin.kamingo.in" : "http://localhost:9111" ;
 const config = {
   authRequired: false,
   auth0Logout: true,
-  secret: 'a long, randomly-generated string stored in env',
+  secret: 'TffWbQSxkKRrepwCtiPWs4AB9WXXGf_nE02j_x9rWcJSiRouU1PSliS8DCPO2hb1',
   baseURL: baseurl,
   clientID: 'zj17AAKjTh0ZrdOmD3O7hiXTKc1UwHAy',
   issuerBaseURL: 'https://dev-t42orpastoaad3st.us.auth0.com'
