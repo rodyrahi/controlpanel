@@ -135,15 +135,6 @@ app.get('/website', (req, res) => {
 
 app.post('/connect', async (req, res) => {
 
-    const user = req.oidc.user.sub;
-    const result = userdb.prepare('SELECT * FROM user WHERE user = ?').get(user);
-  
-    if (result) {
-      const expirationDate = new Date(result.expire);
-      const currentDate = new Date();
-      currentDate.setDate(currentDate.getDate() + 7); // Adjust this limit as needed
-  
-      if (expirationDate > currentDate) {
 
         const { host, username, password } = req.body;
 
@@ -162,12 +153,6 @@ app.post('/connect', async (req, res) => {
             res.send('Failed to connect to the SSH server.');
         }
 
-
-
-      } else {
-        res.send('buy it now 😄')
-      }
-    }
 
 
 });
