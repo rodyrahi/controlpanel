@@ -45,8 +45,11 @@ app.get('/server', requiresAuth(), (req, res) => {
       // User exists; check if their expiration date is within the limit
       const expirationDate = new Date(result.expire);
       const currentDate = new Date();
-      currentDate.setDate(currentDate.getDate() + 7); // Adjust this limit as needed
+    //   currentDate.setDate(currentDate.getDate() + 7); // Adjust this limit as needed
   
+
+    console.log(expirationDate , currentDate);
+
       if (expirationDate > currentDate) {
         // The user's expiration date is within the limit, render the 'login' page
         res.render('login');
