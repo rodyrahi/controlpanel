@@ -1,55 +1,50 @@
 #!/bin/bash
-#
-# Nginx - new server block
 
-# Functions
-ok() { echo -e '\e[32m'$1'\e[m'; } # Green
-die() {
-    echo -e '\e[1;31m'$1'\e[m'
-    exit 1
-}
+# Check if the script is run as root
+if [ "$EUID" -ne 0 ]; then
+  echo "Please run this script as root (sudo)."
+  exit 1
+fi
 
-# Variables
-NGINX_AVAILABLE_VHOSTS='/etc/nginx/sites-available'
-NGINX_ENABLED_VHOSTS='/etc/nginx/sites-enabled'
-WEB_DIR='/var/www'
-WEB_USER='www-data'
-USER='root'
+# Check for the required command-line arguments
+if [ "$#" -ne 2 ]; then
+  echo "Usage: $0 <domain_name> <port>"
+  exit 1
+fi
 
-# Sanity check
-[ $(id -u) != 0 ] && die "Script must be run as root."
-[ $# -ne 2 ] && die "Usage: $(basename $0) domainName port"
+# Define variables
+DOMAIN="$1"
+PORT="$2"
+NGINX_CONFIG_DIR="/etc/nginx/sites-available"
+NGINX_SITES_ENABLED_DIR="/etc/nginx/sites-enabled"
 
-# Create Nginx config file
-cat >"$NGINX_AVAILABLE_VHOSTS/$1" <<EOF
+# Create a basic Nginx server block configuration
+CONFIG_FILE="$NGINX_CONFIG_DIR/$DOMAIN"
+cat <<EOF > "$CONFIG_FILE"
 server {
-    listen 80;
-    listen [::]:80;
-    server_name $1 www.$1;
-    root $WEB_DIR/$1;
-    index index.php index.html index.htm;
+    listen $PORT;
+    server_name $DOMAIN www.$DOMAIN;
 
     location / {
-        proxy_pass http://localhost:$2;
-        proxy_http_version 1.1;
-        proxy_set_header Upgrade \$http_upgrade;
-        proxy_set_header Connection 'upgrade';
-        proxy_set_header Host \$host;
-        proxy_cache_bypass \$http_upgrade;
+        root /var/www/$DOMAIN;
+        index index.html;
     }
 }
 EOF
 
-echo -e "\n#Added by nginx-server-block-generator.sh\n127.0.0.1 $1" >> /etc/hosts
+# Create a directory for the website
+WEB_DIR="/var/www/$DOMAIN"
+mkdir -p "$WEB_DIR"
+echo "<h1>Welcome to $DOMAIN on port $PORT</h1>" > "$WEB_DIR/index.html"
 
-# Changing permissions
-chown -R $USER:$USER "$WEB_DIR/$1"
+# Enable the Nginx site
+ln -s "$CONFIG_FILE" "$NGINX_SITES_ENABLED_DIR/"
 
-# Enable site by creating symbolic link
-ln -s "$NGINX_AVAILABLE_VHOSTS/$1" "$NGINX_ENABLED_VHOSTS/$1"
-
-# Restart Nginx
-echo "Restarting Nginx..."
-systemctl restart nginx
-
-ok "Site Created for $1"
+# Test Nginx configuration and reload it
+nginx -t
+if [ $? -eq 0 ]; then
+  systemctl reload nginx
+  echo "Website $DOMAIN is now available on port $PORT."
+else
+  echo "Nginx configuration test failed. Please check your configuration and try again."
+fi
