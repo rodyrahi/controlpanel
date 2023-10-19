@@ -7,7 +7,7 @@ userdb.exec(`
   CREATE TABLE IF NOT EXISTS user (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     user TEXT,
-    mail TEXT,
+    email TEXT,
     expire DATE,
     timestamp DATETIME DEFAULT CURRENT_TIMESTAMP
   )

@@ -34,9 +34,38 @@ app.use(auth(config));
 
 
 
-app.get('/server', requiresAuth() ,(req, res) => {
-    res.render('login');
-});
+app.get('/server', requiresAuth(), (req, res) => {
+    const user = req.oidc.user.sub;
+    const email = req.oidc.user.email;
+  
+    // Check if the user exists in the database
+    const result = userdb.prepare('SELECT * FROM user WHERE user = ?').get(user);
+  
+    if (result) {
+      // User exists; check if their expiration date is within the limit
+      const expirationDate = new Date(result.expire);
+      const currentDate = new Date();
+      currentDate.setDate(currentDate.getDate() + 7); // Adjust this limit as needed
+  
+      if (expirationDate > currentDate) {
+        // The user's expiration date is within the limit, render the 'login' page
+        res.render('login');
+      } else {
+        res.send('buy it now 😄')
+      }
+    } else {
+      // User doesn't exist, so create a new user with a 7-day trial
+      const today = new Date();
+      today.setDate(today.getDate() + 7);
+      const expire = today.toISOString().split('T')[0];
+  
+      userdb.prepare('INSERT INTO user (user, email, expire) VALUES (?, ?, ?)').run(user, email, expire);
+  
+      // Render the 'login' page since a new user was created
+      res.render('login');
+    }
+  });
+  
 
 
 app.get('/', (req, res) => {
@@ -105,22 +134,42 @@ app.get('/website', (req, res) => {
 
 
 app.post('/connect', async (req, res) => {
-    const { host, username, password } = req.body;
 
-    try {
-        await ssh.connect({
-            host,
-            username,
-            password,
-        });
+    const user = req.oidc.user.sub;
+    const result = userdb.prepare('SELECT * FROM user WHERE user = ?').get(user);
+  
+    if (result) {
+      const expirationDate = new Date(result.expire);
+      const currentDate = new Date();
+      currentDate.setDate(currentDate.getDate() + 7); // Adjust this limit as needed
+  
+      if (expirationDate > currentDate) {
+
+        const { host, username, password } = req.body;
+
+        try {
+            await ssh.connect({
+                host,
+                username,
+                password,
+            });
+    
+    
+            res.redirect('/dashboard');
+            // res.json(apps)
+    
+        } catch (error) {
+            res.send('Failed to connect to the SSH server.');
+        }
 
 
-        res.redirect('/dashboard');
-        // res.json(apps)
 
-    } catch (error) {
-        res.send('Failed to connect to the SSH server.');
+      } else {
+        res.send('buy it now 😄')
+      }
     }
+
+
 });
 
 app.get('/dashboard', async (req, res) => {
