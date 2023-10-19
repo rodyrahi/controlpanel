@@ -284,7 +284,9 @@ app.post('/changedir', async (req, res) => {
 
 
 
-
+app.get('/payment', (req, res) => {
+    res.render('partials/payment');
+});
 
 
 
