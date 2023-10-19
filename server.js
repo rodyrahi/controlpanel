@@ -17,7 +17,7 @@ app.use(express.static('public'));
 
 var isWin = process.platform === "win32";
 
-var baseurl = !isWin ? "https://noobmachine.hellosugar.io" : "http://localhost:9111" ;
+var baseurl = !isWin ? "https://admin.kamingo.in" : "http://localhost:9111" ;
 
 const config = {
   authRequired: false,
