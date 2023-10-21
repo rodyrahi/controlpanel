@@ -64,14 +64,14 @@
 
     function deleteapp(button) {
         const folder = button.getAttribute('data-folder');
-        document.getElementById('dir').value = `rm -r ${path}${folder} && ls`;
+        document.getElementById('dir').value = `rm -r ${path}${folder} && ls -a`;
         document.getElementById('dirbtn').click();
     }
 
     function cd(button) {
         const foldername = button.getAttribute('data-foldername');
         console.log(foldername);
-        document.getElementById('dir').value = `cd ${path}${foldername}/ && ls`;
+        document.getElementById('dir').value = `cd ${path}${foldername}/ && ls -a`;
         path += `${foldername}/`;
 
         console.log(path);
@@ -87,7 +87,7 @@
         } else {
             path = '/';
         }
-        document.getElementById('dir').value = `cd ${path} && ls`;
+        document.getElementById('dir').value = `cd ${path} && ls -a`;
         console.log(path , back);
         document.getElementById('dirbtn').click();
     }
