@@ -18,22 +18,27 @@
         cursor: pointer;
     }
 </style>
-
+<ul  style="max-height: 60vh; overflow-y: auto;">
 <% folder.forEach(element => { %>
+
+
   
-        <div class="col-6 d-flex shadow-sm  rounded-4 bg-dark p-2  m-1"  style="max-width: 22rem; min-width: 22rem;">
-            
-            <h5 class="m-0 fw-bold text-light folder" data-foldername="<%= element %>" onclick="cd(this)" ><%= element %></h5>
 
-           
-            <a  onclick="deleteapp(this)" data-folder="<%= element %>"  class=" btn btn-danger ms-auto"><i class="fa-solid fa-trash"></i></a>
+        <li style="list-style: none;">
+            <div class="row m-2 border p-2">    
+                <div class="col d-flex ">
+                    <h6 class="m-0 fw-bold text-dark folder" data-foldername="<%= element %>" onclick="cd(this)" ><%= element %></h6>
+                    <i class="fa-solid fa-trash btn-dark btn p-2 ms-auto"  onclick="deleteapp(this)" style="font-size: 0.8rem;" data-folder="<%= element %>"></i>
+                </div>
 
+            </div>
 
-        </div>  
+        </li>
+  
 
     
 <% }) %>
-
+</ul>
 <hr>
 <div id="output" class="output-terminal mb-3 rounded-2" style="max-height: 60vh; overflow-y: auto;">
   🤠 Log things here...
