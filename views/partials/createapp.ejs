@@ -23,6 +23,7 @@
 
 
 <script>
+
     function createapp() {
         var url = document.getElementById('giturl').value
         var appname = document.getElementById('appname').value
@@ -33,7 +34,7 @@
         
 
         document.getElementById('command').value =
-        `cd /root/app && git clone ${url} && cd /root/app/${repoName} && npm i && pm2 start ${appname}`
+        `cd /${user}/app && git clone ${url} && cd /${user}/app/${repoName} && npm i && pm2 start ${appname}`
         document.getElementById('exe').click()
 
         document.getElementById('apps').click()

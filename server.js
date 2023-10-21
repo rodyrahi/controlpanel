@@ -1,5 +1,5 @@
 const http = require('http');
-
+const session = require('express-session');
 const express = require("express");
 const app = express();
 const bodyParser = require("body-parser");
@@ -28,6 +28,17 @@ const config = {
   issuerBaseURL: "https://dev-t42orpastoaad3st.us.auth0.com",
 };
 app.use(auth(config));
+
+app.use(
+    session({
+      secret: "fasfasgdghreyt4wsgsdfsdfwer",
+      resave: false,
+      saveUninitialized: true,
+
+    })
+  );
+  
+  
 
 
 const terminalRouter = require("./routes/terminal.js");
@@ -98,7 +109,7 @@ app.get("/apps", async (req, res) => {
       processPm2Result(pm2Result),
     ]);
 
-    res.render("partials/createapp", { folder, apps: appList });
+    res.render("partials/createapp", { folder, apps: appList , sysuser});
   } catch (error) {
     res.send("Failed to connect to the SSH server or encountered an error.");
   }
@@ -110,7 +121,7 @@ app.get("/gitrepos", async (req, res) => {
   let folder = [];
   try {
     const { stdout, stderr } = await ssh.execCommand("ls", {
-      cwd: `/root/app`,
+      cwd: `/${sysuser}/app`,
     });
     folder = stdout.split("\n").filter(Boolean);
 
@@ -126,27 +137,33 @@ app.get("/website", (req, res) => {
 });
 
 
+var sysuser =''
 app.post("/connect", async (req, res) => {
   const { host, username, password } = req.body;
-
+    sysuser = username
   try {
+    
     await ssh.connect({
       host,
       username,
       password,
-    });
+    }) ;
+
+
 
     res.redirect("/dashboard");
-    // res.json(apps)
+   
   } catch (error) {
-    res.send("Failed to connect to the SSH server.");
+    res.send("Failed to connect to the SSH server." );
   }
 });
 
 app.get("/dashboard", async (req, res) => {
   const result = scriptsdb.prepare("SELECT * FROM scripts").all();
 
-  res.render("index.ejs", { scripts: result });
+  console.log();
+    
+  res.render("index.ejs", { scripts: result , sysuser });
 });
 
 app.get("/status", async (req, res) => {

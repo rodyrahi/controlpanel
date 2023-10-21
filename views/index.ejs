@@ -40,7 +40,7 @@
     <div class="container">
         <%- include('./partials/navbar.ejs') %>
 
-
+      
         <!-- <h1 class="mb-4">SSH Web Interface</h1> -->
         <form id="sshForm" style="display: none;" class="mb-4">
 
@@ -95,10 +95,13 @@
     </div>
 
     <script>
-           var path = '/root/app/';
+            var user =   "<%= sysuser %>";
+
+
+           var path = `/${user}/app/`;
            function resetpath() {
             
-            path= '/root/app/';
+            path= `/${user}/app/`;
            }
     </script>
 </body>

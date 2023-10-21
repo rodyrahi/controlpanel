@@ -51,6 +51,7 @@
 </body>
 
 <script>
+  var user = "<%= sysuser %>"
   function app(button) {
     const appName = button.getAttribute('data-name');
     const cmd = button.getAttribute('data-cmd');
@@ -88,7 +89,7 @@
     var url = document.getElementById('giturl').value
     document.getElementById('command').value =
       `
-        cd /root/app
+        cd /${user}/app
         git clone ${url} 
         `
     document.getElementById('exe').click()
