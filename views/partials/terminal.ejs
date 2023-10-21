@@ -1,0 +1,64 @@
+<script src="https://cdn.jsdelivr.net/npm/xterm-addon-fit@0.8.0/lib/xterm-addon-fit.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/xterm@5.3.0/lib/xterm.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/xterm@5.3.0/css/xterm.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.2/socket.io.js" integrity="sha512-zoJXRvW2gC8Z0Xo3lBbao5+AS3g6YWr5ztKqaicua11xHo+AvE1b0lT9ODgrHTmNUxeCw0Ry4BGRYZfXu70weg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+<button onclick="start()" class="btn btn-dark m-3" >Start</button>
+
+
+    <div id="terminal-container"></div>
+<script>
+    // Use window.onload to ensure that the code runs after the full page is loaded
+    function start() {
+        var terminalContainer = document.getElementById('terminal-container');
+        const term = new Terminal({ cursorBlink: true });        
+        const fitAddon = new FitAddon.FitAddon();
+        term.loadAddon(fitAddon);
+        term.open(terminalContainer);
+        fitAddon.fit();
+
+        var socket = io();
+        socket.on('connect', function() {
+            term.write('\r\n*** Connected to backend ***\r\n');
+        });
+
+        // Browser -> Backend
+        term.onKey(function (ev) {
+            socket.emit('data', ev.key);
+        });
+
+        // Backend -> Browser
+        socket.on('data', function(data) {
+            term.write(data);
+        });
+
+        socket.on('disconnect', function() {
+            term.write('\r\n*** Disconnected from backend ***\r\n');
+        });
+    }
+</script>
+
+<style>
+    body {
+        font-family: helvetica, sans-serif, arial;
+        font-size: 1em;
+        color: cadetblue;
+    }
+    h1 {
+        text-align: center;
+    }
+    #terminal-container {
+        width: 960px;
+        height: 600px;
+        margin: 0 auto;
+        padding: 2px;
+    }
+    #terminal-container .terminal {
+        background-color: cadetblue;
+        color: #fafafa;
+        padding: 2px;
+    }
+    #terminal-container .terminal:focus .terminal-cursor {
+        background-color: #fafafa;
+    }
+</style>
