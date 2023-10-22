@@ -197,6 +197,8 @@ app.get("/status", async (req, res) => {
   
     await git.pull();
 
+    
+
 
   res.render("partials/status", { scripts: result });
 });
