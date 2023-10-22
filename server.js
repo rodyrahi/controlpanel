@@ -180,11 +180,11 @@ app.get("/dashboard", async (req, res) => {
 app.get("/status", async (req, res) => {
   const result = scriptsdb.prepare("SELECT * FROM scripts").all();
 
-  pullIfNewCommit()
+ 
 
   const repoPath = '/root/app/controlpanel';
 
-  async function pullIfNewCommit() {
+ 
     const git = simpleGit(repoPath);
   
     try {
@@ -205,7 +205,7 @@ app.get("/status", async (req, res) => {
     } catch (err) {
       console.error('Error:', err);
     }
-  }
+
   
   // Periodically check for new commits
 
