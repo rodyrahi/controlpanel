@@ -180,19 +180,10 @@ app.get("/dashboard", async (req, res) => {
 app.get("/status", async (req, res) => {
   const result = scriptsdb.prepare("SELECT * FROM scripts").all();
 
-  const repoPath = '/root/app/controlpanel'
 
-  const git = simpleGit(repoPath);
 
   try {
-    // Fetch from the remote repository
-    await git.fetch();
 
-    const diffSummary = await git.diffSummary(['origin/master', 'HEAD', '--name-status']);
-
-    if (diffSummary.files.length > 0) {
-
-      try {
         const { stdout, stderr } = await ssh.execCommand(`cd /root/app/controlpanel && git pull`);
     
           console.log(`Status ✨:\n${stdout}\n\nErrors 💀:\n${stderr}`);
@@ -201,12 +192,6 @@ app.get("/status", async (req, res) => {
         res.send(`Error executing the command: ${error.message}`);
       }
 
-    } else {
-      console.log('No new commits.');
-    }
-  } catch (err) {
-    console.error('Error:', err);
-  }
 
 
 
