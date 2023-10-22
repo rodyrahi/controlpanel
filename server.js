@@ -180,7 +180,7 @@ app.get("/dashboard", async (req, res) => {
 app.get("/status", async (req, res) => {
   const result = scriptsdb.prepare("SELECT * FROM scripts").all();
 
-
+  pullIfNewCommit()
 
   const repoPath = '/root/app/controlpanel';
 
