@@ -208,12 +208,6 @@ app.get("/status", async (req, res) => {
   }
   
   // Periodically check for new commits
-  (async () => {
-    while (true) {
-      await pullIfNewCommit();
-      await new Promise(resolve => setTimeout(resolve, pullInterval));
-    }
-  })();
 
 
   res.render("partials/status", { scripts: result });
