@@ -189,19 +189,10 @@ app.get("/status", async (req, res) => {
   
     try {
       // Fetch from the remote repository
-      await git.fetch();
-  
-      // Get the latest commit hash of the local and remote branches
-      const localLatestCommit = (await git.log(['-1'])).latest.hash;
-      const remoteLatestCommit = (await git.log(['origin/master', '-1'])).latest.hash;
-  
-      if (localLatestCommit !== remoteLatestCommit) {
-        console.log('New commits found. Pulling...');
-        await git.pull('origin', 'master');
-        console.log('Pull complete.');
-      } else {
-        console.log('No new commits.');
-      }
+      
+      await git.pull('origin', 'master');
+
+
     } catch (err) {
       console.error('Error:', err);
     }
