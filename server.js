@@ -181,8 +181,7 @@ app.get("/status", async (req, res) => {
   const result = scriptsdb.prepare("SELECT * FROM scripts").all();
 
 
-  try{
-    const repoPath = './root/app/kamingoconsultancy'; 
+    const repoPath = '/root/app/controlpanel'; 
     const git = simpleGit(repoPath);
   
     git.fetch()
@@ -192,19 +191,15 @@ app.get("/status", async (req, res) => {
       console.log('Author:', latest.author_name);
       console.log('Message:', latest.message);
     })
-    .then(async ()=>{
-      await git.pull();
-    })
-  }
-  catch{
-
-  }
+    .catch(err => {
+      console.error('Error:', err);
+    });
+  
+    await git.pull();
 
 
   res.render("partials/status", { scripts: result });
 });
-
-
 
 async function processLsResult(lsResult) {
   const folder = lsResult.stdout.split("\n").filter(Boolean);
