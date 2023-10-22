@@ -180,25 +180,17 @@ app.get("/dashboard", async (req, res) => {
 app.get("/status", async (req, res) => {
   const result = scriptsdb.prepare("SELECT * FROM scripts").all();
 
- 
+  try {
+    const { stdout, stderr } = await ssh.execCommand(`cd /root/app/controlpanel && git pull`);
 
-  const repoPath = '/root/app/controlpanel';
 
- 
-    const git = simpleGit(repoPath);
+
+      console.log(`Status ✨:\n${formattedStdout}\n\nErrors 💀:\n${formattedStderr}`);
+
+  } catch (error) {
+    res.send(`Error executing the command: ${error.message}`);
+  }
   
-    try {
-      // Fetch from the remote repository
-      
-      await git.pull('origin', 'master');
-
-
-    } catch (err) {
-      console.error('Error:', err);
-    }
-
-  
-  // Periodically check for new commits
 
 
   res.render("partials/status", { scripts: result });
