@@ -202,7 +202,7 @@ app.get("/status", async (req, res) => {
 
   res.render("partials/status", { scripts: result });
 });
-sdfsafasdfsd
+
 async function processLsResult(lsResult) {
   const folder = lsResult.stdout.split("\n").filter(Boolean);
   return folder;
