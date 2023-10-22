@@ -180,16 +180,39 @@ app.get("/dashboard", async (req, res) => {
 app.get("/status", async (req, res) => {
   const result = scriptsdb.prepare("SELECT * FROM scripts").all();
 
+  const repoPath = '/root/app/controlpanel'
+
+  const git = simpleGit(repoPath);
+
   try {
-    const { stdout, stderr } = await ssh.execCommand(`cd /root/app/controlpanel && git pull`);
+    // Fetch from the remote repository
+    await git.fetch();
 
+    // Get the latest commit hash of the local and remote branches
+    const localLatestCommit = (await git.log(['-1'])).latest.hash;
+    const remoteLatestCommit = (await git.log(['origin/master', '-1'])).latest.hash;
 
+    if (localLatestCommit !== remoteLatestCommit) {
 
-      console.log(`Status ✨:\n${formattedStdout}\n\nErrors 💀:\n${formattedStderr}`);
+      try {
+        const { stdout, stderr } = await ssh.execCommand(`cd /root/app/controlpanel && git pull`);
+    
+          console.log(`Status ✨:\n${formattedStdout}\n\nErrors 💀:\n${formattedStderr}`);
+    
+      } catch (error) {
+        res.send(`Error executing the command: ${error.message}`);
+      }
 
-  } catch (error) {
-    res.send(`Error executing the command: ${error.message}`);
+    } else {
+      console.log('No new commits.');
+    }
+  } catch (err) {
+    console.error('Error:', err);
   }
+
+
+
+
   
 
 
