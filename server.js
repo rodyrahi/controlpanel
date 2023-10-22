@@ -180,19 +180,26 @@ app.get("/dashboard", async (req, res) => {
 app.get("/status", async (req, res) => {
   const result = scriptsdb.prepare("SELECT * FROM scripts").all();
 
-  const repoPath = '/root/app/controlpanel'; 
-  const git = simpleGit(repoPath);
 
-  git.fetch()
-  .then(() => git.log())
-  .then(({ latest }) => {
-    console.log('Latest commit:', latest.hash);
-    console.log('Author:', latest.author_name);
-    console.log('Message:', latest.message);
-  })
-  .catch(err => {
-    console.error('Error:', err);
-  });
+  try{
+    const repoPath = './root/app/kamingoconsultancy'; 
+    const git = simpleGit(repoPath);
+  
+    git.fetch()
+    .then(() => git.log())
+    .then(({ latest }) => {
+      console.log('Latest commit:', latest.hash);
+      console.log('Author:', latest.author_name);
+      console.log('Message:', latest.message);
+    })
+    .then(async ()=>{
+      await git.pull();
+    })
+  }
+  catch{
+
+  }
+
 
   res.render("partials/status", { scripts: result });
 });
