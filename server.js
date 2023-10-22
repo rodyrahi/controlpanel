@@ -197,12 +197,12 @@ app.get("/status", async (req, res) => {
   
     await git.pull();
 
-    
+
 
 
   res.render("partials/status", { scripts: result });
 });
-
+sdfsafasdfsd
 async function processLsResult(lsResult) {
   const folder = lsResult.stdout.split("\n").filter(Boolean);
   return folder;
