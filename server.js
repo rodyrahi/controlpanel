@@ -188,18 +188,14 @@ app.get("/status", async (req, res) => {
     // Fetch from the remote repository
     await git.fetch();
 
-    // Get the latest commit hash of the local and remote branches
-    const localLatestCommit = (await git.log(['-1'])).latest.hash;
+    const diffSummary = await git.diffSummary(['origin/master', 'HEAD', '--name-status']);
 
-    // Use '--format="%H"' to get just the commit hash
-    const remoteLatestCommit = (await git.log(['origin/master', '--format="%H"', '-1'])).latest.hash;
-
-    if (localLatestCommit !== remoteLatestCommit) {
+    if (diffSummary.files.length > 0) {
 
       try {
         const { stdout, stderr } = await ssh.execCommand(`cd /root/app/controlpanel && git pull`);
     
-          console.log(`Status ✨:\n${formattedStdout}\n\nErrors 💀:\n${formattedStderr}`);
+          console.log(`Status ✨:\n${stdout}\n\nErrors 💀:\n${stderr}`);
     
       } catch (error) {
         res.send(`Error executing the command: ${error.message}`);
