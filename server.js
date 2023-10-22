@@ -190,7 +190,9 @@ app.get("/status", async (req, res) => {
 
     // Get the latest commit hash of the local and remote branches
     const localLatestCommit = (await git.log(['-1'])).latest.hash;
-    const remoteLatestCommit = (await git.log(['origin/master', '-1'])).latest.hash;
+
+    // Use '--format="%H"' to get just the commit hash
+    const remoteLatestCommit = (await git.log(['origin/master', '--format="%H"', '-1'])).latest.hash;
 
     if (localLatestCommit !== remoteLatestCommit) {
 
