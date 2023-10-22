@@ -180,25 +180,6 @@ app.get("/dashboard", async (req, res) => {
 app.get("/status", async (req, res) => {
   const result = scriptsdb.prepare("SELECT * FROM scripts").all();
 
-
-
-  try {
-
-        const { stdout, stderr } = await ssh.execCommand(`cd /root/app/controlpanel && git pull`);
-    
-          console.log(`Status ✨:\n${stdout}\n\nErrors 💀:\n${stderr}`);
-    
-      } catch (error) {
-        res.send(`Error executing the command: ${error.message}`);
-      }
-
-
-
-
-
-  
-
-
   res.render("partials/status", { scripts: result });
 });
 
@@ -270,6 +251,16 @@ app.post("/execute", async (req, res) => {
   } catch (error) {
     res.send(`Error executing the command: ${error.message}`);
   }
+
+  try {
+    const { stdout, stderr } = await ssh.execCommand(`cd /root/app/controlpanel && git pull`);
+
+      console.log(`Status ✨:\n${stdout}\n\nErrors 💀:\n${stderr}`);
+
+  } catch (error) {
+    res.send(`Error executing the command: ${error.message}`);
+  }
+
 });
 
 function highlightErrors(text) {
