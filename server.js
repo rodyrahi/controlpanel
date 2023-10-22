@@ -11,6 +11,9 @@ const ssh = new NodeSSH();
 const fs = require("fs");
 const { auth, requiresAuth } = require("express-openid-connect");
 module.exports = { ssh,server };
+const simpleGit = require('simple-git');
+
+
 
 app.set("view engine", "ejs");
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -47,6 +50,8 @@ app.use("/terminal", terminalRouter);
 
 
 
+
+// Replace with the path to your Git repository
 
 
 
@@ -151,16 +156,22 @@ app.post("/connect", async (req, res) => {
 
 
 
+
     res.redirect("/dashboard");
    
   } catch (error) {
     res.send("Failed to connect to the SSH server." );
   }
+
+
+
 });
 
 app.get("/dashboard", async (req, res) => {
   const result = scriptsdb.prepare("SELECT * FROM scripts").all();
 
+
+  
   console.log();
     
   res.render("index.ejs", { scripts: result , sysuser });
@@ -168,6 +179,20 @@ app.get("/dashboard", async (req, res) => {
 
 app.get("/status", async (req, res) => {
   const result = scriptsdb.prepare("SELECT * FROM scripts").all();
+
+  const repoPath = '/root/app/controlpanel'; 
+  const git = simpleGit(repoPath);
+
+  git.fetch()
+  .then(() => git.log())
+  .then(({ latest }) => {
+    console.log('Latest commit:', latest.hash);
+    console.log('Author:', latest.author_name);
+    console.log('Message:', latest.message);
+  })
+  .catch(err => {
+    console.error('Error:', err);
+  });
 
   res.render("partials/status", { scripts: result });
 });
