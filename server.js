@@ -181,9 +181,12 @@ app.get("/status", async (req, res) => {
   const result = scriptsdb.prepare("SELECT * FROM scripts").all();
 
 
-    const repoPath = '/root/app/controlpanel'; 
-    const git = simpleGit(repoPath);
 
+  const repoPath = '/root/app/controlpanel';
+
+  async function pullIfNewCommit() {
+    const git = simpleGit(repoPath);
+  
     try {
       // Fetch from the remote repository
       await git.fetch();
@@ -202,7 +205,15 @@ app.get("/status", async (req, res) => {
     } catch (err) {
       console.error('Error:', err);
     }
-
+  }
+  
+  // Periodically check for new commits
+  (async () => {
+    while (true) {
+      await pullIfNewCommit();
+      await new Promise(resolve => setTimeout(resolve, pullInterval));
+    }
+  })();
 
 
   res.render("partials/status", { scripts: result });
