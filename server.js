@@ -183,20 +183,25 @@ app.get("/status", async (req, res) => {
 
     const repoPath = '/root/app/controlpanel'; 
     const git = simpleGit(repoPath);
-  
-    git.fetch()
-    .then(() => git.log())
-    .then(({ latest }) => {
-      console.log('Latest commit:', latest.hash);
-      console.log('Author:', latest.author_name);
-      console.log('Message:', latest.message);
-    })
-    .catch(err => {
-      console.error('Error:', err);
-    });
-  
-    await git.pull();
 
+    try {
+      // Fetch from the remote repository
+      await git.fetch();
+  
+      // Get the latest commit hash of the local and remote branches
+      const localLatestCommit = (await git.log(['-1'])).latest.hash;
+      const remoteLatestCommit = (await git.log(['origin/master', '-1'])).latest.hash;
+  
+      if (localLatestCommit !== remoteLatestCommit) {
+        console.log('New commits found. Pulling...');
+        await git.pull('origin', 'master');
+        console.log('Pull complete.');
+      } else {
+        console.log('No new commits.');
+      }
+    } catch (err) {
+      console.error('Error:', err);
+    }
 
 
 
