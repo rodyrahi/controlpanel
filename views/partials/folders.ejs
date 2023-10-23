@@ -1,7 +1,8 @@
 <div class="row">
     <div class="col">
         <a class="btn btn-dark m-1" onclick="back()"><i class="fa-solid fa-arrow-left"></i></a>
-        <a class="btn btn-dark m-1"><i class="fa-solid fa-arrow-right"></i></a>
+        <input type="text" id="path">
+        <button onclick="pathcmd()" >execute</button>
 
     </div>
 
@@ -65,12 +66,15 @@
 
 
 <script>
- 
 
+
+    
     function deleteapp(button) {
         const folder = button.getAttribute('data-folder');
         document.getElementById('dir').value = `rm -r ${path}${folder} && cd ${path} && ls -a`;
         document.getElementById('dirbtn').click();
+
+     
     }
 
     function cd(button) {
@@ -81,6 +85,7 @@
 
         console.log(path);
         document.getElementById('dirbtn').click();
+        document.getElementById('path').value = path
     }
 
     function back() {
@@ -95,6 +100,19 @@
         document.getElementById('dir').value = `cd ${path} && ls -a`;
         console.log(path , back);
         document.getElementById('dirbtn').click();
+
     }
+    function pathcmd() {
+        
+   
+        const cmd = document.getElementById('path').value
+        console.log(`cd ${path} && ${cmd}`);
+        
+        document.getElementById('command').value = `cd ${path} && ${cmd}`;
+       
+        document.getElementById('exe').click();
+
+    }
+
 </script>
 
