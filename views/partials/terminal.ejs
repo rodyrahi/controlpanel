@@ -11,7 +11,7 @@
 <script>
    
    
-   Document.addEventListener('load', function() {
+
         var terminalContainer = document.getElementById('terminal-container');
         var term = new Terminal({ cursorBlink: true });
         term.open(terminalContainer);
@@ -35,7 +35,7 @@
             term.write('\r\n*** Disconnected from backend***\r\n');
           });
         });
-      }, false);
+    
 </script>
 
 <style>
