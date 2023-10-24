@@ -32,6 +32,11 @@ const config = {
 };
 app.use(auth(config));
 
+
+
+
+
+
 app.use(
     session({
       secret: "fasfasgdghreyt4wsgsdfsdfwer",
@@ -53,6 +58,12 @@ app.use("/terminal", terminalRouter);
 
 // Replace with the path to your Git repository
 
+
+
+app.get("/upload", async(req, res) => {
+  await ssh.putFile('kadmin.png', '/root/app');
+
+});
 
 
 
