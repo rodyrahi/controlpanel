@@ -4,6 +4,7 @@
         <input type="text" class="form-control mx-2" id="path" style="max-width: 380px;">
         <button onclick="pathcmd()" class="btn btn-primary btn-sm" >execute</button>
         <button class="btn btn-primary mx-2 btn-sm" id="createFolderButton">Create Folder</button>
+        <button class="btn btn-primary mx-2 btn-sm" id="createFileButton">Create File</button>
 
 
     </div>
@@ -70,26 +71,47 @@
 <script>
 
 
-
+    document.getElementById("createFolderButton").addEventListener("click", createNewFolder);
+    document.getElementById("createFileButton").addEventListener("click", createNewFile);
 
     function createNewFolder() {
-        // Prompt the user for the new folder name
+
         const folderName = prompt("Enter the name of the new folder:");
 
-        // Check if the user entered a folder name
+  
         if (folderName) {
             document.getElementById('command').value = `cd ${path} && mkdir ${folderName}`;
-       
             document.getElementById('exe').click();
+
+
         } else {
-            // Handle the case where the user canceled the prompt
+
             console.log("Folder creation canceled");
         }
     }
 
-    // Add a click event listener to the button
-    document.getElementById("createFolderButton").addEventListener("click", createNewFolder);
 
+    function createNewFile() {
+
+    const folderName = prompt("Enter the name of the new file:");
+
+
+    if (folderName) {
+        document.getElementById('command').value = `cd ${path} && touch ${folderName}`;
+        document.getElementById('exe').click();
+
+
+    } else {
+
+        console.log("Folder creation canceled");
+    }
+    }
+
+
+
+
+
+  
     
 function deleteapp(button) {
     const folder = button.getAttribute('data-folder');
