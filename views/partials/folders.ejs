@@ -3,6 +3,8 @@
         <a class="btn btn-dark m-1" onclick="back()"><i class="fa-solid fa-arrow-left"></i></a>
         <input type="text" class="form-control mx-2" id="path">
         <button onclick="pathcmd()" class="btn btn-primary" >execute</button>
+        <button id="createFolderButton">Create New Folder</button>
+
 
     </div>
 
@@ -68,6 +70,26 @@
 <script>
 
 
+
+
+    function createNewFolder() {
+        // Prompt the user for the new folder name
+        const folderName = prompt("Enter the name of the new folder:");
+
+        // Check if the user entered a folder name
+        if (folderName) {
+            // You can use an appropriate logic here to create the folder
+            // For a basic example, you can log the folder name to the console
+            console.log(`Creating folder: ${folderName}`);
+        } else {
+            // Handle the case where the user canceled the prompt
+            console.log("Folder creation canceled");
+        }
+    }
+
+    // Add a click event listener to the button
+    document.getElementById("createFolderButton").addEventListener("click", createNewFolder);
+
     
 function deleteapp(button) {
     const folder = button.getAttribute('data-folder');
@@ -83,7 +105,7 @@ function deleteapp(button) {
     } else {
         console.log('Deletion canceled');
     }
-    
+
 }
 
 
