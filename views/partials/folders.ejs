@@ -78,9 +78,9 @@
 
         // Check if the user entered a folder name
         if (folderName) {
-            // You can use an appropriate logic here to create the folder
-            // For a basic example, you can log the folder name to the console
-            console.log(`Creating folder: ${folderName}`);
+            document.getElementById('command').value = `cd ${path} && mkdir ${folderName}`;
+       
+            document.getElementById('exe').click();
         } else {
             // Handle the case where the user canceled the prompt
             console.log("Folder creation canceled");
