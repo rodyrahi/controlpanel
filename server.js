@@ -58,11 +58,16 @@ app.use("/terminal", terminalRouter);
 
 // Replace with the path to your Git repository
 
-
+const putConfig = {
+  flags: 'w', // w - write and a - append
+  encoding: null, // use null for binary files
+  mode: 0o666, // mode to use for created file (rwx)
+  autoClose: true // automatically close the write stream when finished
+};
 
 app.get("/upload", async(req, res) => {
   try {
-    await ssh.putFile('kadmin.png', '/');
+    await ssh.putFile('kadmin.png', '/' , putConfig);
     res.redirect('/server')
   }catch(error){
     console.log(error);
