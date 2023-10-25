@@ -69,13 +69,23 @@
 
 
     
-    function deleteapp(button) {
-        const folder = button.getAttribute('data-folder');
-        document.getElementById('dir').value = `rm -r ${path}${folder} && cd ${path} && ls -a`;
-        document.getElementById('dirbtn').click();
+function deleteapp(button) {
+    const folder = button.getAttribute('data-folder');
 
-     
+    const confirmation = confirm(`Are you sure you want to delete the folder: ${folder}?`);
+
+    if (confirmation) {
+        const deleteCommand = `rm -r ${path}${folder} && cd ${path} && ls -a`;
+
+        document.getElementById('dir').value = deleteCommand;
+
+        document.getElementById('dirbtn').click();
+    } else {
+        console.log('Deletion canceled');
     }
+    
+}
+
 
     function cd(button) {
         const foldername = button.getAttribute('data-foldername');
