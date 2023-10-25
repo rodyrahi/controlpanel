@@ -62,7 +62,7 @@ app.use("/terminal", terminalRouter);
 
 app.get("/upload", async(req, res) => {
   try {
-    await ssh.putFile('./kadmin.png', '/');
+    await ssh.putFile('kadmin.png', '/');
     res.redirect('/server')
   }catch(error){
     console.log(error);
