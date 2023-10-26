@@ -17,7 +17,7 @@ router.post('/', async (req, res) => {
 
         const std = result.stdout
         
-        res.render('partials/fileditor', std );
+        res.render('partials/fileditor', {std} );
       } catch (error) {
         console.error('Error reading file:', error);
       }
