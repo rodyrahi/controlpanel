@@ -7,22 +7,28 @@ var router = express.Router();
 
 
 router.post('/', async (req, res) => {
-  const filePath = req.body.filePath;
-    console.log(req.body);
+    const filePath = req.body.filePath;
     try {
-
-        const result = await ssh.execCommand(`cat ${filePath}`);
-        console.log('File content:');
-        // Display the file content
-
-        const std = JSON.parse(result.stdout);
-        
-        res.render('partials/fileditor', {std} );
-      } catch (error) {
-        console.error('Error reading file:', error);
+      const result = await ssh.execCommand(`cat ${filePath}`);
+      console.log('File content:');
+  
+      let std;
+      try {
+        std = JSON.parse(result.stdout);
+      } catch (jsonError) {
+        // Handle the JSON parsing error gracefully
+        console.error('Error parsing JSON:', jsonError);
+        std = { error: 'Invalid JSON' }; // You can customize this error handling
       }
-
-});
+      
+      res.render('partials/fileditor', { std });
+    } catch (error) {
+      console.error('Error reading file:', error);
+      // Handle errors as needed
+      res.render('error', { error: 'Error reading the file' });
+    }
+  });
+  
 router.post('/save-file', async (req, res) => {
     try {
       const filePath = req.body.filePath;
