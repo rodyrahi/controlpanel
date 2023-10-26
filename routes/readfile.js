@@ -9,7 +9,7 @@ var router = express.Router();
 
 router.post('/', async (req, res) => {
     try {
-        await ssh.connect(sshConfig);
+
         const result = await ssh.execCommand(`cat ${filePath}`);
         console.log('File content:');
         console.log(result.stdout); // Display the file content
