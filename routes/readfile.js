@@ -19,7 +19,7 @@ router.post('/', async (req, res) => {
       let std = result.stdout
       
 
-      res.render('partials/fileditor', { std });
+    res.json({ content:std });
   
 
     } catch (error) {
@@ -50,9 +50,9 @@ router.post('/save-file', async (req, res) => {
   });
 
 
-// router.get('/', async (req, res) => {
-
-//     res.render('partials/fileditor')
-// });
+router.get('/file', async (req, res) => {
+    const path = req.body.filePath;
+    res.render('partials/fileditor' ,  {path})
+});
 
 module.exports = router
