@@ -20,10 +20,7 @@ router.post('/', async (req, res) => {
         res.json({ stdout });
       } catch (error) {
         console.error('Error reading file:', error);
-      } finally {
-        ssh.dispose(); // Close the SSH connection
       }
-
 
 });
 router.post('/save-file', async (req, res) => {

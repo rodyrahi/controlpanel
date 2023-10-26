@@ -21,6 +21,7 @@
       
       // Function to load a file
       function readFile(filePath) {
+        console.log(filePath);
         fetch('/readfile', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
