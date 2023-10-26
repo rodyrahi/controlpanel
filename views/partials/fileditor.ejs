@@ -43,7 +43,7 @@
       
       // Function to save the file
       function saveFile(filePath, content) {
-        fetch('/save-file', {
+        fetch('/readfile/save-file', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ filePath, content })
