@@ -16,7 +16,7 @@ router.post('/', async (req, res) => {
       console.log(result.stdout);
       
       
-      let std = JSON.parse(JSON.stringify(result.stdout))
+      let std = result.stdout
       
 
       res.render('partials/fileditor', { std });
