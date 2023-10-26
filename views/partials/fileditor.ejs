@@ -52,13 +52,13 @@
       }
       
       // Example: Load and edit a file
-      filePath = './test.js'
+      filePath = '/root/test.js'
       readFile(filePath);
 
       // Save button click event
       document.getElementById('saveButton').addEventListener('click', function () {
         var editedContent = editor.getValue();
-        saveFile('test.js', editedContent);
+        saveFile('/root/test.js', editedContent);
       });
     });
   </script>
