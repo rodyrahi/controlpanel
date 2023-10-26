@@ -123,11 +123,12 @@
 
   }
 
-  function isFile(itemName) {
-    return itemName.includes('.') && !itemName.endsWith('/');
-  }
+
 
   function cd(button) {
+    function isFile(itemName) {
+    return itemName.includes('.') && !itemName.endsWith('/');
+  }
     const foldername = button.getAttribute('data-foldername');
     const isFile = isFile(foldername); // Check if it's a file
 
