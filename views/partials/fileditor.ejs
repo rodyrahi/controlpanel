@@ -30,7 +30,7 @@
           .then(response => response.json())
           .then(data => {
             console.log(data);
-            editor.setValue(data.content);
+            editor.setValue(data);
           })
           .catch(error => {
             console.error('Error reading file:', error);
