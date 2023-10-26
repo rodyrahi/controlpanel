@@ -15,7 +15,7 @@ router.post('/', async (req, res) => {
         console.log('File content:');
         console.log(result.stdout); // Display the file content
 
-        stdout = result.stdout
+        const stdout = result.stdout
         res.json({ stdout });
       } catch (error) {
         console.error('Error reading file:', error);
@@ -28,7 +28,7 @@ router.post('/save-file', async (req, res) => {
       const content = req.body.content;
   
       // Connect to the SSH server
-      await ssh.connect(sshConfig);
+
   
       // Use SSH to write the content to the file
       await ssh.execCommand(`echo '${content}' > ${filePath}`);
@@ -36,10 +36,7 @@ router.post('/save-file', async (req, res) => {
       res.json({ message: 'File saved successfully' });
     } catch (error) {
       res.status(500).json({ error: 'Error saving the file' });
-    } finally {
-      // Close the SSH connection
-      ssh.dispose();
-    }
+    } 
   });
 
 
