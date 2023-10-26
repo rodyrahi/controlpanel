@@ -50,10 +50,12 @@ app.use(
 
 
 const terminalRouter = require("./routes/terminal.js");
+const readfileRouter = require("./routes/readfile.js");
 
 app.use("/terminal", terminalRouter);
 
 
+app.use("/readfile", readfileRouter);
 
 
 // Replace with the path to your Git repository

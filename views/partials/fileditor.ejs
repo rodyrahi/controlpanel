@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Code Editor</title>
+  <script src="https://unpkg.com/monaco-editor@0.30.1/min/vs/loader.js"></script>
+</head>
+<body>
+  <div id="editor" style="width: 800px; height: 600px;"></div>
+  <button id="saveButton">Save</button>
+  <script>
+    require.config({ paths: { 'vs': 'https://unpkg.com/monaco-editor@0.30.1/min/vs' }});
+
+
+
+    require(['vs/editor/editor.main'], function () {
+      var editor = monaco.editor.create(document.getElementById('editor'), {
+        value: '',
+        language: 'plaintext'
+      });
+      
+      // Function to load a file
+      function readFile(filePath) {
+        fetch('/read-file', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ filePath })
+        })
+          .then(response => response.json())
+          .then(data => {
+            editor.setValue(data.content);
+          })
+          .catch(error => {
+            console.error('Error reading file:', error);
+          });
+      }
+      
+      // Function to save the file
+      function saveFile(filePath, content) {
+        fetch('/save-file', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ filePath, content })
+        })
+          .then(response => response.json())
+          .then(data => {
+            console.log(data.message);
+          })
+          .catch(error => {
+            console.error('Error saving file:', error);
+          });
+      }
+      
+      // Example: Load and edit a file
+      filePath = './test.js'
+      readFile(filePath);
+
+      // Save button click event
+      document.getElementById('saveButton').addEventListener('click', function () {
+        var editedContent = editor.getValue();
+        saveFile('test.js', editedContent);
+      });
+    });
+  </script>
+</body>
+</html>
