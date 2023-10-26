@@ -16,7 +16,7 @@ router.post('/', async (req, res) => {
       console.log(result.stdout);
       
       let r = result.stdout;
-      let std = JSON.parse(JSON.stringify(r.replace(/\n/g, "\\n")))
+      let std = JSON.parse(JSON.stringify(r)).replace(/\n/g, "\\n")
       
 
       res.render('partials/fileditor', { std });
