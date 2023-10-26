@@ -25,7 +25,7 @@ var baseurl = !isWin ? "https://kadmin.online" : "http://localhost:9111";
 const config = {
   authRequired: false,
   auth0Logout: true,
-  secret: "TffWbQSxkKRrepwCtiPWs4AB9WXXGf_nE02j_x9rWcJSiRouU1PSliS8DCPO2hb1",
+  secret: "3qnLXoHY1TDBvbGhD1Hj24eXk54Rjs2SXZFuXrEj9XvefDMA-uhc4U7dO-VZek4A",
   baseURL: baseurl,
   clientID: "zj17AAKjTh0ZrdOmD3O7hiXTKc1UwHAy",
   issuerBaseURL: "https://dev-t42orpastoaad3st.us.auth0.com",
