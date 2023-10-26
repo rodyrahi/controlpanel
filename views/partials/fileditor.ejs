@@ -6,6 +6,7 @@
   <script src="https://unpkg.com/monaco-editor@0.30.1/min/vs/loader.js"></script>
 </head>
 <body>
+    
   <div id="editor" style="width: 800px; height: 600px;"></div>
   <button id="saveButton">Save</button>
   <script>
@@ -13,28 +14,31 @@
 
 
 
+    var std= "<%= std %>"
     require(['vs/editor/editor.main'], function () {
       var editor = monaco.editor.create(document.getElementById('editor'), {
         value: '',
         language: 'plaintext'
       });
-      
+
+
+      editor.setValue(std);
       // Function to load a file
       function readFile(filePath) {
-        console.log(filePath);
-        fetch('/readfile', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ filePath })
-        })
-          .then(response => response.json())
-          .then(data => {
-            console.log(data);
-            editor.setValue(data.std);
-          })
-          .catch(error => {
-            console.error('Error reading file:', error);
-          });
+        // console.log(filePath);
+        // fetch('/readfile', {
+        //   method: 'POST',
+        //   headers: { 'Content-Type': 'application/json' },
+        //   body: JSON.stringify({ filePath })
+        // })
+        //   .then(response => response.json())
+        //   .then(data => {
+        //     console.log(data);
+        //     editor.setValue(data.std);
+        //   })
+        //   .catch(error => {
+        //     console.error('Error reading file:', error);
+        //   });
       }
       
       // Function to save the file
