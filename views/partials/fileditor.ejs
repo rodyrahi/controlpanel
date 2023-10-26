@@ -12,35 +12,22 @@
   <script>
     require.config({ paths: { 'vs': 'https://unpkg.com/monaco-editor@0.30.1/min/vs' }});
 
+    // Properly escape and set the std variable
+    var std = `<%= std.replace(/\n/g, "\\n") %>`;
+    // Escape line breaks by replacing them with \n
 
-
-    var std= "<%= std %>"
     require(['vs/editor/editor.main'], function () {
       var editor = monaco.editor.create(document.getElementById('editor'), {
         value: '',
         language: 'plaintext'
       });
 
+      // Log the std content
       console.log(std);
+
+      // Set the std content in the editor
       editor.setValue(std);
-      // Function to load a file
-      function readFile(filePath) {
-        // console.log(filePath);
-        // fetch('/readfile', {
-        //   method: 'POST',
-        //   headers: { 'Content-Type': 'application/json' },
-        //   body: JSON.stringify({ filePath })
-        // })
-        //   .then(response => response.json())
-        //   .then(data => {
-        //     console.log(data);
-        //     editor.setValue(data.std);
-        //   })
-        //   .catch(error => {
-        //     console.error('Error reading file:', error);
-        //   });
-      }
-      
+
       // Function to save the file
       function saveFile(filePath, content) {
         fetch('/readfile/save-file', {
@@ -58,8 +45,6 @@
       }
       
       // Example: Load and edit a file
-      filePath = '/root/test.js'
-      readFile(filePath);
 
       // Save button click event
       document.getElementById('saveButton').addEventListener('click', function () {
