@@ -47,5 +47,9 @@ router.post('/save-file', async (req, res) => {
 });
 
 
+router.get('/', async (req, res) => {
+
+    res.render('partials/fileditor')
+});
 
 module.exports = router
