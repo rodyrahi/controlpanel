@@ -13,7 +13,7 @@
     require.config({ paths: { 'vs': 'https://unpkg.com/monaco-editor@0.30.1/min/vs' }});
     
 
-    var std = `<%= std %>`;
+    var std = `<%= std.replace(/\n/g, "\\n") %>`;
 
     require(['vs/editor/editor.main'], function () {
       var editor = monaco.editor.create(document.getElementById('editor'), {
