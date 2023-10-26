@@ -16,13 +16,12 @@ router.post('/', async (req, res) => {
       console.log(result.stdout);
       
       let r = result.stdout;
-      let std = JSON.parse(`${r}`);
+      let std = JSON.stringify(r)
       
-      // Render the 'partials/fileditor' view and pass the 'std' data to it
+
       res.render('partials/fileditor', { std });
   
-      // Send the JSON response
-      res.json({ std });
+
     } catch (error) {
       console.error('Error reading file:', error);
       // Handle errors as needed
