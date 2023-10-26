@@ -1,6 +1,6 @@
 
 const express = require('express');
-const { ssh,  server ,app } = require('../server.js');
+const { ssh,  server ,app , bodyParser } = require('../server.js');
 var router = express.Router();
 
 app.use(bodyParser.urlencoded({ extended: true }));

@@ -10,7 +10,7 @@ const path = require("path");
 const ssh = new NodeSSH();
 const fs = require("fs");
 const { auth, requiresAuth } = require("express-openid-connect");
-module.exports = { ssh,server ,app };
+module.exports = { ssh,server ,app , bodyParser };
 const simpleGit = require('simple-git');
 
 
