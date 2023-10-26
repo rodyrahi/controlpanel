@@ -13,8 +13,9 @@ router.post('/', async (req, res) => {
       const result = await ssh.execCommand(`cat ${filePath}`);
       console.log('File content:');
       console.log(result.stdout);
-  
-      let std =result.stdout;
+        
+      let r =result.stdout
+      let std =JSON.parse({r});
 
       res.render('partials/fileditor', { std });
     } catch (error) {
@@ -23,6 +24,9 @@ router.post('/', async (req, res) => {
       res.render('error', { error: 'Error reading the file' });
     }
   });
+
+
+
   
 router.post('/save-file', async (req, res) => {
     try {
