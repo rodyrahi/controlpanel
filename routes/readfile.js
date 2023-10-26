@@ -9,22 +9,27 @@ var router = express.Router();
 router.post('/', async (req, res) => {
     const filePath = req.body.filePath;
     console.log(filePath);
+    
     try {
       const result = await ssh.execCommand(`cat ${filePath}`);
       console.log('File content:');
       console.log(result.stdout);
-        
-      let r =result.stdout
-      let std =JSON.parse(r);
-
+      
+      let r = result.stdout;
+      let std = JSON.parse(r);
+      
+      // Render the 'partials/fileditor' view and pass the 'std' data to it
       res.render('partials/fileditor', { std });
+  
+      // Send the JSON response
+      res.json({ std });
     } catch (error) {
       console.error('Error reading file:', error);
       // Handle errors as needed
       res.render('error', { error: 'Error reading the file' });
     }
   });
-
+  
 
 
   
