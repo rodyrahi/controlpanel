@@ -15,7 +15,7 @@ router.post('/', async (req, res) => {
         console.log('File content:');
         // Display the file content
 
-        const std = result.stdout
+        const std = JSON(result.stdout)
         
         res.render('partials/fileditor', {std} );
       } catch (error) {
