@@ -29,6 +29,7 @@
         })
           .then(response => response.json())
           .then(data => {
+            console.log(data);
             editor.setValue(data.content);
           })
           .catch(error => {
