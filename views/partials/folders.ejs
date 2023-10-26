@@ -65,6 +65,10 @@
 </form>
 
 
+<form action="/readfile" method="post" id="file">
+ <input type="text" name="filePath" id="filepath">
+</form>
+
 
 <script>
   document.getElementById("createFolderButton").addEventListener("click", createNewFolder);
@@ -132,12 +136,15 @@
     if (foldername.includes('.') && !foldername.endsWith('/')) {
 
         var filePath = `${path}${foldername}`
-        console.log(filePath);
-        fetch('/readfile', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ filePath })
-        })
+        // console.log(filePath);
+        // fetch('/readfile', {
+        //   method: 'POST',
+        //   headers: { 'Content-Type': 'application/json' },
+        //   body: JSON.stringify({ filePath })
+        // })
+        document.getElementById('filePath').value = filePath
+
+        document.getElementById('file').submit();
           
 
     } else {
