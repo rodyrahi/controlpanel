@@ -50,7 +50,7 @@ router.post('/save-file', async (req, res) => {
   });
 
 
-router.get('/file', async (req, res) => {
+router.post('/file', async (req, res) => {
     const path = req.body.filePath;
     res.render('partials/fileditor' ,  {path})
 });
