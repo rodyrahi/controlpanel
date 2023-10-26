@@ -1,172 +1,177 @@
 <div class="row">
-    <div class="col d-flex pt-2 " >
-        <a class="btn btn-dark m-1" onclick="back()"><i class="fa-solid fa-arrow-left"></i></a>
-        <input type="text" class="form-control mx-2" id="path" style="max-width: 480px;">
-        <button onclick="pathcmd()" class="btn btn-primary btn-sm" >execute</button>
-        <button class="btn btn-primary ms-2 btn-sm" id="createFolderButton">Create Folder</button>
-        <button class="btn btn-primary ms-2 btn-sm" id="createFileButton">Create File</button>
+  <div class="col d-flex pt-2 ">
+    <a class="btn btn-dark m-1" onclick="back()"><i class="fa-solid fa-arrow-left"></i></a>
+    <input type="text" class="form-control mx-2" id="path" style="max-width: 480px;">
+    <button onclick="pathcmd()" class="btn btn-primary btn-sm">execute</button>
+    <button class="btn btn-primary ms-2 btn-sm" id="createFolderButton">Create Folder</button>
+    <button class="btn btn-primary ms-2 btn-sm" id="createFileButton">Create File</button>
 
 
-    </div>
+  </div>
 
 
-  
+
 </div>
 <hr>
 
 <div class=" row ">
 
 
-<style>
-    .folder{
-        cursor: pointer;
+  <style>
+    .folder {
+      cursor: pointer;
     }
-</style>
-<ul  style="max-height: 60vh; overflow-y: auto;">
-<% folder.forEach(element => { %>
+  </style>
+  <ul style="max-height: 60vh; overflow-y: auto;">
+    <% folder.forEach(element => { %>
 
 
-  
 
-        <li style="list-style: none;">
-            <div class="row m-2 border p-2">    
-                <div class="col d-flex ">
-                    <h6 class="m-0 fw-bold text-dark folder" data-foldername="<%= element %>" onclick="cd(this)" ><%= element %></h6>
-                    <i class="fa-solid fa-trash btn-dark btn p-2 ms-auto"  onclick="deleteapp(this)" style="font-size: 0.8rem;" data-folder="<%= element %>"></i>
-                </div>
 
-            </div>
+    <li style="list-style: none;">
+      <div class="row m-2 border p-2">
+        <div class="col d-flex ">
+          <h6 class="m-0 fw-bold text-dark folder" data-foldername="<%= element %>" onclick="cd(this)"><%= element %></h6>
+          <i class="fa-solid fa-trash btn-dark btn p-2 ms-auto" onclick="deleteapp(this)" style="font-size: 0.8rem;" data-folder="<%= element %>"></i>
+        </div>
 
-        </li>
-  
+      </div>
 
-    
-<% }) %>
-</ul>
-<hr>
-<div id="output" class="output-terminal mb-3 rounded-2" style="max-height: 60vh; overflow-y: auto;">
-  🤠 Log things here...
+    </li>
+
+
+
+    <% }) %>
+  </ul>
+  <hr>
+  <div id="output" class="output-terminal mb-3 rounded-2" style="max-height: 60vh; overflow-y: auto;">
+    🤠 Log things here...
+  </div>
 </div>
-</div>  
 
 
 
 
 
+<form style="display: none;" class="mb-4">
 
+  <div class="mb-3">
+    <label for="command" class="form-label">Command:</label>
 
-<form  style="display: none;" class="mb-4">
-
-    <div class="mb-3">
-        <label for="command" class="form-label">Command:</label>
-
-        <textarea class="form-control text-light" name="dir" id="dir" cols="30" rows="10" style="background-color: black;" ></textarea>
-    </div>
-    <button class="btn btn-light btn-sm mt-2" type="submit"  hx-post="/changedir" hx-trigger="click" id="dirbtn" hx-target="#home">Execute Command</button>
+    <textarea class="form-control text-light" name="dir" id="dir" cols="30" rows="10" style="background-color: black;"></textarea>
+  </div>
+  <button class="btn btn-light btn-sm mt-2" type="submit" hx-post="/changedir" hx-trigger="click" id="dirbtn" hx-target="#home">Execute Command</button>
 
 </form>
 
 
 
 <script>
+  document.getElementById("createFolderButton").addEventListener("click", createNewFolder);
+  document.getElementById("createFileButton").addEventListener("click", createNewFile);
+
+  function createNewFolder() {
+
+    const folderName = prompt("Enter the name of the new folder:");
 
 
-    document.getElementById("createFolderButton").addEventListener("click", createNewFolder);
-    document.getElementById("createFileButton").addEventListener("click", createNewFile);
-
-    function createNewFolder() {
-
-        const folderName = prompt("Enter the name of the new folder:");
-
-  
-        if (folderName) {
-            document.getElementById('command').value = `cd ${path} && mkdir ${folderName}`;
-            document.getElementById('exe').click();
+    if (folderName) {
+      document.getElementById('command').value = `cd ${path} && mkdir ${folderName}`;
+      document.getElementById('exe').click();
 
 
-        } else {
+    } else {
 
-            console.log("Folder creation canceled");
-        }
+      console.log("Folder creation canceled");
     }
+  }
 
 
-    function createNewFile() {
+  function createNewFile() {
 
     const folderName = prompt("Enter the name of the new file:");
 
 
     if (folderName) {
-        document.getElementById('command').value = `cd ${path} && touch ${folderName}`;
-        document.getElementById('exe').click();
+      document.getElementById('command').value = `cd ${path} && touch ${folderName}`;
+      document.getElementById('exe').click();
 
 
     } else {
 
-        console.log("Folder creation canceled");
+      console.log("Folder creation canceled");
     }
-    }
+  }
 
 
 
 
-
-  
-    
-function deleteapp(button) {
+  function deleteapp(button) {
     const folder = button.getAttribute('data-folder');
 
     const confirmation = confirm(`Are you sure you want to delete the folder: ${folder}?`);
 
     if (confirmation) {
-        const deleteCommand = `rm -r ${path}${folder} && cd ${path} && ls -a`;
+      const deleteCommand = `rm -r ${path}${folder} && cd ${path} && ls -a`;
 
-        document.getElementById('dir').value = deleteCommand;
+      document.getElementById('dir').value = deleteCommand;
 
-        document.getElementById('dirbtn').click();
+      document.getElementById('dirbtn').click();
     } else {
-        console.log('Deletion canceled');
+      console.log('Deletion canceled');
     }
 
-}
+  }
 
+  function isFile(itemName) {
+    return itemName.includes('.') && !itemName.endsWith('/');
+  }
 
-    function cd(button) {
-        const foldername = button.getAttribute('data-foldername');
-        console.log(foldername);
-        document.getElementById('dir').value = `cd ${path}${foldername}/ && ls -a`;
-        path += `${foldername}/`;
+  function cd(button) {
+    const foldername = button.getAttribute('data-foldername');
+    const isFile = isFile(foldername); // Check if it's a file
 
-        console.log(path);
-        document.getElementById('dirbtn').click();
-        document.getElementById('path').value = path
+    if (isFile) {
+
+        window.location.href = '/readfile'
+
+    } else {
+
+      console.log('Change directory to:', foldername);
+      document.getElementById('dir').value = `cd ${path}${foldername}/ && ls -a`;
+      path += `${foldername}/`;
+
+      console.log('Current path:', path);
+      document.getElementById('dirbtn').click();
+      document.getElementById('path').value = path;
     }
+  }
 
-    function back() {
-        const pathParts = path.split('/');
-       
-        
-        if (pathParts.length > 2) {
-            path = pathParts.slice(0, -2).join('/') + '/';
-        } else {
-            path = '/';
-        }
-        document.getElementById('dir').value = `cd ${path} && ls -a`;
-        console.log(path , back);
-        document.getElementById('dirbtn').click();
 
+  function back() {
+    const pathParts = path.split('/');
+
+
+    if (pathParts.length > 2) {
+      path = pathParts.slice(0, -2).join('/') + '/';
+    } else {
+      path = '/';
     }
-    function pathcmd() {
-        
-   
-        const cmd = document.getElementById('path').value
-        console.log(`cd ${path} && ${cmd}`);
-        
-        document.getElementById('command').value = `cd ${path} && ${cmd}`;
-       
-        document.getElementById('exe').click();
+    document.getElementById('dir').value = `cd ${path} && ls -a`;
+    console.log(path, back);
+    document.getElementById('dirbtn').click();
 
-    }
+  }
 
+  function pathcmd() {
+
+
+    const cmd = document.getElementById('path').value
+    console.log(`cd ${path} && ${cmd}`);
+
+    document.getElementById('command').value = `cd ${path} && ${cmd}`;
+
+    document.getElementById('exe').click();
+
+  }
 </script>
-
