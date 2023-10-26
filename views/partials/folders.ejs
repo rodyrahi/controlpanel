@@ -128,8 +128,7 @@
   function cd(button) {
     
     const foldername = button.getAttribute('data-foldername');
-    const isFile = isFile(foldername); // Check if it's a file
-
+  
     if (foldername.includes('.') && !foldername.endsWith('/')) {
 
         window.location.href = '/readfile'
