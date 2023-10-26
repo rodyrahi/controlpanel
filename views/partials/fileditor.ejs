@@ -27,7 +27,7 @@
       
       // Function to load a file
       function readFile(filePath) {
-        fetch('/read-file', {
+        fetch('/readfile', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ filePath })
