@@ -9,12 +9,11 @@
     
   <div id="editor" style="width: 800px; height: 600px;"></div>
   <button id="saveButton">Save</button>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/he/1.2.0/he.min.js" integrity="sha512-PEsccDx9jqX6Dh4wZDCnWMaIO3gAaU0j46W//sSqQhUQxky6/eHZyeB3NrXD2xsyugAKd4KPiDANkcuoEa2JuA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
   <script>
     require.config({ paths: { 'vs': 'https://unpkg.com/monaco-editor@0.30.1/min/vs' }});
     
 
-    var std = he.decode(`<%= std.replace(/\n/g, "\\n") %>`);
+    var std = `<%= std.replace(/\n/g, "\\n").replace(/&quot;/g, '"') %>`;
 
     require(['vs/editor/editor.main'], function () {
       var editor = monaco.editor.create(document.getElementById('editor'), {
