@@ -15,7 +15,7 @@ router.post('/', async (req, res) => {
       console.log(result.stdout);
         
       let r =result.stdout
-      let std =JSON.parse({r});
+      let std =JSON.parse(r);
 
       res.render('partials/fileditor', { std });
     } catch (error) {
