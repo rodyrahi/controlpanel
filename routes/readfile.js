@@ -16,8 +16,8 @@ router.post('/', async (req, res) => {
         // Display the file content
 
         const std = result.stdout
-  
-        res.json({ std });
+        
+        res.render('partials/fileditor', std );
       } catch (error) {
         console.error('Error reading file:', error);
       }
@@ -41,9 +41,9 @@ router.post('/save-file', async (req, res) => {
   });
 
 
-router.get('/', async (req, res) => {
+// router.get('/', async (req, res) => {
 
-    res.render('partials/fileditor')
-});
+//     res.render('partials/fileditor')
+// });
 
 module.exports = router

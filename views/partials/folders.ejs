@@ -131,7 +131,21 @@
   
     if (foldername.includes('.') && !foldername.endsWith('/')) {
 
-        window.location.href = '/readfile'
+        var filePath = `${path}${foldername}`
+        console.log(filePath);
+        fetch('/readfile', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ filePath })
+        })
+          .then(response => response.json())
+          .then(data => {
+            console.log(data);
+            editor.setValue(data.std);
+          })
+          .catch(error => {
+            console.error('Error reading file:', error);
+          });
 
     } else {
 
