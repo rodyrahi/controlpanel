@@ -16,7 +16,7 @@ router.post('/', async (req, res) => {
         // Display the file content
 
         const std = result.stdout
-        console.log(stdout);
+  
         res.json({ std });
       } catch (error) {
         console.error('Error reading file:', error);
