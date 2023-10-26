@@ -9,7 +9,7 @@ var router = express.Router();
 
 router.post('/', async (req, res) => {
   const filePath = req.body.filePath;
-    console.log(filePath);
+    console.log(req.body);
     try {
 
         const result = await ssh.execCommand(`cat ${filePath}`);
