@@ -14,15 +14,8 @@ router.post('/', async (req, res) => {
       console.log('File content:');
       console.log(result.stdout);
   
-      let std;
-      try {
-        std = JSON.parse(result.stdout);
-      } catch (jsonError) {
-        // Handle the JSON parsing error gracefully
-        console.error('Error parsing JSON:', jsonError);
-        std = { error: 'Invalid JSON' }; // You can customize this error handling
-      }
-      
+      let std =result.stdout;
+
       res.render('partials/fileditor', { std });
     } catch (error) {
       console.error('Error reading file:', error);
