@@ -18,7 +18,10 @@
 
 <%- include('./schedule.ejs') %>
 
+<div class="mb-3">
+  <a class="btn btn-primary" onclick="setup()" ><i class="fa-solid fa-gears"></i> Setup Server</a>
 
+</div>
 
 
 <script>
@@ -28,8 +31,15 @@
       document.getElementById('cmd').value = 'top -b -n 1 | grep -E "^(%Cpu|MiB Mem|MiB Swap)"';
       document.getElementById('execute').click();
     }
-  }, 1000);
- 
+  }, 3000);
+  
+  function setup() {
+    document.getElementById('command').value = `mkdir /root/app && sudo apt install nginx -y && sudo apt install ufw -y`;
+    document.getElementById('exe').click();
+  }
+
+
+
  // 1000 milliseconds (1 second)
 </script>
 
