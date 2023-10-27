@@ -177,11 +177,7 @@ app.post("/connect", async (req, res) => {
       host,
       username,
       password,
-      algorithms: {
-        serverHostKey: [ 'ssh-dss' ],
-        kex: ['diffie-hellman-group14-sha1'],
-        cipher: ['aes128-cbc']
-      }
+
     }) ;
 
 
