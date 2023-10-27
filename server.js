@@ -68,7 +68,7 @@ const putConfig = {
   autoClose: true // automatically close the write stream when finished
 };
 
-app.get("/upload", async(req, res) => {
+app.post("/upload", async(req, res) => {
   try {
 
 
@@ -80,7 +80,6 @@ app.get("/upload", async(req, res) => {
     })
 
 
-    res.redirect('/server')
   }catch(error){
     console.log(error);
   }

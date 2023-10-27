@@ -5,9 +5,7 @@
 
 
     <a class="btn btn-dark m-1" onclick="back()"><i class="fa-solid fa-arrow-left"></i></a>
-    <input type="text" class="form-control mx-2" id="path" style="max-width: 480px;">
 
-    <a class="btn btn-primary  ms-2" onclick="pathcmd()" ><i class="fa-solid fa-code"></i> Execute</a>
 
     <a class="btn btn-primary  ms-2" id="createFolderButton" ><i class="fa-solid fa-folder-plus"></i> Folder</a>
     <a class="btn btn-primary  ms-2" id="createFileButton" ><i class="fa-solid fa-square-plus"></i> file</a>
@@ -52,6 +50,11 @@
     <% }) %>
   </ul>
   <hr>
+  <div class="">
+    <input type="text" class="form-control mx-2" id="path" style="max-width: 480px;">
+
+    <a class="btn btn-primary  ms-2" onclick="pathcmd()" ><i class="fa-solid fa-code"></i> Execute</a>
+  </div>
   <div id="output" class="output-terminal mb-3 rounded-2" style="max-height: 60vh; overflow-y: auto;">
     🤠 Log things here...
   </div>
