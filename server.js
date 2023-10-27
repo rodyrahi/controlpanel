@@ -70,7 +70,16 @@ const putConfig = {
 
 app.get("/upload", async(req, res) => {
   try {
-    await ssh.put('kadmin.png', '/root/app' , false);
+
+
+    ssh.putFile('./kadmin.png', '/root/app').then(function() {
+      console.log("The File thing is done")
+    }, function(error) {
+      console.log("Something's wrong")
+      console.log(error)
+    })
+
+
     res.redirect('/server')
   }catch(error){
     console.log(error);
