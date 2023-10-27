@@ -12,8 +12,7 @@ router.post('/', async (req, res) => {
     
     try {
       const result = await ssh.execCommand(`cat ${filePath}`);
-      console.log('File content:');
-      console.log(result.stdout);
+
       
       
       let std = result.stdout
