@@ -68,16 +68,16 @@ const putConfig = {
   autoClose: true // automatically close the write stream when finished
 };
 
-// app.get("/upload", async(req, res) => {
-//   try {
-//     await ssh.putFile('kadmin.png', '/' , putConfig);
-//     res.redirect('/server')
-//   }catch(error){
-//     console.log(error);
-//   }
+app.get("/upload", async(req, res) => {
+  try {
+    await ssh.putFile('kadmin.png', '/' , putConfig);
+    res.redirect('/server')
+  }catch(error){
+    console.log(error);
+  }
 
 
-// });
+});
 
 
 
