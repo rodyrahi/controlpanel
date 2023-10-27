@@ -76,27 +76,39 @@
 
 
 
-        <div class="row">
-            <!-- Collapsed left column for mobile, open for desktop -->
-            <div class="col-md-2 p-2 d-md-block d-none">
-                <ul class="list-group">
-                    <li class="list-group-item"><a class="btn btn-primary " hx-get="/status" hx-target="#home" ><i class="fa-solid fa-gauge"></i> Dashboard</a></li>
-                    <li class="list-group-item "> <a class="btn btn-primary" href="/terminal" target="_blank"><i class="fa-solid fa-terminal"></i> Terminal</a> </li>
-                    <li class="list-group-item "> <a class="btn btn-primary" hx-get="/apps" hx-target="#home" id="apps"><i class="fa-solid fa-laptop-code"></i> Pm2 Apps</a> </li>
-                    <li class="list-group-item "> <a class="btn btn-primary" hx-get="/gitrepos" hx-target="#home" id="folder" onclick="resetpath()"><i class="fa-solid fa-folder"></i> Folders</a> </li>
-                    <li class="list-group-item "> <a class="btn btn-primary" hx-get="/scripts" hx-target="#home" id="folder"><i class="fa-solid fa-gear"></i> Scripts</a> </li>
-                    <li class="list-group-item "> 
-                        <a class="btn btn-primary" hx-get="/website" hx-target="#home">
-                        <i class="fa-solid fa-globe"></i> Website
-                        </a> 
-                    </li>
-                    <li class="list-group-item "> <a class="btn btn-primary" hx-get="/sqlite" hx-target="#home"><i class="fa-solid fa-database"></i> SQLite3</a> </li>
-                </ul>
+        <div class="row"  >
+            
+            <div class="col-md-2 p-2">
+   
+                    <ul class="list-group ">
+                        <li class="list-group-item"><a class="btn btn-primary " hx-get="/status" hx-target="#home" ><i class="fa-solid fa-gauge"></i> Dashboard</a></li>
+                        <li class="list-group-item "> <a class="btn btn-primary" href="/terminal"   target="_blank"   ><i class="fa-solid fa-terminal"></i> Terminal</a> </li>
+    
+                        <li class="list-group-item "> <a class="btn btn-primary" hx-get="/apps" hx-target="#home" id="apps"   ><i class="fa-solid fa-laptop-code"></i> Pm2 Apps</a> </li>
+                        <li class="list-group-item "> <a class="btn btn-primary" hx-get="/gitrepos" hx-target="#home" id="folder" onclick="resetpath()" ><i class="fa-solid fa-folder"></i> Folders</a> </li>
+                        
+                        <li class="list-group-item "> <a class="btn btn-primary" hx-get="/scripts" hx-target="#home" id="folder"  ><i class="fa-solid fa-gear"></i> Scripts</a> </li>
+    
+                        <li class="list-group-item "> 
+                            <a class="btn btn-primary" hx-get="/website" hx-target="#home">
+                            <i class="fa-solid fa-globe"></i> Website
+                            </a> 
+                        </li>
+    
+                        <li class="list-group-item "> <a class="btn btn-primary" hx-get="/sqlite" hx-target="#home"   ><i class="fa-solid fa-database"></i> SQLite3</a> </li>
+    
+                    </ul>
+             
+
             </div>
-            <!-- Right column -->
-            <div class="col-md-10 border mt-2 rounded-2" id="home">
-                <!-- Content for the right column -->
-                <% include('./partials/status.ejs') %>
+            <div class="col-md-10 border  mt-2 rounded-2" id="home"  >
+               
+                 
+
+                <%- include('./partials/status.ejs') %>
+                
+
+
             </div>
         </div>
 
