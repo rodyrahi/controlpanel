@@ -6,7 +6,7 @@
 
     <a class="btn btn-dark m-1" onclick="back()"><i class="fa-solid fa-arrow-left"></i></a>
      
-    <p>/</p>
+    <p id="path" >/</p>
 
     <a class="btn btn-primary  ms-2" id="createFolderButton" ><i class="fa-solid fa-folder-plus"></i> Folder</a>
     <a class="btn btn-primary  ms-2" id="createFileButton" ><i class="fa-solid fa-square-plus"></i> file</a>
@@ -52,7 +52,7 @@
   </ul>
   <hr>
   <div class="d-flex m-2">
-    <input type="text" class="form-control mx-2" id="path" style="max-width: 480px;">
+    <input type="text" class="form-control mx-2" id="pathcmd" style="max-width: 480px;">
 
     <a class="btn btn-primary  ms-2" onclick="pathcmd()" ><i class="fa-solid fa-code"></i> Execute</a>
   </div>
@@ -190,7 +190,7 @@
   function pathcmd() {
 
 
-    const cmd = document.getElementById('path').value
+    const cmd = document.getElementById('pathcmd').value
     console.log(`cd ${path} && ${cmd}`);
 
     document.getElementById('command').value = `cd ${path} && ${cmd}`;
