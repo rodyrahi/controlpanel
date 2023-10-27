@@ -72,7 +72,7 @@ app.get("/upload", async(req, res) => {
   try {
 
 
-    ssh.putFile('./kadmin.png', '/root/app').then(function() {
+    ssh.putFile('./kadmin.png', '/root/app/kadmin.png').then(function() {
       console.log("The File thing is done")
     }, function(error) {
       console.log("Something's wrong")
