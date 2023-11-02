@@ -52,11 +52,12 @@ app.use(
 
 const terminalRouter = require("./routes/terminal.js");
 const readfileRouter = require("./routes/readfile.js");
+const apiRouter = require("./routes/api.js");
+const { log } = require('console');
 
 app.use("/terminal", terminalRouter);
-
-
 app.use("/readfile", readfileRouter);
+app.use("/api", apiRouter);
 
 
 // Replace with the path to your Git repository
@@ -202,7 +203,7 @@ app.post("/connect", async (req, res) => {
 });
 
 app.get("/dashboard", async (req, res) => {
-  const result = scriptsdb.prepare("SELECT * FROM scripts").all();
+  const result = scriptsdb.prepare("SELECT * FROM scripts WHERE user=?").all(req.oidc.user.sub);
 
 
   
@@ -212,8 +213,9 @@ app.get("/dashboard", async (req, res) => {
 });
 
 app.get("/status", async (req, res) => {
-  const result = scriptsdb.prepare("SELECT * FROM scripts").all();
+  const result = scriptsdb.prepare("SELECT * FROM scripts WHERE user=?").all(req.oidc.user.sub);
 
+  console.log(result);
   res.render("partials/status", { scripts: result });
 });
 
@@ -292,7 +294,7 @@ app.post("/execute", async (req, res) => {
       console.log(`Status ✨:\n${stdout}\n\nErrors 💀:\n${stderr}`);
 
   } catch (error) {
-    res.send(`Error executing the command: ${error.message}`);
+    console.log(error);
   }
 
 });
@@ -340,7 +342,8 @@ app.get("/createwebsite.sh", (req, res) => {
 });
 
 app.get("/scripts", (req, res) => {
-  const result = scriptsdb.prepare("SELECT * FROM scripts").all();
+  const result = scriptsdb.prepare("SELECT * FROM scripts WHERE user=?").all(req.oidc.user.sub);
+
 
   res.render("partials/scripts", { result: result });
 });
@@ -351,11 +354,11 @@ app.post("/createscript", (req, res) => {
 
   if (!result) {
     scriptsdb
-      .prepare(`INSERT INTO scripts (name , script) VALUES (?,?) `)
-      .run(scriptname, script);
+      .prepare(`INSERT INTO scripts (name , script ,user) VALUES (?,? ,?) `)
+      .run(scriptname, script , req.oidc.user.sub);
   } else {
     scriptsdb
-      .prepare("UPDATE scripts SET name = ?, script = ? WHERE id = ?")
+      .prepare("UPDATE scripts SET name = ?, script = ? WHERE id = ? ")
       .run(scriptname, script, id);
   }
 
