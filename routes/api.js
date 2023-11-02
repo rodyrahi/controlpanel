@@ -8,7 +8,7 @@ var router = express.Router();
 
 
 
-router.get('/', async (req, res) => {
+router.get('/:user/', async (req, res) => {
 
 });
 

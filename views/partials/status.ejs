@@ -11,6 +11,14 @@
 
 </form>
 
+
+<hr>
+
+<form hx-post="/cronjob" hx-target="#output">
+  <input type="text" id="cron" name="cron">
+  <button type="submit" onclick="">submit</button>
+</form>
+
 <hr>
 <div id="status" class="output-terminal mb-3 rounded-2" style="max-height: 60vh; overflow-y: auto;">
    🌟 Stauts Here...
@@ -39,8 +47,22 @@
   }
 
 
+// function cron() {
 
- // 1000 milliseconds (1 second)
+
+
+//   var corn = document.getElementById('cron').value
+
+//   var task = `(crontab -l | grep '/mount/share/script.py') || { crontab -l; '*/1 * * * * some_user python /mount/share/script.py >> /root/crontab 2>&1'; } | crontab -`
+//   console.log(task);
+//   document.getElementById('command').value = task ;
+//   document.getElementById('exe').click();
+
+// }
+
+
+
+
 </script>
 
 

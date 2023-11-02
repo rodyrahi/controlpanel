@@ -150,7 +150,7 @@
     
     const foldername = button.getAttribute('data-foldername');
   
-    if (foldername.includes('.') && !foldername.endsWith('/')) {
+    if (foldername.includes('.') || !foldername.endsWith('/')) {
 
         var filePath = `${path}${foldername}`
         // console.log(filePath);
