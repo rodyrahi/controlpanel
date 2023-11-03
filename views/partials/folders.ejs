@@ -147,18 +147,15 @@
 
 
   function cd(button) {
+
+    var folders = "<%= folder.length %>"
     
     const foldername = button.getAttribute('data-foldername');
   
-    if (path.includes('.') && !path.endsWith('/')) {
+    if (foldername.includes('.') || folders == ) {
 
         var filePath = `${path}${foldername}`
-        // console.log(filePath);
-        // fetch('/readfile', {
-        //   method: 'POST',
-        //   headers: { 'Content-Type': 'application/json' },
-        //   body: JSON.stringify({ filePath })
-        // })
+
         document.getElementById('filepath').value = filePath
 
         document.getElementById('file').submit();
