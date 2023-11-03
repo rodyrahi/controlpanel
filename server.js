@@ -205,7 +205,7 @@ app.post("/connect", async (req, res) => {
 });
 
 app.get("/dashboard", async (req, res) => {
-  const result = scriptsdb.prepare("SELECT * FROM scripts WHERE user=?").all(req.oidc.user.sub);
+  const result = scriptsdb.prepare("SELECT * FROM scripts WHERE user=?").all(req.oidc.sub);
 
 
   
@@ -309,21 +309,29 @@ function highlightErrors(text) {
 }
 
 app.post("/changedir", async (req, res) => {
-  const { dir } = req.body;
+  var { dir } = req.body;
 
   console.log(dir);
   try {
     const { stdout, stderr } = await ssh.execCommand(dir);
     folder = stdout.split("\n").filter(Boolean);
 
-    console.log(stderr , stdout);
-    if(stderr){
-      const result = await ssh.execCommand(`cat ${filePath}`);
-      std = result.stdout
+    console.log(stderr );
+    if(stderr.includes('Not a directory')){
 
+      dir = dir.replace("/ && ls -a" , "")
 
-      res.json({ content:std });
+      console.log(dir);
+      const result = await ssh.execCommand(`cat ${dir}`);
+      std = {content:result.stdout}
+
+      console.log(std);
+
+      res.render('partials/fileditor' ,  { content:std , path:dir })
+
     }else{
+
+
       res.render("partials/folders", { folder });
 
     }
