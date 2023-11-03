@@ -9,6 +9,7 @@ userdb.exec(`
     user TEXT,
     email TEXT,
     expire DATE,
+    data TEXT,
     timestamp DATETIME DEFAULT CURRENT_TIMESTAMP
   )
 `);
