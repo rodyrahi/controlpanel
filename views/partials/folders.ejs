@@ -41,7 +41,7 @@
     <li style="list-style: none;">
       <div class="row m-2 border p-2">
         <div class="col d-flex ">
-          <h6 class="m-0 fw-bold text-dark folder" id="folder" data-foldername="<%= element %>" onclick="cd(this)"><%= element %></h6>
+          <h6 class="m-0 fw-bold text-dark folder" data-foldername="<%= element %>" onclick="cd(this)"><%= element %></h6>
           <i class="fa-solid fa-trash btn-dark btn p-2 ms-auto" onclick="deleteapp(this)" style="font-size: 0.8rem;" data-folder="<%= element %>"></i>
         </div>
 
@@ -152,14 +152,13 @@
     
     const foldername = button.getAttribute('data-foldername');
   
-    if (foldername.includes('.')  ) {
+    if (foldername.includes('.') && !foldername.endsWith('/')  ) {
 
         var filePath = `${path}${foldername}`
 
         document.getElementById('filepath').value = filePath
 
         document.getElementById('file').submit();
-        
           
 
     } else {
@@ -172,20 +171,7 @@
       document.getElementById('dirbtn').click();
 
     }
-
-
-
-
   }
-  if (folders == 0) {
-    const foldername = document.getElementById('folder').getAttribute('data-foldername');
-    var filePath = `${path}${foldername}`
-
-    document.getElementById('filepath').value = filePath
-
-    document.getElementById('file').submit();
-
-    }
 
 
   function back() {
