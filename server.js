@@ -316,7 +316,17 @@ app.post("/changedir", async (req, res) => {
     const { stdout, stderr } = await ssh.execCommand(dir);
     folder = stdout.split("\n").filter(Boolean);
 
-    res.render("partials/folders", { folder });
+    if(stderr==='Not a directory'){
+      const result = await ssh.execCommand(`cat ${filePath}`);
+      std = result.stdout
+
+
+      res.json({ content:std });
+    }else{
+      res.render("partials/folders", { folder });
+
+    }
+
   } catch (error) {
     res.send(`Error executing the command: ${error.message}`);
   }
