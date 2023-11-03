@@ -316,6 +316,7 @@ app.post("/changedir", async (req, res) => {
     const { stdout, stderr } = await ssh.execCommand(dir);
     folder = stdout.split("\n").filter(Boolean);
 
+    console.log(stderr , stdout);
     if(stderr){
       const result = await ssh.execCommand(`cat ${filePath}`);
       std = result.stdout
