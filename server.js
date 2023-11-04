@@ -319,15 +319,8 @@ app.post("/changedir", async (req, res) => {
     console.log(stderr );
     if(stderr.includes('Not a directory')){
 
-      dir = dir.replace("/ && ls -a" , "")
 
-      console.log(dir);
-      const result = await ssh.execCommand(`cat ${dir}`);
-      std = {content:result.stdout}
-
-      console.log(std);
-
-      res.render('partials/fileditor' ,  { content:std , path:dir })
+      res.render('partials/folders' ,  { folder } )
 
     }else{
 

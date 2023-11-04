@@ -1,20 +1,31 @@
 <div class=" row " style="font-family: 'Rubik', sans-serif;" >
 
-  <div class="col d-flex m-1" >
 
 
 
-    <a class="btn btn-dark m-2" onclick="back()"><i class="fa-solid fa-arrow-left"></i></a>
+
+    <div class="col d-flex">
+      <div class="mb-1">
+       
+
+      </div>
      
-    <div class="p-2" style="display: flex;align-items: center;">
-      <h6 class="m-0" id="path" >/root/app</h6>
+      <div class="p-2" style="display: flex;align-items: center;">
+        <a class="btn btn-dark m-2" onclick="back()"><i class="fa-solid fa-arrow-left"></i></a>
+        <h6 class="m-0" id="path" >/root/app</h6>
+  
+      </div>
+    </div>
+
+    <div class="col  d-flex"> 
+      <div class="ms-auto">
+        <a class="btn btn-primary  m-2" id="createFolderButton" ><i class="fa-solid fa-folder-plus"></i> Folder</a>
+        <a class="btn btn-primary  m-2" id="createFileButton" ><i class="fa-solid fa-square-plus"></i> File</a>
+      </div>
 
     </div>
    
-    <a class="btn btn-primary  m-2" id="createFolderButton" ><i class="fa-solid fa-folder-plus"></i> Folder</a>
-    <a class="btn btn-primary  m-2" id="createFileButton" ><i class="fa-solid fa-square-plus"></i> File</a>
 
-  </div>
 
 
 
@@ -41,7 +52,7 @@
     <li style="list-style: none;">
       <div class="row m-2 border p-2">
         <div class="col d-flex ">
-          <h6 class="m-0 fw-bold text-dark folder" data-foldername="<%= element %>" onclick="cd(this)"><%= element %></h6>
+          <h6 class="m-0 fw-bold text-dark folder" data-foldername="<%= element %>" id="folder" onclick="cd(this)"><%= element %></h6>
           <i class="fa-solid fa-trash btn-dark btn p-2 ms-auto" onclick="deleteapp(this)" style="font-size: 0.8rem;" data-folder="<%= element %>"></i>
         </div>
 
@@ -144,15 +155,25 @@
 
   }
 
+  var folders = "<%= folder%>"
+  
 
+  if (!folders.length ) {
+    var filePath = `${path.slice(0, -1)}`
+    console.log(filePath);
+
+document.getElementById('filepath').value = filePath
+
+document.getElementById('file').submit();
+  }
 
   function cd(button) {
 
-    var folders = "<%= folder.length %>"
     
-    const foldername = button.getAttribute('data-foldername');
-  
-    if (foldername.includes('.') && !foldername.endsWith('/')  ) {
+    
+     foldername = button.getAttribute('data-foldername');
+    console.log(folders);
+    if (foldername.includes('.')  ||  !folders.length  ) {
 
         var filePath = `${path}${foldername}`
 
