@@ -1,31 +1,29 @@
-<div class=" row " style="font-family: 'Rubik', sans-serif;" >
+<div class=" row " style="font-family: 'Rubik', sans-serif;">
 
 
 
 
 
-    <div class="col d-flex">
-      <div class="mb-1">
-       
+  <div class="col d-flex">
+    <div class="mb-1">
 
-      </div>
-     
-      <div class="p-2" style="display: flex;align-items: center;">
-        <a class="btn btn-dark m-2" onclick="back()"><i class="fa-solid fa-arrow-left"></i></a>
-        <h6 class="m-0" id="path" >/root/app</h6>
-  
-      </div>
+
     </div>
 
-    <div class="col  d-flex"> 
-      <div class="ms-auto">
-        <a class="btn btn-primary  m-2" id="createFolderButton" ><i class="fa-solid fa-folder-plus"></i> Folder</a>
-        <a class="btn btn-primary  m-2" id="createFileButton" ><i class="fa-solid fa-square-plus"></i> File</a>
-      </div>
+    <div class="p-2" style="display: flex;align-items: center;">
+      <a class="btn btn-dark m-2" onclick="back()"><i class="fa-solid fa-arrow-left"></i></a>
+      <h6 class="m-0" id="path">/root/app</h6>
 
     </div>
-   
+  </div>
 
+  <div class="col  d-flex">
+    <div class="ms-auto">
+      <a class="btn btn-primary  m-2" id="createFolderButton"><i class="fa-solid fa-folder-plus"></i> Folder</a>
+      <a class="btn btn-primary  m-2" id="createFileButton"><i class="fa-solid fa-square-plus"></i> File</a>
+    </div>
+
+  </div>
 
 
 
@@ -41,9 +39,12 @@
     .folder {
       cursor: pointer;
     }
-    
   </style>
-  <ul style="max-height: 60vh; overflow-y: auto;">
+  <div class="">
+    <input type="text" class="form-control m-2" id="filterInput" placeholder="Type to filter">
+
+  </div>
+  <ul style="max-height: 60vh; overflow-y: auto;" id="itemList">
     <% folder.forEach(element => { %>
 
 
@@ -68,7 +69,7 @@
   <div class=" col d-flex m-2">
     <input type="text" class="form-control mx-2" id="pathcmd" style="max-width: 480px;">
 
-    <a class="btn btn-primary  ms-2" onclick="pathcmd()" ><i class="fa-solid fa-code"></i> Execute</a>
+    <a class="btn btn-primary  ms-2" onclick="pathcmd()"><i class="fa-solid fa-code"></i> Execute</a>
   </div>
   <div id="output" class="output-terminal mb-3 rounded-2" style="max-height: 60vh; overflow-y: auto;">
     🤠 Log things here...
@@ -92,12 +93,12 @@
 
 
 <form action="/readfile/file" method="post" id="file" style="display: none;">
- <input type="text" name="filePath" id="filepath">
+  <input type="text" name="filePath" id="filepath">
 </form>
 
 
 <script>
-   document.getElementById('path').innerText = path;
+  document.getElementById('path').innerText = path;
 
   document.getElementById("createFolderButton").addEventListener("click", createNewFolder);
   document.getElementById("createFileButton").addEventListener("click", createNewFile);
@@ -156,31 +157,31 @@
   }
 
   var folders = "<%= folder%>"
-  
 
-  if (!folders.length ) {
+
+  if (!folders.length) {
     var filePath = `${path.slice(0, -1)}`
     console.log(filePath);
 
-document.getElementById('filepath').value = filePath
+    document.getElementById('filepath').value = filePath
 
-document.getElementById('file').submit();
+    document.getElementById('file').submit();
   }
 
   function cd(button) {
 
-    
-    
-     foldername = button.getAttribute('data-foldername');
+
+
+    foldername = button.getAttribute('data-foldername');
     console.log(folders);
-    if (foldername.includes('.')  ||  !folders.length  ) {
+    if (foldername.includes('.') || !folders.length) {
 
-        var filePath = `${path}${foldername}`
+      var filePath = `${path}${foldername}`
 
-        document.getElementById('filepath').value = filePath
+      document.getElementById('filepath').value = filePath
 
-        document.getElementById('file').submit();
-          
+      document.getElementById('file').submit();
+
 
     } else {
 
@@ -221,4 +222,22 @@ document.getElementById('file').submit();
     document.getElementById('exe').click();
 
   }
+</script>
+
+
+<script>
+  document.getElementById('filterInput').addEventListener('input', function() {
+    var filterValue = this.value.toLowerCase(); // Get the value entered by the user and convert it to lowercase for case-insensitive filtering
+    var itemList = document.getElementById('itemList');
+    var items = itemList.getElementsByTagName('li');
+
+    Array.from(items).forEach(function(item) {
+      var text = item.textContent.toLowerCase();
+      if (text.indexOf(filterValue) > -1) {
+        item.style.display = 'block'; // Show the item if the text matches the filter
+      } else {
+        item.style.display = 'none'; // Hide the item if the text does not match the filter
+      }
+    });
+  });
 </script>
