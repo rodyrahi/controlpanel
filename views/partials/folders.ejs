@@ -1,3 +1,5 @@
+<%- include('./folderschin.ejs') %>
+
 <div class=" row " style="font-family: 'Rubik', sans-serif;">
 
 
@@ -66,10 +68,9 @@
     <% }) %>
   </ul>
   <hr>
-  <div class=" col d-flex m-2">
-    <input type="text" class="form-control mx-2" id="pathcmd" style="max-width: 480px;">
+  <div class=" col d-none m-2 d-md-flex">
+    <%- include('./folderexecute.ejs') %>
 
-    <a class="btn btn-primary  ms-2" onclick="pathcmd()"><i class="fa-solid fa-code"></i> Execute</a>
   </div>
   <div id="output" class="output-terminal mb-3 rounded-2" style="max-height: 60vh; overflow-y: auto;">
     🤠 Log things here...

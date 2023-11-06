@@ -34,12 +34,58 @@
         } */
     </style>
 
+
+<style>
+    .side-panel {
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        right: -250px; /* Initial position, off-screen */
+        z-index: 1030;
+        width: 250px;
+        background-color: #fff; /* Change the background color as needed */
+        transition: all 0.3s;
+    }
+    .side-panel.active {
+        right: 0; /* Slide in when active */
+    }
+    #main-content {
+        transition: margin-right 0.3s;
+    }
+
+</style>
+
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Domine&family=Inclusive+Sans&family=Josefin+Sans:wght@400;700&family=Montserrat&family=Noto+Sans+JP&family=Oswald:wght@500;600&family=Plus+Jakarta+Sans:wght@500&family=Poppins:wght@300;700&family=Roboto+Mono:wght@400;500&family=Roboto+Slab&family=Rubik:wght@600&family=Tajawal:wght@700&family=Ysabeau+Infant:wght@700&display=swap');
   </style>
 </head>
+
+
+
 <body style="font-family: 'Inclusive Sans', sans-serif;">
+    <div class="side-panel p-1 shadow d-block d-md-none" id="sidePanel" style=" border-radius: 0.5rem 0 0  0.5rem; ">
+        <div class="container">
+            <div class=" row ">
+                <div class="d-flex">
+                    <i class="fa-solid fa-circle-xmark ms-auto m-3" style="font-size: 2rem; color: cadetblue;" onclick="toggleSidePanel()"></i>
+
+                </div>
+                <%- include('./partials/sidenav.ejs') %>
+
+            </div>
+        </div>
+    
+    
+      </div>
+
+
+
+
+
+      
+
     <div class="container">
+    
         <nav class="navbar p-0 navbar-expand-lg navbar-light bg-white" style="font-family: 'Rubik', sans-serif;">
             <a class="navbar-brand me-auto" href="/">
               <h5 class="fw-bold" style="color: cadetblue;">
@@ -47,9 +93,11 @@
                 KADMIN.ONLINE
               </h5>
             </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#ContentId" aria-controls="ContentId" aria-expanded="false" aria-label="Toggle navigation">
-              <span class="navbar-toggler-icon"></span>
-            </button>
+
+            <i class="fa-solid fa-circle-chevron-down d-block d-md-none m-2" style="font-size: 2rem; color: cadetblue;" onclick="toggleSidePanel()"></i>
+            <!-- <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#ContentId" aria-controls="ContentId" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon" ></span>
+            </button> -->
           
           
           
@@ -77,28 +125,8 @@
 
 
         <div class="row"  >
-            
-            <div class="col-md-2 p-2" id="ContentId">
-   
-                    <ul class="list-group ">
-                        <li class="list-group-item"><a class="btn btn-primary " hx-get="/status" hx-target="#home" ><i class="fa-solid fa-gauge"></i> Dashboard</a></li>
-                        <li class="list-group-item "> <a class="btn btn-primary" href="/terminal"   target="_blank"   ><i class="fa-solid fa-terminal"></i> Terminal</a> </li>
-    
-                        <li class="list-group-item "> <a class="btn btn-primary" hx-get="/apps" hx-target="#home" id="apps"   ><i class="fa-solid fa-laptop-code"></i> Pm2 Apps</a> </li>
-                        <li class="list-group-item "> <a class="btn btn-primary" hx-get="/gitrepos" hx-target="#home" id="folder" onclick="resetpath()" ><i class="fa-solid fa-folder"></i> Folders</a> </li>
-                        
-                        <li class="list-group-item "> <a class="btn btn-primary" hx-get="/scripts" hx-target="#home" id="folder"  ><i class="fa-solid fa-gear"></i> Scripts</a> </li>
-    
-                        <li class="list-group-item "> 
-                            <a class="btn btn-primary" hx-get="/website" hx-target="#home">
-                            <i class="fa-solid fa-globe"></i> Website
-                            </a> 
-                        </li>
-    
-                        <li class="list-group-item "> <a class="btn btn-primary" hx-get="/sqlite" hx-target="#home"   ><i class="fa-solid fa-database"></i> SQLite3</a> </li>
-    
-                    </ul>
-             
+            <div class="col-2 p-2 col d-md-block d-none"  id="ContentId">
+                <%- include('./partials/sidenav.ejs') %>
 
             </div>
             <div class="col-md-10 border  mt-2 rounded-2" id="home"  >
@@ -115,6 +143,18 @@
 
     </div>
 
+    <footer style="height: 10vh;">
+
+    </footer>
+
+
+    <script>
+        function toggleSidePanel() {
+          var sidePanel = document.getElementById("sidePanel");
+          sidePanel.classList.toggle("active");
+        }
+    </script>
+
     <script>
             var user =   "<%= sysuser %>";
 
@@ -125,5 +165,11 @@
             path= `/${user}/app/`;
            }
     </script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
 </body>
+
+
+
 </html>
