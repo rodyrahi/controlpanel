@@ -7,32 +7,28 @@
 
 
   <div class="col d-flex">
-    <div class="mb-1">
+    <a class="btn btn-dark m-2" onclick="back()"><i class="fa-solid fa-arrow-left"></i></a>
 
+    <div class="my-auto" style="">
+      <input type="text"  value="/root/app" class="form-control rounded-pill" id="path"></input>
 
     </div>
 
-    <div class="p-2" style="display: flex;align-items: center;">
-      <a class="btn btn-dark m-2" onclick="back()"><i class="fa-solid fa-arrow-left"></i></a>
-      <h6 class="m-0" id="path">/root/app</h6>
-
+    <div class="d-none d-md-block ms-auto">
+      <%- include('./createmenu.ejs') %>
+  
     </div>
   </div>
 
-  <div class="col  d-flex">
-    <div class="ms-auto">
-      <a class="btn btn-primary  m-2" id="createFolderButton"><i class="fa-solid fa-folder-plus"></i> Folder</a>
-      <a class="btn btn-primary  m-2" id="createFileButton"><i class="fa-solid fa-square-plus"></i> File</a>
-    </div>
+ 
 
-  </div>
 
 
 
 
 
 </div>
-<hr>
+
 
 <div class=" row ">
 
