@@ -39,7 +39,7 @@
     }
   </style>
   <div class="">
-    <input type="text" class="form-control m-2" id="filterInput" placeholder="Type to filter">
+    <input type="text" class="form-control m-2" id="filterInput" placeholder="Type to Search">
 
   </div>
   <ul style="max-height: 60vh; overflow-y: auto;" id="itemList">
@@ -49,9 +49,13 @@
 
 
     <li style="list-style: none;">
-      <div class="row m-2 border p-2">
-        <div class="col d-flex ">
-          <h6 class="m-0 fw-bold text-dark folder" data-foldername="<%= element %>" id="folder" onclick="cd(this)"><%= element %></h6>
+      <div class="row m-2 border rounded  p-2">
+        <div class="col d-flex  ">
+          <div class="d-flex folder" data-foldername="<%= element %>" id="folder" onclick="cd(this)">
+            <i class="fa-regular fa-folder my-auto mx-1" style="font-size: 1.5rem;"></i>
+            <h6 class="m-0 fw-bold text-dark  my-auto " ><%= element %></h6>
+  
+          </div>
           <i class="fa-solid fa-trash btn-dark btn p-2 ms-auto" onclick="deleteapp(this)" style="font-size: 0.8rem;" data-folder="<%= element %>"></i>
         </div>
 
@@ -95,7 +99,7 @@
 
 
 <script>
-  document.getElementById('path').innerText = path;
+  document.getElementById('path').value = path;
 
   document.getElementById("createFolderButton").addEventListener("click", createNewFolder);
   document.getElementById("createFileButton").addEventListener("click", createNewFile);
