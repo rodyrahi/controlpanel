@@ -197,6 +197,9 @@
   }
 
 
+  window.onbeforeunload = function () {
+   back()
+  }
   function back() {
     const pathParts = path.split('/');
 
