@@ -1,5 +1,10 @@
 <%- include('./folderschin.ejs') %>
 
+
+
+
+
+
 <div class=" row " style="font-family: 'Rubik', sans-serif;">
 
 
@@ -49,27 +54,44 @@
   </div>
 
   <ul style="max-height: 60vh; overflow-y: auto;" id="itemList">
-    <% folder.forEach(element => { %>
+
+    
+
+
+
+    <% folder.forEach((element , index) => { %>
+
+      <% if (index > 2) { %>
+      <% let parts = element.split(" "); %>
+      <% let name = parts[parts.length - 1]; %>
+
+      <li style="list-style: none;">
+        <div class="row m-2 border rounded  p-2">
+          <div class="col d-flex  ">
+
+            <% if (parts[0].charAt(0) === 'd') { %>
+              <div class="d-flex folder" data-foldername="<%= name %>" data-type="folder" id="folder" onclick="cd(this)">
+                <i class="fa-regular fa-folder my-auto mx-1" style="font-size: 1.5rem;"></i>
+                <h6 class="m-0 fw-bold text-dark  my-auto " ><%= name %></h6>
+              </div>
+            <% } else { %>
+              <div class="d-flex folder" data-foldername="<%= name %>" data-type="file" id="folder" onclick="cd(this)">
+                <i class="fa-regular fa-file my-auto mx-1" style="font-size: 1.5rem;"></i>
+                <h6 class="m-0 fw-bold text-success  my-auto " ><%= name %></h6>
+              </div>
+            <% } %>
 
 
 
 
-    <li style="list-style: none;">
-      <div class="row m-2 border rounded  p-2">
-        <div class="col d-flex  ">
-          <div class="d-flex folder" data-foldername="<%= element %>" id="folder" onclick="cd(this)">
-            <i class="fa-regular fa-folder my-auto mx-1" style="font-size: 1.5rem;"></i>
-            <h6 class="m-0 fw-bold text-dark  my-auto " ><%= element %></h6>
-  
+            <i class="fa-solid fa-trash btn-dark btn p-2 ms-auto" onclick="deleteapp(this)" style="font-size: 0.8rem;" data-folder="<%= name %>"></i>
           </div>
-          <i class="fa-solid fa-trash btn-dark btn p-2 ms-auto" onclick="deleteapp(this)" style="font-size: 0.8rem;" data-folder="<%= element %>"></i>
+
         </div>
 
-      </div>
+      </li>
 
-    </li>
-
-
+      <% } %>
 
     <% }) %>
   </ul>
@@ -109,6 +131,8 @@
 
   document.getElementById("createFolderButton").addEventListener("click", createNewFolder);
   document.getElementById("createFileButton").addEventListener("click", createNewFile);
+
+
 
   function createNewFolder() {
 
@@ -180,8 +204,11 @@
 
 
     foldername = button.getAttribute('data-foldername');
-    console.log(folders);
-    if (foldername.includes('.') || !folders.length) {
+    var type = button.getAttribute('data-type');
+
+    console.log(type);
+    if (type === 'file') {
+      console.log(type);
 
       var filePath = `${path}${foldername}`
 
@@ -193,7 +220,7 @@
     } else {
 
       console.log('Change directory to:', foldername);
-      document.getElementById('dir').value = `cd ${path}${foldername}/ && ls -a`;
+      document.getElementById('dir').value = `cd ${path}${foldername}/ && ls -la`;
       path += `${foldername}/`;
 
       console.log('Current path:', path);
@@ -203,9 +230,7 @@
   }
 
 
-  window.onbeforeunload = function () {
-   back()
-  }
+
   function back() {
     const pathParts = path.split('/');
 
@@ -215,7 +240,7 @@
     } else {
       path = '/';
     }
-    document.getElementById('dir').value = `cd ${path} && ls -a`;
+    document.getElementById('dir').value = `cd ${path} && ls -la`;
     console.log(path, back);
     document.getElementById('dirbtn').click();
 

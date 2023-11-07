@@ -158,10 +158,10 @@ app.get("/apps", async (req, res) => {
 
 
 
-app.get("/gitrepos", async (req, res) => {
+app.get("/folders", async (req, res) => {
   let folder = [];
   try {
-    const { stdout, stderr } = await ssh.execCommand("ls", {
+    const { stdout, stderr } = await ssh.execCommand("ls -la", {
       cwd: `/${sysuser}/app`,
     });
     folder = stdout.split("\n").filter(Boolean);
@@ -316,18 +316,12 @@ app.post("/changedir", async (req, res) => {
     const { stdout, stderr } = await ssh.execCommand(dir);
     folder = stdout.split("\n").filter(Boolean);
 
-    console.log(stderr );
-    if(stderr.includes('Not a directory')){
 
-
-      res.render('partials/folders' ,  { folder } )
-
-    }else{
 
 
       res.render("partials/folders", { folder });
 
-    }
+    
 
   } catch (error) {
     res.send(`Error executing the command: ${error.message}`);
