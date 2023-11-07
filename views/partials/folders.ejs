@@ -38,10 +38,16 @@
       cursor: pointer;
     }
   </style>
-  <div class="">
-    <input type="text" class="form-control m-2" id="filterInput" placeholder="Type to Search">
+  <div class="d-flex">
+    <div class="input-group flex-nowrap mx-2 my-1">
+      <!-- <input type="text" class="form-control" placeholder="Username" > -->
+      <input type="text" class="form-control" id="filterInput" placeholder="Type to Search" aria-label="Username" aria-describedby="addon-wrapping" >
+      <span class="input-group-text" id="addon-wrapping"> <i class="fa-solid fa-magnifying-glass m-auto  " style="font-size: 1.5rem; color: rgb(42, 97, 99);"></i> </span>
 
+    </div>
+   
   </div>
+
   <ul style="max-height: 60vh; overflow-y: auto;" id="itemList">
     <% folder.forEach(element => { %>
 
