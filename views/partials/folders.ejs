@@ -255,7 +255,7 @@
   function pathcmd() {
 
 
-    const cmd = document.getElementById('pathcmd').value ? document.getElementById('pathcmd2').value : document.getElementById('pathcmd').value
+    const cmd = document.getElementById('pathcmd').value ==='' ? document.getElementById('pathcmd2').value : document.getElementById('pathcmd').value
 
     console.log(cmd);
     console.log(`cd ${path} && ${cmd}`);
