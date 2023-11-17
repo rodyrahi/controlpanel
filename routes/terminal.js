@@ -9,7 +9,7 @@ var router = express.Router();
 
 
 router.get('/', (req, res) => {
-  res.render('partials/terminal')
+  // res.render('partials/terminal.')
 });
 
 io.on('connection', (socket) => {

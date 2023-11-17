@@ -109,13 +109,27 @@
 
   }
 
-  function log(button) {
-    const appName = button.getAttribute('data-name');
-    document.getElementById('command').value =
-      ` pm2 logs ${appName} --nostream`
-    document.getElementById('exe').click()
+  var interval = null;
+ 
+function log(button) {
+  // Clear the existing interval if it's running
+  clearInterval(interval);
 
-  }
+  // Set up a new interval
+  interval = setInterval(function() {
+    seelog(button);
+  }, 3000);
+}
+
+function seelog(button) {
+  const appName = button.getAttribute('data-name');
+  document.getElementById('command').value = ` pm2 logs ${appName} --nostream`;
+  document.getElementById('exe').click();
+}
+
+
+
+
 </script>
 
 

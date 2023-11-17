@@ -152,6 +152,7 @@
 
     <script>
         function toggleSidePanel() {
+            clearInterval(interval);
           var sidePanel = document.getElementById("sidePanel");
           sidePanel.classList.toggle("active");
         }
