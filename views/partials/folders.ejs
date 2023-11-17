@@ -135,8 +135,7 @@
 <script>
   document.getElementById('path').value = path;
 
-  document.getElementById("createFolderButton").addEventListener("click", createNewFolder);
-  document.getElementById("createFileButton").addEventListener("click", createNewFile);
+
 
 
 
@@ -193,17 +192,17 @@
 
   }
 
-  var folders = "<%= folder%>"
+  // var folders = "<%= folder%>"
 
 
-  if (!folders.length) {
-    var filePath = `${path.slice(0, -1)}`
-    console.log(filePath);
+  // if (!folders.length) {
+  //   var filePath = `${path.slice(0, -1)}`
+  //   console.log(filePath);
 
-    document.getElementById('filepath').value = filePath
+  //   document.getElementById('filepath').value = filePath
 
-    document.getElementById('file').submit();
-  }
+  //   document.getElementById('file').submit();
+  // }
 
   function cd(button) {
 
