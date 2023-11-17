@@ -1,40 +1,54 @@
-
 const express = require('express');
 const { Server } = require('socket.io');
-const { ssh,  server } = require('../server.js');
+const { ssh, server } = require('../server.js');
 const io = new Server(server);
 var router = express.Router();
 
-
-
-
 router.get('/', (req, res) => {
-  // res.render('partials/terminal.')
-});
+  // Check if session variables are set
+  if (!req.session.host || !req.session.username || !req.session.password) {
+    return res.status(400).send('Missing session information');
+  }
 
-io.on('connection', (socket) => {
- 
+  // Connect to SSH
+  const sshConfig = {
+    host: req.session.host,
+    username: req.session.username,
+    password: req.session.password,
+  };
+  ssh.connect(sshConfig)
+    .then(() => {
+      console.log(req.session.host, req.session.username, req.session.password);
+      res.render('partials/terminal');
 
-      socket.emit('data', '\r\n*** SSH CONNECTION ESTABLISHED ***\r\n');
-      return ssh.requestShell()
-    .then((shell) => {
-      shell.on('data', (data) => {
-        socket.emit('data', data.toString('binary'));
-      });
+      // Set up Socket.IO connection
+      io.on('connection', (socket) => {
+        socket.emit('data', '\r\n*** SSH CONNECTION ESTABLISHED ***\r\n');
 
-      socket.on('data', (data) => {
-        shell.write(data);
-      });
+        return ssh.requestShell()
+          .then((shell) => {
+            shell.on('data', (data) => {
+              socket.emit('data', data.toString('binary'));
+            });
 
-      shell.on('close', () => {
-        ssh.dispose();
-        socket.emit('data', '\r\n*** SSH CONNECTION CLOSED ***\r\n');
+            socket.on('data', (data) => {
+              shell.write(data);
+            });
+
+            shell.on('close', () => {
+              ssh.dispose();
+              socket.emit('data', '\r\n*** SSH CONNECTION CLOSED ***\r\n');
+            });
+          })
+          .catch((err) => {
+            socket.emit('data', '\r\n*** SSH CONNECTION ERROR: ' + err.message + ' ***\r\n');
+          });
       });
     })
     .catch((err) => {
-      socket.emit('data', '\r\n*** SSH CONNECTION ERROR: ' + err.message + ' ***\r\n');
+      console.error('SSH connection error:', err);
+      res.status(500).send('Error connecting to SSH');
     });
 });
 
-
-module.exports = router
+module.exports = router;

@@ -112,10 +112,9 @@
   var interval = null;
  
 function log(button) {
-  // Clear the existing interval if it's running
-  clearInterval(interval);
 
-  // Set up a new interval
+  clearInterval(interval);
+  seelog(button);
   interval = setInterval(function() {
     seelog(button);
   }, 3000);

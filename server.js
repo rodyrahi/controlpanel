@@ -181,6 +181,11 @@ app.get("/website", (req, res) => {
 var sysuser =''
 app.post("/connect", async (req, res) => {
   const { host, username, password } = req.body;
+
+  req.session.host = host;
+  req.session.username = username;
+  req.session.password = password;
+
     sysuser = username
   try {
     
