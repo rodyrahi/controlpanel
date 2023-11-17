@@ -21,6 +21,9 @@ app.use(express.json())
 app.use(express.static("public"));
 
 
+
+
+
 var isWin = process.platform === "win32";
 var baseurl = !isWin ? "https://kadmin.online" : "http://localhost:9111";
 const config = {
@@ -186,6 +189,8 @@ app.post("/connect", async (req, res) => {
   req.session.username = username;
   req.session.password = password;
 
+
+
     sysuser = username
   try {
     
@@ -209,7 +214,29 @@ app.post("/connect", async (req, res) => {
 
 });
 
+
+
+const checkSessionVariables = (req, res, next) => {
+  if (
+    req.path === "/connect" ||
+    req.path === "/" ||
+    req.path === "/server" ||
+    (req.session.host && req.session.username && req.session.password)
+  ) {
+    next();
+  } else {
+    res.redirect("/login");
+  }
+};
+
+app.use(checkSessionVariables);
+
+
+
+
 app.get("/dashboard", async (req, res) => {
+
+  
   const result = scriptsdb.prepare("SELECT * FROM scripts WHERE user=?").all(req.oidc.sub);
 
 
