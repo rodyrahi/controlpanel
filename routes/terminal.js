@@ -35,6 +35,10 @@ router.get('/', (req, res) => {
               shell.write(data);
             });
 
+            socket.on('disconnect', (data) => {
+              shell.end()
+            });
+
             shell.on('close', () => {
               ssh.dispose();
               socket.emit('data', '\r\n*** SSH CONNECTION CLOSED ***\r\n');

@@ -50,6 +50,7 @@
                 });
 
                 socket.on('disconnect', function () {
+                    socket.emit('disconnect');
                     term.destroy();
                 });
             });
