@@ -7,7 +7,7 @@ const { NodeSSH } = require("node-ssh");
 const server = http.createServer(app);
 const { userdb, scriptsdb } = require("./db");
 const path = require("path");
-const ssh = new NodeSSH();
+
 const fs = require("fs");
 const { auth, requiresAuth } = require("express-openid-connect");
 module.exports = { ssh,server ,app , bodyParser };
@@ -65,7 +65,7 @@ app.use("/api", apiRouter);
 app.use("/cronjob", cronjobRouter);
 
 
-// Replace with the path to your Git repository
+const ssh = new NodeSSH();
 
 const putConfig = {
   flags: 'w', // w - write and a - append
