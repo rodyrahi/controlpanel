@@ -3,6 +3,7 @@ const { Server } = require('socket.io');
 const { ssh, server } = require('../server.js');
 const io = new Server(server);
 var router = express.Router();
+const { NodeSSH } = require("node-ssh");
 
 router.get('/', (req, res) => {
   // Check if session variables are set
@@ -10,13 +11,16 @@ router.get('/', (req, res) => {
     return res.status(400).send('Missing session information');
   }
 
+
   // Connect to SSH
   const sshConfig = {
     host: req.session.host,
     username: req.session.username,
     password: req.session.password,
   };
-  ssh.connect(sshConfig)
+
+  const terminalssh = new NodeSSH()
+  terminalssh.connect(sshConfig)
     .then(() => {
       console.log(req.session.host, req.session.username, req.session.password);
       res.render('partials/terminal');
@@ -36,11 +40,11 @@ router.get('/', (req, res) => {
             });
 
             socket.on('disconnect', (data) => {
-              shell.end()
+              terminalssh.dispose()
             });
 
             shell.on('close', () => {
-              ssh.dispose();
+              terminalssh.dispose();
               socket.emit('data', '\r\n*** SSH CONNECTION CLOSED ***\r\n');
             });
           })
