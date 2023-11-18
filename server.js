@@ -1,71 +1,56 @@
 const http = require('http');
 const session = require('express-session');
-const express = require("express");
+const express = require('express');
 const app = express();
-const bodyParser = require("body-parser");
-const { NodeSSH } = require("node-ssh");
+const bodyParser = require('body-parser');
+const { NodeSSH } = require('node-ssh');
 const server = http.createServer(app);
-const { userdb, scriptsdb } = require("./db");
-const path = require("path");
+const { userdb, scriptsdb } = require('./db');
+const path = require('path');
 
-const fs = require("fs");
-const { auth, requiresAuth } = require("express-openid-connect");
-module.exports = { ssh,server ,app , bodyParser };
+const fs = require('fs');
+const { auth, requiresAuth } = require('express-openid-connect');
 const simpleGit = require('simple-git');
 
+app.set('view engine', 'ejs');
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+app.use(express.static('public'));
 
-
-app.set("view engine", "ejs");
-app.use(express.urlencoded({extended: true})); 
-app.use(express.json())
-app.use(express.static("public"));
-
-
-
-
-
-var isWin = process.platform === "win32";
-var baseurl = !isWin ? "https://kadmin.online" : "http://localhost:9111";
+var isWin = process.platform === 'win32';
+var baseurl = !isWin ? 'https://kadmin.online' : 'http://localhost:9111';
 const config = {
   authRequired: false,
   auth0Logout: true,
-  secret: "3qnLXoHY1TDBvbGhD1Hj24eXk54Rjs2SXZFuXrEj9XvefDMA-uhc4U7dO-VZek4A",
+  secret: '3qnLXoHY1TDBvbGhD1Hj24eXk54Rjs2SXZFuXrEj9XvefDMA-uhc4U7dO-VZek4A',
   baseURL: baseurl,
-  clientID: "zj17AAKjTh0ZrdOmD3O7hiXTKc1UwHAy",
-  issuerBaseURL: "https://dev-t42orpastoaad3st.us.auth0.com",
+  clientID: 'zj17AAKjTh0ZrdOmD3O7hiXTKc1UwHAy',
+  issuerBaseURL: 'https://dev-t42orpastoaad3st.us.auth0.com',
 };
+app.use(
+  session({
+    secret: 'fasfasgdghreyt4wsgsdfsdfwer',
+    resave: false,
+    saveUninitialized: true,
+  })
+);
 app.use(auth(config));
 
+const ssh = new NodeSSH();
+module.exports = { ssh, server, app, bodyParser };
 
-
-
-
-
-app.use(
-    session({
-      secret: "fasfasgdghreyt4wsgsdfsdfwer",
-      resave: false,
-      saveUninitialized: true,
-
-    })
-  );
-  
-  
-
-
-const terminalRouter = require("./routes/terminal.js");
-const readfileRouter = require("./routes/readfile.js");
-const apiRouter = require("./routes/api.js");
-const cronjobRouter = require("./routes/cronjobs.js");
+const terminalRouter = require('./routes/terminal.js');
+const readfileRouter = require('./routes/readfile.js');
+const apiRouter = require('./routes/api.js');
+const cronjobRouter = require('./routes/cronjobs.js');
 const { log } = require('console');
 
-app.use("/terminal", terminalRouter);
-app.use("/readfile", readfileRouter);
-app.use("/api", apiRouter);
-app.use("/cronjob", cronjobRouter);
+app.use('/terminal', terminalRouter);
+app.use('/readfile', readfileRouter);
+app.use('/api', apiRouter);
+app.use('/cronjob', cronjobRouter);
 
 
-const ssh = new NodeSSH();
 
 const putConfig = {
   flags: 'w', // w - write and a - append
@@ -73,6 +58,10 @@ const putConfig = {
   mode: 0o666, // mode to use for created file (rwx)
   autoClose: true // automatically close the write stream when finished
 };
+
+
+
+
 
 app.post("/upload", async(req, res) => {
   try {
@@ -131,7 +120,11 @@ app.get("/server", requiresAuth(), (req, res) => {
   }
 });
 
+var t=1
+
 app.get("/", (req, res) => {
+  t+=1
+  console.log(t);
   res.render("home");
 });
 

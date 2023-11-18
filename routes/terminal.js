@@ -1,12 +1,17 @@
 const express = require('express');
 const { Server } = require('socket.io');
-const { ssh, server } = require('../server.js');
+const {  server } = require('../server.js');
 const io = new Server(server);
 var router = express.Router();
 const { NodeSSH } = require("node-ssh");
 
+
+
+
+
+
 router.get('/', (req, res) => {
-  // Check if session variables are set
+
   if (!req.session.host || !req.session.username || !req.session.password) {
     return res.status(400).send('Missing session information');
   }
@@ -29,7 +34,7 @@ router.get('/', (req, res) => {
       io.on('connection', (socket) => {
         socket.emit('data', '\r\n*** SSH CONNECTION ESTABLISHED ***\r\n');
 
-        return ssh.requestShell()
+        return terminalssh.requestShell()
           .then((shell) => {
             shell.on('data', (data) => {
               socket.emit('data', data.toString('binary'));
@@ -45,7 +50,7 @@ router.get('/', (req, res) => {
 
             shell.on('close', () => {
               terminalssh.dispose();
-              socket.emit('data', '\r\n*** SSH CONNECTION CLOSED ***\r\n');
+
             });
           })
           .catch((err) => {
@@ -57,6 +62,8 @@ router.get('/', (req, res) => {
       console.error('SSH connection error:', err);
       res.status(500).send('Error connecting to SSH');
     });
+
 });
+
 
 module.exports = router;
