@@ -185,14 +185,22 @@ app.post("/connect", async (req, res) => {
 
 
     sysuser = username
+
+
+    if (!req.session.sshConfig) {
+
+      req.session.sshConfig  = {
+        host,
+        username,
+        password,
+  
+      }
+  
+    }
+
   try {
     
-    await ssh.connect({
-      host,
-      username,
-      password,
-
-    }) ;
+    await ssh.connect(req.session.sshConfig) ;
 
 
 
