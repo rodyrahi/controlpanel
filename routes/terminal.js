@@ -31,10 +31,12 @@ io.on("connection", (socket) => {
 
     .then((shell) => {
       shell.on("data", (data) => {
-        socket.emit("data", data.toString("binary"));
+     
+        socket.emit("data", data.toString());
       });
 
       socket.on("data", (data) => {
+       
         shell.write(data);
       });
 

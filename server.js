@@ -120,11 +120,10 @@ app.get("/server", requiresAuth(), (req, res) => {
   }
 });
 
-var t=1
+
 
 app.get("/", (req, res) => {
-  t+=1
-  console.log(t);
+
   res.render("home");
 });
 
@@ -222,7 +221,7 @@ const checkSessionVariables = (req, res, next) => {
     req.path === "/connect" ||
     req.path === "/" ||
     req.path === "/server" ||
-    (req.session.host && req.session.username && req.session.password)
+    (req.session.sshConfig)
   ) {
     next();
   } else {
