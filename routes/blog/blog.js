@@ -13,6 +13,7 @@ router.get("/", async (req, res) => {
 router.post("/createblog", (req, res) => {
     const { tittle, author, body , id } = req.body;
     
+    console.log(body);
    
     const result = blogsdb.prepare("SELECT * FROM blogs WHERE id= ?").get(id);
   

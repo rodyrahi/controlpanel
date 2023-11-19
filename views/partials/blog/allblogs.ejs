@@ -13,24 +13,24 @@
 
             <% blogs.forEach(blog => { %>
                 <div class="col border rounded-2 m-2 p-3">
-
-                    <i class="fa-solid fa-pen-to-square" type="button" data-id="<%= blog.id %>" data-body="<%= blog.body %>" data-tittle="<%= blog.tittle %>" data-author="<%= blog.author %>"  onclick="editblog(this)" ></i>
-                    <h1 class="fw-bold "  ><%= blog.tittle %></h1>
+                    <i class="fa-solid fa-pen-to-square" type="button" data-id="<%= blog.id %>" data-body="<%= blog.body %>" data-title="<%= blog.title %>" data-author="<%= blog.author %>" onclick="editblog(this)"></i>
+                    <h1 class="fw-bold"><%= blog.title %></h1>
                     <hr>
                     <div class="d-flex mb-3">
-                        
                         <img class="img-fluid rounded-circle my-auto me-1" width="30px" src="https://lh3.googleusercontent.com/a/ACg8ocJrmTL04hqM_zYpAMBoGWMu_HhzxTsYLKc-zmDHpJEmyKk=s96-c" alt="" srcset="">
-                        <h5 class="text-muted my-auto"    ><%= blog.author %></h5>
+                        <h5 class="text-muted my-auto"><%= blog.author %></h5>
                     </div>
-
+            
                     <div class="fw-bold">
-                        <p  ><%= blog.body %></p>
+
+                        <%= blog.body %>
+
                     </div>
-
-
-
                 </div>
             <% }) %>
+            
+            
+            
 
         </div>
 
@@ -94,8 +94,34 @@
         document.getElementById('id').value = `${id}`;
         document.getElementById('tittle').value = `${title}`;
         document.getElementById('author').value = `${author}`;
-        document.getElementById('body').value = `${body}`;
+        document.getElementById('body').value = body;
 
 }
+</script>
+
+
+
+<script>
+    function formatCodeInBlog() {
+    // Get all elements with the class 'fw-bold', assuming this is where the blog body is displayed
+    var blogBodies = document.querySelectorAll('.fw-bold');
+
+    blogBodies.forEach(blogBody => {
+        // Get the inner HTML of the blog body
+        var innerHTML = blogBody.innerHTML;
+
+        // Use a regular expression to find code blocks and wrap them in <code> tags
+        var formattedHTML = innerHTML.replace(/```([\s\S]*?)```/g, '<code>$1</code>');
+
+        // Update the blog body with the formatted HTML
+        blogBody.innerHTML = formattedHTML;
+    });
+}
+
+// Call the function when the page is loaded or when the blogs are dynamically added
+window.onload = function() {
+    formatCodeInBlog();
+};
+
 </script>
 </html>
