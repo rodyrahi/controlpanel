@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+    <%- include('../header.ejs') %>
+
+
+<body>
+    <div class="container">
+        <%- include('../navbar.ejs') %>
+
+        <div class="border">
+
+            <% blogs.forEach(blog => { %>
+                <div class="border rounded-2 m-2 p-3">
+                    <h1 class="fw-bold "><%= blog.tittle %></h1>
+                    <hr>
+                    <div class="d-flex mb-3">
+                        
+                        <img class="img-fluid rounded-circle my-auto me-1" width="30px" src="https://lh3.googleusercontent.com/a/ACg8ocJrmTL04hqM_zYpAMBoGWMu_HhzxTsYLKc-zmDHpJEmyKk=s96-c" alt="" srcset="">
+                        <h5 class="text-muted my-auto" ><%= blog.author %></h5>
+                    </div>
+
+                    <div class="fw-bold">
+                        <p><%= blog.body %></p>
+                    </div>
+
+
+
+                </div>
+            <% }) %>
+
+        </div>
+
+
+                <% if (isadmin) { %>
+                    <div class="border p-3">
+                        <form class="" action="/blog/createblog" method="post">
+                            <!-- Author Input -->
+                            <div class="mb-3">
+                              <label for="author" class="form-label">Author</label>
+                              <input type="text" class="form-control" id="author" name="author" required>
+                            </div>
+                        
+                            <!-- Title Input -->
+                            <div class="mb-3">
+                              <label for="title" class="form-label">Title</label>
+                              <input type="text" class="form-control" id="title" name="title" required>
+                            </div>
+                        
+                            <!-- Body Textarea -->
+                            <div class="mb-3">
+                              <label for="body" class="form-label">Body</label>
+                              <textarea class="form-control" id="body" name="body" rows="4" required></textarea>
+                            </div>
+                        
+                            <!-- Image Input -->
+                            <div class="mb-3">
+                              <label for="image" class="form-label">Image URL</label>
+                              <input type="file" class="form-control" id="image" name="image" required>
+                            </div>
+                        
+                            <!-- Submit Button -->
+                            <button type="submit" class="btn btn-light">Submit</button>
+                          </form>
+                    </div>
+            
+                    <% } %>
+
+        
+
+
+    </div>
+</body>
+</html>

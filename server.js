@@ -5,7 +5,7 @@ const app = express();
 const bodyParser = require('body-parser');
 const { NodeSSH } = require('node-ssh');
 const server = http.createServer(app);
-const { userdb, scriptsdb } = require('./db');
+const { userdb, scriptsdb } = require('./routes/db.js');
 const path = require('path');
 
 const fs = require('fs');
@@ -39,16 +39,21 @@ app.use(auth(config));
 const ssh = new NodeSSH();
 module.exports = { ssh, server, app, bodyParser };
 
+
+const scriptsRouter = require('./routes/scripts/scripts.js');
 const terminalRouter = require('./routes/terminal.js');
 const readfileRouter = require('./routes/readfile.js');
 const apiRouter = require('./routes/api.js');
 const cronjobRouter = require('./routes/cronjobs.js');
-const { log } = require('console');
+const blogRouter = require('./routes/blog/blog.js');
 
+
+app.use('/', scriptsRouter);
 app.use('/terminal', terminalRouter);
 app.use('/readfile', readfileRouter);
 app.use('/api', apiRouter);
 app.use('/cronjob', cronjobRouter);
+app.use('/blog', blogRouter);
 
 
 
@@ -221,6 +226,7 @@ const checkSessionVariables = (req, res, next) => {
     req.path === "/connect" ||
     req.path === "/" ||
     req.path === "/server" ||
+    req.path === "/profile" ||
     (req.session.sshConfig)
   ) {
     next();
@@ -381,39 +387,7 @@ app.get("/createwebsite.sh", (req, res) => {
   });
 });
 
-app.get("/scripts", (req, res) => {
-  const result = scriptsdb.prepare("SELECT * FROM scripts WHERE user=?").all(req.oidc.user.sub);
 
-
-  res.render("partials/scripts", { result: result });
-});
-app.post("/createscript", (req, res) => {
-  const { scriptname, script, id } = req.body;
-
-  const result = scriptsdb.prepare("SELECT * FROM scripts WHERE id= ?").get(id);
-
-  if (!result) {
-    scriptsdb
-      .prepare(`INSERT INTO scripts (name , script ,user) VALUES (?,? ,?) `)
-      .run(scriptname, script , req.oidc.user.sub);
-  } else {
-    scriptsdb
-      .prepare("UPDATE scripts SET name = ?, script = ? WHERE id = ? ")
-      .run(scriptname, script, id);
-  }
-
-  console.log("done");
-  res.redirect("/scripts");
-});
-
-app.get("/deletescript/:id", (req, res) => {
-  const id = req.params.id;
-
-  // Assuming you have a database connection and a table named 'scripts'
-  scriptsdb.prepare("DELETE FROM scripts WHERE id = ?").run(id);
-
-  res.redirect("/scripts"); // Redirect to the scripts page after successful deletion
-});
 
 app.get("/sqlite", (req, res) => {
   res.render("partials/sqlite");

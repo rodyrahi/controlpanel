@@ -4,7 +4,6 @@
 
 
 
-
 <div class=" row " style="font-family: 'Rubik', sans-serif;">
 
 
@@ -15,18 +14,15 @@
     <a class="btn btn-dark m-2" onclick="back()"><i class="fa-solid fa-arrow-left"></i></a>
 
     <div class="my-auto" style="">
-      <input type="text"  value="/root/app" class="form-control rounded-pill" id="path"></input>
+      <input type="text" value="/root/app" class="form-control " id="path"></input>
 
     </div>
 
     <div class="d-none d-md-block ms-auto">
       <%- include('./createmenu.ejs') %>
-  
+
     </div>
   </div>
-
- 
-
 
 
 
@@ -46,52 +42,52 @@
   <div class="d-flex">
     <div class="input-group flex-nowrap mx-2 my-1">
       <!-- <input type="text" class="form-control" placeholder="Username" > -->
-      <input type="text" class="form-control" id="filterInput" placeholder="Type to Search" aria-label="Username" aria-describedby="addon-wrapping" >
+      <input type="text" class="form-control" id="filterInput" placeholder="Type to Search" aria-label="Username" aria-describedby="addon-wrapping">
       <span class="input-group-text" id="addon-wrapping"> <i class="fa-solid fa-magnifying-glass m-auto  " style="font-size: 1.5rem; color: rgb(42, 97, 99);"></i> </span>
 
     </div>
-   
+
   </div>
 
   <ul style="max-height: 60vh; overflow-y: auto;" id="itemList">
 
-    
+
 
 
 
     <% folder.forEach((element , index) => { %>
 
-      <% if (index > 2) { %>
-      <% let parts = element.split(" "); %>
-      <% let name = parts[parts.length - 1]; %>
+    <% if (index > 2) { %>
+    <% let parts = element.split(" "); %>
+    <% let name = parts[parts.length - 1]; %>
 
-      <li style="list-style: none;">
-        <div class="row m-2 border rounded  p-2">
-          <div class="col d-flex  ">
+    <li style="list-style: none;">
+      <div class="row m-2 border rounded  p-2">
+        <div class="col d-flex  ">
 
-            <% if (parts[0].charAt(0) === 'd') { %>
-              <div class="d-flex folder" data-foldername="<%= name %>" data-type="folder" id="folder" onclick="cd(this)">
-                <i class="fa-regular fa-folder my-auto mx-1" style="font-size: 1.5rem;"></i>
-                <h6 class="m-0 fw-bold text-dark  my-auto " ><%= name %></h6>
-              </div>
-            <% } else { %>
-              <div class="d-flex folder" data-foldername="<%= name %>" data-type="file" id="folder" onclick="cd(this)">
-                <i class="fa-regular fa-file my-auto mx-1" style="font-size: 1.5rem;"></i>
-                <h6 class="m-0 fw-bold text-success  my-auto " ><%= name %></h6>
-              </div>
-            <% } %>
-
-
-
-
-            <i class="fa-solid fa-trash btn-dark btn p-2 ms-auto" onclick="deleteapp(this)" style="font-size: 0.8rem;" data-folder="<%= name %>"></i>
+          <% if (parts[0].charAt(0) === 'd') { %>
+          <div class="d-flex folder" data-foldername="<%= name %>" data-type="folder" id="folder" onclick="cd(this)">
+            <i class="fa-regular fa-folder my-auto mx-1" style="font-size: 1.5rem;"></i>
+            <h6 class="m-0 fw-bold text-dark  my-auto "><%= name %></h6>
           </div>
+          <% } else { %>
+          <div class="d-flex folder" data-foldername="<%= name %>" data-type="file" id="folder" onclick="cd(this)">
+            <i class="fa-regular fa-file my-auto mx-1" style="font-size: 1.5rem;"></i>
+            <h6 class="m-0 fw-bold text-success  my-auto "><%= name %></h6>
+          </div>
+          <% } %>
 
+
+
+
+          <i class="fa-solid fa-trash btn-dark btn p-2 ms-auto" onclick="deleteapp(this)" style="font-size: 0.8rem;" data-folder="<%= name %>"></i>
         </div>
 
-      </li>
+      </div>
 
-      <% } %>
+    </li>
+
+    <% } %>
 
     <% }) %>
   </ul>
@@ -99,13 +95,13 @@
   <div class=" col d-none m-2 d-md-flex">
     <input type="text" class="form-control mx-2" id="pathcmd2" style="max-width: 480px;" placeholder="Execute Commands....">
     <div class="">
-        <a class="btn btn-primary  ms-2" onclick="pathcmd()"><i class="fa-solid fa-code"></i></a>
+      <a class="btn btn-primary  ms-2" onclick="pathcmd()"><i class="fa-solid fa-code"></i></a>
 
     </div>
 
 
   </div>
-  
+
   <div id="output" class="output-terminal mb-3 rounded-2" style="max-height: 60vh; overflow-y: auto;">
     🤠 Log things here...
   </div>
@@ -134,7 +130,6 @@
 
 <script>
   document.getElementById('path').value = path;
-
 
 
 
@@ -254,7 +249,7 @@
   function pathcmd() {
 
 
-    const cmd = document.getElementById('pathcmd').value ==='' ? document.getElementById('pathcmd2').value : document.getElementById('pathcmd').value
+    const cmd = document.getElementById('pathcmd').value === '' ? document.getElementById('pathcmd2').value : document.getElementById('pathcmd').value
 
     console.log(cmd);
     console.log(`cd ${path} && ${cmd}`);

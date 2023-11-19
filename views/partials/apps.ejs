@@ -1,12 +1,12 @@
 <div class="row" id="apps">
-  <div class="col-4">
+  <div class="col-xl-4 col">
     <form id="form">
 
       <% apps.forEach(element => { %>
   
   
       <div class="col" style="max-width: 22rem; min-width: 22rem;">
-        <div class=" row m-1 p-2 shadow text-light" style="background-color: darkslategray; border-radius: 1rem;">
+        <div class=" row m-1 p-2 rounded-2 text-light" style="background-color: darkslategray; box-shadow: 2px 2px black; border: 2px black solid; ">
   
           <div class="col-6">
             <h5 class="fw-bold"><%= element.name %></h5>
@@ -42,7 +42,7 @@
     </form>
   
   </div>
-  <div class="col-md-8 p-1" style="font-size: 0.8rem;">
+  <div class="col-xl-8 col p-1" style="font-size: 0.8rem;">
     <div id="output" class="output-terminal mb-3 rounded-2" style="max-height: 60vh; overflow-y: auto; height: 100vh; max-width: 45rem ;">
       🤠 Log things here...
     </div>
