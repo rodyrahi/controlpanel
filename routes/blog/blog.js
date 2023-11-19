@@ -10,6 +10,26 @@ router.get("/", async (req, res) => {
     res.render('partials/blog/allblogs' , {blogs , isadmin})
 });
 
+router.post("/createblog", (req, res) => {
+    const { tittle, author, body , id } = req.body;
+    
+   
+    const result = blogsdb.prepare("SELECT * FROM blogs WHERE id= ?").get(id);
+  
+    if (!result) {
+        blogsdb
+        .prepare(`INSERT INTO blogs (tittle, author, body) VALUES (?,? ,?) `)
+        .run(tittle, author, body);
+    } else {
+        blogsdb
+        .prepare("UPDATE blogs SET tittle = ?, author = ? , body = ? WHERE id = ? ")
+        .run(tittle, author, body, id);
+    }
+  
+    console.log("done");
+    res.redirect("/blog");
+  });
+
 
 
 

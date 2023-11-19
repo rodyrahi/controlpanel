@@ -6,23 +6,25 @@
 
 
 <body>
-    <div class="container">
+    <div class="container mt-2">
         <%- include('../navbar.ejs') %>
 
-        <div class="border">
+        <div class="row rounded-3 p-2  border">
 
             <% blogs.forEach(blog => { %>
-                <div class="border rounded-2 m-2 p-3">
-                    <h1 class="fw-bold "><%= blog.tittle %></h1>
+                <div class="col border rounded-2 m-2 p-3">
+
+                    <i class="fa-solid fa-pen-to-square" type="button" data-id="<%= blog.id %>" data-body="<%= blog.body %>" data-tittle="<%= blog.tittle %>" data-author="<%= blog.author %>"  onclick="editblog(this)" ></i>
+                    <h1 class="fw-bold "  ><%= blog.tittle %></h1>
                     <hr>
                     <div class="d-flex mb-3">
                         
                         <img class="img-fluid rounded-circle my-auto me-1" width="30px" src="https://lh3.googleusercontent.com/a/ACg8ocJrmTL04hqM_zYpAMBoGWMu_HhzxTsYLKc-zmDHpJEmyKk=s96-c" alt="" srcset="">
-                        <h5 class="text-muted my-auto" ><%= blog.author %></h5>
+                        <h5 class="text-muted my-auto"    ><%= blog.author %></h5>
                     </div>
 
                     <div class="fw-bold">
-                        <p><%= blog.body %></p>
+                        <p  ><%= blog.body %></p>
                     </div>
 
 
@@ -34,34 +36,37 @@
 
 
                 <% if (isadmin) { %>
-                    <div class="border p-3">
+                    <div class="row border p-3">
                         <form class="" action="/blog/createblog" method="post">
+
+
+                            <input type="number" id="id" name="id" style="display: none;">
                             <!-- Author Input -->
                             <div class="mb-3">
                               <label for="author" class="form-label">Author</label>
-                              <input type="text" class="form-control" id="author" name="author" required>
+                              <input  type="text" class="form-control" id="author" name="author" required>
                             </div>
                         
                             <!-- Title Input -->
                             <div class="mb-3">
                               <label for="title" class="form-label">Title</label>
-                              <input type="text" class="form-control" id="title" name="title" required>
+                              <input type="text" class="form-control" id="tittle"  name="tittle" required>
                             </div>
                         
                             <!-- Body Textarea -->
                             <div class="mb-3">
                               <label for="body" class="form-label">Body</label>
-                              <textarea class="form-control" id="body" name="body" rows="4" required></textarea>
+                              <textarea class="form-control" id="body"  name="body" rows="4" required></textarea>
                             </div>
                         
                             <!-- Image Input -->
                             <div class="mb-3">
                               <label for="image" class="form-label">Image URL</label>
-                              <input type="file" class="form-control" id="image" name="image" required>
+                              <input type="file" class="form-control" id="image" name="image" >
                             </div>
                         
                             <!-- Submit Button -->
-                            <button type="submit" class="btn btn-light">Submit</button>
+                            <button type="submit" class="btn btn-light" id="create">Create</button>
                           </form>
                     </div>
             
@@ -72,4 +77,25 @@
 
     </div>
 </body>
+
+
+
+
+<script>
+        function editblog(button) {
+
+        document.getElementById('create').innerHTML = 'Update'
+        const id = button.getAttribute('data-id');
+        const title = button.getAttribute('data-tittle');
+        const author = button.getAttribute('data-author');
+        const body = button.getAttribute('data-body');
+
+
+        document.getElementById('id').value = `${id}`;
+        document.getElementById('tittle').value = `${title}`;
+        document.getElementById('author').value = `${author}`;
+        document.getElementById('body').value = `${body}`;
+
+}
+</script>
 </html>
