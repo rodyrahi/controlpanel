@@ -150,7 +150,11 @@ app.get("/apps", async (req, res) => {
       processPm2Result(pm2Result),
     ]);
 
-    res.render("partials/createapp", { folder, apps: appList , sysuser});
+    const scripts = scriptsdb
+    .prepare("SELECT * FROM scripts WHERE user=?")
+    .all(req.oidc.user.sub);
+
+    res.render("partials/createapp", { folder, apps: appList , sysuser , scripts});
   } catch (error) {
     res.send("Failed to connect to the SSH server or encountered an error.");
   }
@@ -270,26 +274,28 @@ async function processPm2Result(pm2Result) {
   return appList;
 }
 
-app.get("/pm2-apps", async (req, res) => {
-  try {
-    // Execute the 'pm2 jlist' command to get a JSON representation of PM2 apps
-    const { stdout, stderr } = await ssh.execCommand("pm2 jlist");
+// app.get("/pm2-apps", async (req, res) => {
+//   try {
+//     // Execute the 'pm2 jlist' command to get a JSON representation of PM2 apps
+//     const { stdout, stderr } = await ssh.execCommand("pm2 jlist");
 
-    // Parse the JSON output
-    const appList = JSON.parse(stdout);
+//     // Parse the JSON output
+//     const appList = JSON.parse(stdout);
 
-    // Extract the app names and statuses
-    const apps = appList.map((app) => ({
-      name: app.name,
-      status: app.pm2_env.status,
-      pwd: app.pm2_env.versioning.repo_path,
-    }));
+//     // Extract the app names and statuses
+//     const apps = appList.map((app) => ({
+//       name: app.name,
+//       status: app.pm2_env.status,
+//       pwd: app.pm2_env.versioning.repo_path,
+//     }));
 
-    res.render("apps", { apps });
-  } catch (error) {
-    res.status(500).send(`Error retrieving PM2 apps: ${error.message}`);
-  }
-});
+
+
+//     res.render("apps", { apps });
+//   } catch (error) {
+//     res.status(500).send(`Error retrieving PM2 apps: ${error.message}`);
+//   }
+// });
 
 // app.get('/folders/:dir', async (req, res) => {
 //     let folder = [];
