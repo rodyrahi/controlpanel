@@ -15,7 +15,7 @@
                 <form id="sshForm" action="/connect" method="post"  class="mb-4">
                     <div class="mb-3">
                         <label for="host" class="form-label">Host:</label>
-                        <input type="text" value="<%= locals.ssh.host %>" name="host" id="host" class="form-control" required>
+                        <input type="text" value="<%= ssh?locals.ssh.host %>" name="host" id="host" class="form-control" required>
                     </div>
                     <div class="mb-3">
                         <label for="username" class="form-label">Username:</label>
