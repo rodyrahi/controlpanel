@@ -15,15 +15,15 @@
                 <form id="sshForm" action="/connect" method="post"  class="mb-4">
                     <div class="mb-3">
                         <label for="host" class="form-label">Host:</label>
-                        <input type="text" value="<%= locals.ssh?locals.ssh.host:'' %>" name="host" id="host" class="form-control" required>
+                        <input type="text" value="<%= locals.ssh?ssh.host:'' %>" name="host" id="host" class="form-control" required>
                     </div>
                     <div class="mb-3">
                         <label for="username" class="form-label">Username:</label>
-                        <input type="text" name="username" value="<%= locals.ssh.username %>" id="username" class="form-control" required>
+                        <input type="text" name="username" value="<%= locals.ssh?ssh.username:'' %>" id="username" class="form-control" required>
                     </div>
                     <div class="mb-3">
                         <label for="password" class="form-label">Password:</label>
-                        <input type="password" name="password" value="<%= locals.ssh.password %>" id="password" class="form-control" required>
+                        <input type="password" name="password" value="<%= locals.ssh?ssh.password:'' %>" id="password" class="form-control" required>
                     </div>
                     <!-- <div class="mb-3">
                         <label for="command" class="form-label">Command:</label>
