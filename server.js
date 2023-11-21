@@ -106,7 +106,7 @@ app.get("/server", requiresAuth(), (req, res) => {
 
     if (expirationDate > currentDate) {
       // The user's expiration date is within the limit, render the 'login' page
-      res.render("login");
+      res.render("login" , {ssh:req.session.sshConfig});
     } else {
       res.send("buy it now 😄");
     }
