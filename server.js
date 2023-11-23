@@ -231,11 +231,19 @@ const checkSessionVariables = (req, res, next) => {
     req.path === "/" ||
     req.path === "/server" ||
     req.path === "/profile" ||
+    req.path === "/userinfo" ||
     (req.session.sshConfig)
   ) {
     next();
   } else {
-    res.redirect("/login");
+
+
+      res.redirect("/login")
+
+
+      
+    
+
   }
 };
 
@@ -247,13 +255,13 @@ app.use(checkSessionVariables);
 app.get("/dashboard", async (req, res) => {
 
   
-  const result = scriptsdb.prepare("SELECT * FROM scripts WHERE user=?").all(req.oidc.sub);
+  const result = scriptsdb.prepare("SELECT * FROM scripts WHERE user=?").all(req.oidc.user.sub);
 
+  const isuser = userdb.prepare("SELECT * FROM user WHERE user=?").all(req.oidc.user.sub);
 
-  
-  console.log();
-    
-  res.render("index.ejs", { scripts: result , sysuser });
+  console.log(isuser);
+  isuser[0].phone ?   res.render("index.ejs", { scripts: result , sysuser }): res.redirect("/userinfo") 
+ 
 });
 
 app.get("/status", async (req, res) => {
@@ -274,48 +282,6 @@ async function processPm2Result(pm2Result) {
   return appList;
 }
 
-// app.get("/pm2-apps", async (req, res) => {
-//   try {
-//     // Execute the 'pm2 jlist' command to get a JSON representation of PM2 apps
-//     const { stdout, stderr } = await ssh.execCommand("pm2 jlist");
-
-//     // Parse the JSON output
-//     const appList = JSON.parse(stdout);
-
-//     // Extract the app names and statuses
-//     const apps = appList.map((app) => ({
-//       name: app.name,
-//       status: app.pm2_env.status,
-//       pwd: app.pm2_env.versioning.repo_path,
-//     }));
-
-
-
-//     res.render("apps", { apps });
-//   } catch (error) {
-//     res.status(500).send(`Error retrieving PM2 apps: ${error.message}`);
-//   }
-// });
-
-// app.get('/folders/:dir', async (req, res) => {
-//     let folder = [];
-
-//     const dir = req.params.dir ? req.params.dir : '/';
-//     try {
-
-//         // List the contents of the specified directory within the current directory
-//         const { stdout, stderr } = await ssh.execCommand('ls', { cwd:`${dir}` });
-//         folder = stdout.split('\n').filter(Boolean);
-
-//         res.render('folders', { folder });
-
-//         // Use '\n' to split lines and filter out empty lines
-//     } catch (error) {
-//         res.status(500).send(`Error listing directory: ${error.message}`);
-//         return;
-//     }
-
-// });
 
 app.post("/execute", async (req, res) => {
   const { command } = req.body;
@@ -402,6 +368,24 @@ app.get("/sqlite", (req, res) => {
 app.get("/profile", requiresAuth(), (req, res) => {
   res.send(JSON.stringify(req.oidc.user));
 });
+
+app.get("/userinfo", (req, res) => {
+
+  res.render("partials/detailsform");
+});
+app.post("/userinfo", (req, res) => {
+
+  const {name , phone } = req.body
+
+ 
+  userdb.prepare("UPDATE user SET name = ?, phone = ? WHERE user = ?")
+  .run(name, phone, req.oidc.user.sub);
+
+  res.redirect('/dashboard')
+});
+
+
+
 server.listen(9111, () => {
   console.log("Server is running on http://localhost:9111");
 });

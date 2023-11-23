@@ -10,8 +10,12 @@ userdb.exec(`
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     user TEXT,
     email TEXT,
+    phone INTEGER,
+    name TEXT,
+    plan,
     expire DATE,
     data TEXT,
+
     timestamp DATETIME DEFAULT CURRENT_TIMESTAMP
   )
 `);

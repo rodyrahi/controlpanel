@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<%- include('./header.ejs') %>
+
+
+<body style="font-family: 'Rubik', sans-serif; color: cadetblue;" >
+    <div class="container mt-5">
+        <h1 class="fw-bold" style="color: cadetblue;">Please Provide Info</h1>
+        <form action="/userinfo" method="post">
+          <div class="mb-3">
+            <label for="name" class="form-label">Name</label>
+            <input type="text" class="form-control" id="name" name="name" placeholder="Enter your name" required>
+          </div>
+          <div class="mb-3">
+            <label for="number" class="form-label">Number</label>
+            <input type="text" class="form-control" id="number" name="phone" placeholder="Enter your number" required>
+          </div>
+          <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+      </div>
+      
+</body>
+</html>
