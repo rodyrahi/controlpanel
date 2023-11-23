@@ -46,6 +46,7 @@ const readfileRouter = require('./routes/readfile.js');
 const apiRouter = require('./routes/api.js');
 const cronjobRouter = require('./routes/cronjobs.js');
 const blogRouter = require('./routes/blog/blog.js');
+const subRouter = require('./routes/subscription/subscription.js');
 
 
 app.use('/', scriptsRouter);
@@ -54,7 +55,7 @@ app.use('/readfile', readfileRouter);
 app.use('/api', apiRouter);
 app.use('/cronjob', cronjobRouter);
 app.use('/blog', blogRouter);
-
+app.use('/subscription', subRouter);
 
 
 const putConfig = {
@@ -365,9 +366,6 @@ app.get("/sqlite", (req, res) => {
   res.render("partials/sqlite");
 });
 
-app.get("/profile", requiresAuth(), (req, res) => {
-  res.send(JSON.stringify(req.oidc.user));
-});
 
 app.get("/userinfo", (req, res) => {
 
@@ -385,6 +383,9 @@ app.post("/userinfo", (req, res) => {
 });
 
 
+app.get("/profile", requiresAuth(), (req, res) => {
+  res.send(JSON.stringify(req.oidc.user));
+});
 
 server.listen(9111, () => {
   console.log("Server is running on http://localhost:9111");

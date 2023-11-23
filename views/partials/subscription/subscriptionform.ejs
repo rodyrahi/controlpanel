@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<%- include('../header.ejs') %>
+
+
+<body style="font-family: 'Rubik', sans-serif; color: cadetblue;" >
+    <div class="container mt-5" id="subscribed">
+
+            <div class="row">
+                <div class="col-md-6">
+                    <form hx-post="/subscription/subscribed" hx-target="#subscribed" hx-swap="outerHTML">
+                        <h1 class="fw-bold" style="color: cadetblue;">Please Input Your Details</h1>
+                        
+                        <div class="mb-3">
+                            <label for="name" class="form-label">Name</label>
+                            <input type="text" class="form-control" id="name" name="name" placeholder="Enter your name" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="number" class="form-label">Number</label>
+                            <input type="text" class="form-control" id="number" name="phone" placeholder="Enter your number" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="email" name="email" placeholder="Enter your Email" required>
+                        </div>
+                        <input type="text" value="<%= plan %>" name="plan" style="display: none;">
+                                
+                        <div class="mb-2">
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                        </div>
+                    </form>
+                </div>
+        
+                <div class="col-md-6 text-dark d-flex flex-column">
+                    <h2 class="mt-4">Plan</h2>
+                    <% if (plan === "yearly") { %>
+                    <h3>Yearly Plan</h3>
+                    <hr>
+                    <h4 class="ms-auto">$19.99</h4>
+                    <h4 class="ms-auto">₹1,666</h4>
+                    <% } else { %>
+                    <h3>Monthly Plan</h3>
+                    <hr>
+                    <h4 class="ms-auto">$5.99</h4>
+                    <h4 class="ms-auto">₹499</h4>
+                    <% } %>
+                </div>
+
+            </div>
+
+        
+      </div>
+      
+</body>
+</html>
