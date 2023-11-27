@@ -1,18 +1,87 @@
 <!DOCTYPE html>
 <html lang="en">
-    <%- include('./partials/header.ejs') %>
+<%- include('./partials/header.ejs') %>
 
-<body >
-    <div class="container" style="font-family: 'Rubik', sans-serif; color: cadetblue;"> 
-        <div class="row">
+<style>
+    .btn-green {
+        color: white;
+        background-color: darkslategray;
+        border: 2px black solid;
+    }
+
+    .btn-green:hover {
+        color: rgb(0, 0, 0);
+        background-color: rgb(255, 255, 255);
+        border: 2px black solid;
+    }
+
+    .btn {
+        border: 2px black solid;
+    }
+</style>
+
+<body class="" style="background-color: cadetblue;">
+    <div class="container" style="font-family: 'Rubik', sans-serif; color: cadetblue; ">
+
+        <div class="row d-flex" style="height: 100vh;">
+            <div class="col bg-white m-auto rounded-3 d-flex flex-column" style="box-shadow: 10px 10px black;height: 90vh; max-width: 45rem;">
+
+                <div class="m-auto">
+
+                    <form id="sshForm" action="/connect" method="post" class="mb-4"> 
+
+                    <div class="" id="ipdiv">
+                        <h1 class="">Let's Get You Started</h1>
+                        <p>Enter IP Of Your VPS</p>
+                        <div class="d-flex mb-3">
+                            <input class="form-control me-2 " name="host" placeholder="IP Address" type="text" style="border: 2px black solid; border-radius: 0;">
+                            <a href="https://www.google.com/search?q=where+to+find+vps+server+password&client=firefox-b-d&sca_esv=585026838&sxsrf=AM9HkKn1LIsmxgzzF2OoqjuFiha4WIsChg%3A1700828203586&ei=K5RgZeKjI7Tg4-EPjquDmAc&ved=0ahUKEwii5ZfnztyCAxU08DgGHY7VAHMQ4dUDCA8&uact=5&oq=where+to+find+vps+server+password&gs_lp=Egxnd3Mtd2l6LXNlcnAiIXdoZXJlIHRvIGZpbmQgdnBzIHNlcnZlciBwYXNzd29yZDIIECEYoAEYwwQyCBAhGKABGMMESNSRAVCcEFj_jQFwAngAkAEAmAHYAqAB8jCqAQgwLjE5LjkuMrgBA8gBAPgBAcICBxAjGLADGCfCAgoQABhHGNYEGLADwgIEECMYJ8ICCxAAGIAEGIoFGJECwgIFEAAYgATCAgYQABgWGB7CAggQABgWGB4YD8ICCxAAGIAEGIoFGIYDwgIGEAAYBxgewgIIEAAYBxgeGA_CAggQABgIGAcYHsICBhAAGAUYHsICChAhGKABGMMEGAriAwQYACBBiAYBkAYJ&sclient=gws-wiz-serp#ip=1"
+                                class="m-auto text-warning" style="font-size: 2rem;"><i class="fa-solid fa-circle-info"></i></a>
+                        </div>
+                    </div>
+
+                    
+                    <div class="" id="ipdiv">
+
+                        <p>Enter User Of Your VPS</p>
+                        <div class="d-flex mb-3">
+                            <input class="form-control me-2 " name="username" placeholder="root" type="text" style="border: 2px black solid; border-radius: 0;">
+                            <!-- <a href="https://www.google.com/search?q=where+to+find+vps+server+password&client=firefox-b-d&sca_esv=585026838&sxsrf=AM9HkKn1LIsmxgzzF2OoqjuFiha4WIsChg%3A1700828203586&ei=K5RgZeKjI7Tg4-EPjquDmAc&ved=0ahUKEwii5ZfnztyCAxU08DgGHY7VAHMQ4dUDCA8&uact=5&oq=where+to+find+vps+server+password&gs_lp=Egxnd3Mtd2l6LXNlcnAiIXdoZXJlIHRvIGZpbmQgdnBzIHNlcnZlciBwYXNzd29yZDIIECEYoAEYwwQyCBAhGKABGMMESNSRAVCcEFj_jQFwAngAkAEAmAHYAqAB8jCqAQgwLjE5LjkuMrgBA8gBAPgBAcICBxAjGLADGCfCAgoQABhHGNYEGLADwgIEECMYJ8ICCxAAGIAEGIoFGJECwgIFEAAYgATCAgYQABgWGB7CAggQABgWGB4YD8ICCxAAGIAEGIoFGIYDwgIGEAAYBxgewgIIEAAYBxgeGA_CAggQABgIGAcYHsICBhAAGAUYHsICChAhGKABGMMEGAriAwQYACBBiAYBkAYJ&sclient=gws-wiz-serp#ip=1"
+                                class="m-auto text-warning" style="font-size: 2rem;"><i class="fa-solid fa-circle-info"></i></a> -->
+                        </div>
+                    </div>
+
+                    
+
+                    <div class="" id="passworddiv">
+                        <!-- <h1 class="">Let's Get You Started</h1> -->
+                        <p>Enter Password Of Your VPS</p>
+                        <div class="d-flex mb-3">
+                            <input class="form-control me-2 " name="password" placeholder="Password" type="password" style="border: 2px black solid; border-radius: 0;">
+                            <a href="https://www.google.com/search?q=where+to+find+vps+server+password&client=firefox-b-d&sca_esv=585026838&sxsrf=AM9HkKn1LIsmxgzzF2OoqjuFiha4WIsChg%3A1700828203586&ei=K5RgZeKjI7Tg4-EPjquDmAc&ved=0ahUKEwii5ZfnztyCAxU08DgGHY7VAHMQ4dUDCA8&uact=5&oq=where+to+find+vps+server+password&gs_lp=Egxnd3Mtd2l6LXNlcnAiIXdoZXJlIHRvIGZpbmQgdnBzIHNlcnZlciBwYXNzd29yZDIIECEYoAEYwwQyCBAhGKABGMMESNSRAVCcEFj_jQFwAngAkAEAmAHYAqAB8jCqAQgwLjE5LjkuMrgBA8gBAPgBAcICBxAjGLADGCfCAgoQABhHGNYEGLADwgIEECMYJ8ICCxAAGIAEGIoFGJECwgIFEAAYgATCAgYQABgWGB7CAggQABgWGB4YD8ICCxAAGIAEGIoFGIYDwgIGEAAYBxgewgIIEAAYBxgeGA_CAggQABgIGAcYHsICBhAAGAUYHsICChAhGKABGMMEGAriAwQYACBBiAYBkAYJ&sclient=gws-wiz-serp#ip=1"
+                                class="m-auto text-warning" style="font-size: 2rem;"><i class="fa-solid fa-circle-info"></i></a>
+                        </div>
+                        <button class="btn btn-primary" type="submit">Submit</button>
+                    </div>
+                    </form>
+
+
+                    <div class="mt-5 p-2 rounded-3 " style="border: 2px  rgb(54, 255, 47) solid;">
+                        <p class="m-0">Don't Worry We Respect Your Privacy</p>
+                        <p class="m-0">We Do Not Store Any Of Your Server Information ❤️</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="row collapse">
             <div class="col">
                 <h1>Login SSH</h1>
-                
                 <div class="border p-2 rounded-2 mb-2 ">
-                    <h5 class="text-success m-0" > 🔑 We prioritize your data security and privacy, and "WE DO NOT STORE ANY OF YOUR SERVER INFORMATION."</h5>
-        
+                    <h5 class="text-success m-0"> 🔑 We prioritize your data security and privacy, and "WE DO NOT STORE ANY OF YOUR SERVER INFORMATION."</h5>
                 </div>
-                <form id="sshForm" action="/connect" method="post"  class="mb-4">
+                <form id="sshForm" action="/connect" method="post" class="mb-4">
                     <div class="mb-3">
                         <label for="host" class="form-label">Host:</label>
                         <input type="text" value="<%= locals.ssh?ssh.host:'' %>" name="host" id="host" class="form-control" required>
@@ -32,9 +101,10 @@
                     <button type="submit" class="btn btn-primary">Login</button>
                 </form>
             </div>
-
         </div>
-
     </div>
+
+
 </body>
+
 </html>
