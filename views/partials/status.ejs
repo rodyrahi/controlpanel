@@ -1,4 +1,9 @@
 
+
+<!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"> -->
+<!-- Add your own styles if needed -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 <form style="display: none;" class="mb-4">
 
   <div class="mb-3">
@@ -20,7 +25,124 @@
 </form> -->
 
 
-<div id="status" class="output-terminal mb-3 rounded-2" style="max-height: 60vh; overflow-y: auto;">
+
+<div id="statusContainer" class="row">
+  <div class="col-md-4 ">
+    <div class="card ">
+        <div class="card-body">
+            <h5 class="card-title">CPU Usage</h5>
+            <p class="card-text">NaN%</p>
+        </div>
+    </div>
+</div>
+<div class="col-md-4 ">
+    <div class="card  ">
+        <div class="card-body">
+            <h5 class="card-title  ">Free Memory</h5>
+            <p class="card-text">NaN MiB</p>
+        </div>
+    </div>
+</div>
+<div class="col-md-4">
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">Used Memory</h5>
+            <p class="card-text">NaN/ NaNMiB</p>
+        </div>
+    </div>
+</div>
+</div>
+<hr>
+
+<script>
+         
+
+        // Function to fetch system status and update the UI
+        function updateStatus(statusText) {
+            // Replace this with your logic to fetch the status text dynamically
+            // const statusText = `
+            //     Status ✨:
+            //     %Cpu(s):  0.0 us,  0.0 sy,  0.0 ni,100.0 id,  0.0 wa,  0.0 hi,  0.0 si,  0.0 st
+            //     MiB Mem :   1964.0 total,    113.5 free,   1406.7 used,    443.8 buff/cache
+            //     MiB Swap:      0.0 total,      0.0 free,      0.0 used.    390.9 avail Mem
+            //     Errors 💀:
+            // `;
+            function extractInfo(statusText) {
+            const lines = statusText.split('\n');
+            const cpuInfo = lines[1].split(/\s+/);
+            const memInfo = lines[2].split(/\s+/);
+
+            console.log(memInfo);
+
+            return {
+                cpuUsage: parseFloat(cpuInfo[7]),  // Extracting %CPU (id)
+                freeMemory: parseFloat(memInfo[5]),  // Extracting Free Memory
+                usedMemory: parseFloat(memInfo[7]),
+                totalMemory: parseFloat(memInfo[3])  // Extracting Used Memory
+            };
+        }
+            // Extract information from the status text
+            const { cpuUsage, freeMemory, usedMemory , totalMemory } = extractInfo(statusText);
+
+            // Update the UI
+            const statusContainer = document.getElementById('statusContainer');
+            statusContainer.innerHTML = `
+                <div class="col-md-4 ">
+                    <div class="card ">
+                        <div class="card-body">
+                            <h5 class="card-title">CPU Usage</h5>
+                            <p class="card-text">${cpuUsage}%</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 ">
+                    <div class="card  ">
+                        <div class="card-body">
+                            <h5 class="card-title  ">Free Memory</h5>
+                            <p class="card-text">${freeMemory} MiB</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Used Memory</h5>
+                            <p class="card-text">${usedMemory}/ ${totalMemory}MiB</p>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+</script>
+
+
+<!-- <div class="container my-4">
+  <div class="row">
+      <div class="col-md-6">
+          <div class="card">
+              <div class="card-body">
+                  <h5 class="card-title text-center">CPU Usage</h5>
+                  <canvas id="cpuChart"></canvas>
+              </div>
+          </div>
+      </div>
+
+      <div class="col-md-6">
+          <div class="card">
+              <div class="card-body">
+                  <h5 class="card-title text-center">Memory Usage</h5>
+                  <canvas id="memoryChart"></canvas>
+              </div>
+          </div>
+      </div>
+  </div>
+</div> -->
+
+
+
+
+<div id="status" class="output-terminal mb-3 rounded-2 d-none" style="max-height: 60vh; overflow-y: auto;">
    🌟 Stauts Here...
 </div>
 
@@ -33,9 +155,12 @@
 
 
 <script>
+
     setInterval(function() {
       if (document.getElementById('cmd') !== null) {
-
+      console.log(document.getElementById('status').textContent);
+      // makecharts(document.getElementById('status').textContent)
+      updateStatus(document.getElementById('status').textContent)
       document.getElementById('cmd').value = 'top -b -n 1 | grep -E "^(%Cpu|MiB Mem|MiB Swap)"';
       document.getElementById('execute').click();
     }
@@ -66,4 +191,102 @@
 </script>
 
 
+
+
+
+<script>
+  var cpuChart;
+var memoryChart;
+
+
+function makecharts(t) {
+  if (t.includes("%Cpu(s):")) {
+    // Sample status text
+    var statusText = t;
+
+    // Function to extract CPU usage data
+    function extractCpuData(text) {
+      var cpuData = text.match(/%Cpu\(s\):\s+([\d.]+)\s+us,\s+([\d.]+)\s+sy,\s+([\d.]+)\s+ni,\s+([\d.]+)\s+id,\s+([\d.]+)\s+wa,\s+([\d.]+)\s+hi,\s+([\d.]+)\s+si,\s+([\d.]+)\s+st/);
+
+      return {
+        labels: ['User', 'System', 'Nice', 'Idle', 'Wait', 'Hi', 'Si', 'St'],
+        data: cpuData.slice(1).map(parseFloat),
+        backgroundColor: ['#36a2eb', '#ff6384', '#4bc0c0', '#ffcd56', '#ff9f40', '#9966cc', '#66c2a5', '#c2c2f0']
+      };
+    }
+
+    // Function to extract memory usage data
+    function extractMemoryData(text) {
+      var memoryData = text.match(/MiB Mem :.*total,\s+([\d.]+)\s+free,\s+([\d.]+)\s+used,\s+([\d.]+)\s+buff\/cache/);
+
+      return {
+        labels: ['Free', 'Used', 'Buffer/Cache'],
+        data: memoryData.slice(1).map(parseFloat),
+        backgroundColor: ['#36a2eb', '#ff6384', '#4bc0c0']
+      };
+    }
+
+    // Create or update doughnut charts
+    if (!cpuChart) {
+      var cpuChartCanvas = document.getElementById('cpuChart').getContext('2d');
+      cpuChart = new Chart(cpuChartCanvas, {
+        type: 'doughnut',
+        data: {
+          labels: [],
+          datasets: [{
+            data: [],
+            backgroundColor: []
+          }]
+        },
+        plugins: {
+      datalabels: {
+        formatter: (value, ctx) => {
+          return value + '%';
+        },
+        color: '#ffff', // Set the font color
+        display: 'inside'
+      }
+    }
+      });
+    }
+    var cpuData = extractCpuData(statusText);
+    // Update chart data
+    cpuChart.data.labels = cpuData.labels;
+    cpuChart.data.datasets[0].data = cpuData.data;
+    cpuChart.data.datasets[0].backgroundColor = cpuData.backgroundColor;
+    cpuChart.update();
+
+    if (!memoryChart) {
+      var memoryChartCanvas = document.getElementById('memoryChart').getContext('2d');
+      memoryChart = new Chart(memoryChartCanvas, {
+        type: 'doughnut',
+        data: {
+          labels: [],
+          datasets: [{
+            data: [],
+            backgroundColor: []
+          }]
+        },
+        plugins: {
+          datalabels: {
+            formatter: (value, ctx) => {
+              return value + ' MiB';
+            }
+          }
+        }
+      });
+    }
+    var memoryData = extractMemoryData(statusText);
+    // Update chart data
+    memoryChart.data.labels = memoryData.labels;
+    memoryChart.data.datasets[0].data = memoryData.data;
+    memoryChart.data.datasets[0].backgroundColor = memoryData.backgroundColor;
+    memoryChart.update();
+  }
+}
+</script>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 

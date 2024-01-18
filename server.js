@@ -185,23 +185,22 @@ app.get("/website", (req, res) => {
 
 var sysuser =''
 app.post("/connect", async (req, res) => {
-  const { host, username, password } = req.body;
+  const { host, username, password ,port , privateKey } = req.body;
 
   req.session.host = host;
   req.session.username = username;
   req.session.password = password;
 
 
-
     sysuser = username
-
-
     if (!req.session.sshConfig) {
 
       req.session.sshConfig  = {
         host,
         username,
         password,
+        port,
+        privateKey,
   
       }
   
@@ -212,12 +211,10 @@ app.post("/connect", async (req, res) => {
     await ssh.connect(req.session.sshConfig) ;
 
 
-
-
     res.redirect("/dashboard");
    
   } catch (error) {
-    res.send("Failed to connect to the SSH server." );
+    res.send("Failed to connect to the SSH server." , error );
   }
 
 
