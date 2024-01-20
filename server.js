@@ -133,33 +133,33 @@ app.get("/", (req, res) => {
   res.render("home" , {isauth : req.oidc.isAuthenticated()});
 });
 
+app.get("/sandbox", (req, res) => {
+
+  res.render("partials/sandbox" , {isauth : req.oidc.isAuthenticated()});
+});
+
+
 
 
 
   
-
 app.get("/apps", async (req, res) => {
   try {
-    const [lsResult, pm2Result] = await Promise.all([
-      ssh.execCommand("ls"),
-      ssh.execCommand("pm2 jlist"),
-    ]);
+    const pm2Result = await ssh.execCommand("pm2 jlist");
 
-    // Process lsResult and pm2Result in parallel
-    const [folder, appList] = await Promise.all([
-      processLsResult(lsResult),
-      processPm2Result(pm2Result),
-    ]);
+    const appList = await processPm2Result(pm2Result);
 
+    
     const scripts = scriptsdb
-    .prepare("SELECT * FROM scripts WHERE user=?")
-    .all(req.oidc.user.sub);
+      .prepare("SELECT * FROM scripts WHERE user=?")
+      .all(req.oidc.user.sub);
 
-    res.render("partials/createapp", { folder, apps: appList , sysuser , scripts});
+    res.render("partials/createapp", { apps: appList, sysuser, scripts });
   } catch (error) {
-    res.send("Failed to connect to the SSH server or encountered an error.");
+    res.send(error);
   }
 });
+
 
 
 

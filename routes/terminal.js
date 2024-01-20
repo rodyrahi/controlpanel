@@ -24,7 +24,7 @@ router.get("/", async (req, res) => {
 
 
 io.on("connection", (socket) => {
-  socket.emit("data", "\r\n*** SSH CONNECTION ESTABLISHED ***\r\n");
+  socket.emit("data", "\r\n* SSH CONNECTION ESTABLISHED *\r\n");
 
 
       return ssh.requestShell()
@@ -53,7 +53,7 @@ io.on("connection", (socket) => {
     .catch((err) => {
       socket.emit(
         "data",
-        `\r\n*** SSH CONNECTION ERROR: ${err.message} ***\r\n`
+        `\r\n*SSH CONNECTION ERROR: ${err.message}*\r\n`
       );
     });
 });
