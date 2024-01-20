@@ -130,7 +130,7 @@ app.get("/server", requiresAuth(), (req, res) => {
 
 app.get("/", (req, res) => {
 
-  res.render("home");
+  res.render("home" , {isauth : req.oidc.isAuthenticated()});
 });
 
 

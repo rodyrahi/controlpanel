@@ -27,8 +27,15 @@
       <li class="nav-item dropdown">
         <div class="row text-center">
           <div>
-            <a href="/#pricing"><button class="btn btn-primary  my-2 my-sm-0" >GET KADMIN</button></a>
+            <!-- <a href="/#pricing"><button class="btn btn-primary  m-2 my-sm-0" >GET KADMIN</button></a> -->
+            <% if (isauth) { %>
+              <a href="/logout"><button class="btn btn-primary  m-2 my-sm-0" >Logout</button></a>
+            <% } else { %>
+
+            <a href="/login"><button class="btn btn-primary  m-2 my-sm-0" >Login</button></a>
+            <% }%>
           </div>
+          
         </div>
       </li>
     </ul>
