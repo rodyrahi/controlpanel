@@ -5,7 +5,7 @@
     <div class="container-fluid ">
         <div class="row">
             <div class="col  p-2" id="home" >
-                <%- include('status.ejs') %>
+               
             </div>
             <div class="col  p-2">
                 <%- include('terminal.ejs') %>
@@ -13,25 +13,8 @@
             </div>
         </div>
         <div class="row" >
-            <div class="col  p-2" id="apps" >
-                <button id="loadButton" hx-get="/apps" hx-target="#appContainer" hx-trigger="mouseover">Mouseover to load</button>
+            <div class="col  p-2" id="apps" hx-get="/apps" hx-trigger="load" >
 
-                <div id="appContainer" style="display: none;">
-                  <!-- Content will be loaded here -->
-                </div>
-                
-                <script>
-                  // Hide the container initially
-                  const appContainer = document.getElementById('appContainer');
-                  appContainer.style.display = 'none';
-                
-                  // Show the container on button click
-                  const loadButton = document.getElementById('loadButton');
-                  loadButton.addEventListener('click', function () {
-                    appContainer.style.display = 'block';
-                  });
-                </script>
-                <!-- <a class="btn btn-green" hx-get="/apps" hx-target="#apps"><i class="fa-solid fa-bucket" onclick="toggleSidePanel()"></i> Sandbox</a> -->
             </div>
             <div class="col  p-2">
                 rajvendra

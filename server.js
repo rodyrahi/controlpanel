@@ -135,7 +135,7 @@ app.get("/", (req, res) => {
 
 app.get("/sandbox", (req, res) => {
 
-  res.render("partials/sandbox" , {isauth : req.oidc.isAuthenticated()});
+  res.render("partials/sandbox" , {isauth : req.oidc.isAuthenticated()  });
 });
 
 
@@ -201,6 +201,7 @@ app.post("/connect", async (req, res) => {
         password,
         port,
         privateKey,
+
   
       }
   
