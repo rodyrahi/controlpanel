@@ -259,7 +259,7 @@ app.get("/dashboard", async (req, res) => {
   const isuser = userdb.prepare("SELECT * FROM user WHERE user=?").all(req.oidc.user.sub);
 
   console.log(isuser);
-  isuser[0].phone ?   res.render("index.ejs", { scripts: result , sysuser }): res.redirect("/userinfo") 
+  isuser[0].phone ?   res.render("index.ejs", { scripts: result , sysuser , picture:req.oidc.user.picture }): res.redirect("/userinfo") 
  
 });
 

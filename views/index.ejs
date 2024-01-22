@@ -82,12 +82,26 @@
 
 
 
-      
+      <nav class="navbar bg-dark shadow-sm" style="font-family: 'Rubik', sans-serif;">
+        <div class="container-fluid">
+          <a class="navbar-brand  d-flex " href="/">
+            <div class="m-auto">
+                <img src="kadmin.png" alt="" width="30px" srcset="">
+            </div>
+            <h5 class="fw-bold m-auto ms-1" style="color: rgb(255, 255, 255);">KADMIN.ONLINE</h5>
+          </a>
+
+          <a href=""><img class="rounded-circle border" width="30px" src="<%= picture %>" alt=""></a>
+          <i class="fa-solid fa-circle-chevron-down d-block d-md-none m-2 " style="font-size: 2rem; color: cadetblue;" onclick="toggleSidePanel()"></i>
+
+
+        </div>
+      </nav>
 
     <div class="container-fluid">
         
-    
-        <nav class="navbar p-0 navbar-expand-lg navbar-light bg-white" style="font-family: 'Rubik', sans-serif;">
+
+        <!-- <nav class="navbar p-0 navbar-expand-lg navbar-light bg-white" style="font-family: 'Rubik', sans-serif;">
             <a class="navbar-brand me-auto" href="/">
               <h5 class="fw-bold" style="color: cadetblue;">
                 <img src="kadmin.png" alt="" width="40px" srcset="">
@@ -96,13 +110,13 @@
             </a>
 
             <i class="fa-solid fa-circle-chevron-down d-block d-md-none m-2" style="font-size: 2rem; color: cadetblue;" onclick="toggleSidePanel()"></i>
-            <!-- <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#ContentId" aria-controls="ContentId" aria-expanded="false" aria-label="Toggle navigation">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#ContentId" aria-controls="ContentId" aria-expanded="false" aria-label="Toggle navigation">
               <span class="navbar-toggler-icon" ></span>
-            </button> -->
+            </button> 
           
           
           
-          </nav>
+          </nav>  -->
           
           <!-- Add the Bootstrap 5.3 JavaScript file -->
           <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>
@@ -130,7 +144,7 @@
                 <%- include('./partials/sidenav.ejs') %>
 
             </div>
-            <div class="col-xl-10 border p-1  mt-2 rounded-2" id="home"  >
+            <div class="col-xl-10 p-1  mt-2 " id="home"  >
                
           
 
