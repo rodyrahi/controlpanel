@@ -46,7 +46,7 @@
             var user = formData.get("id");  // Replace with the actual username
 
             var xhr = new XMLHttpRequest();
-            xhr.open("POST", "http://165.232.151.6:8080/connect", true);
+            xhr.open("POST", "http://localhost:8080/connect", true);
             xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 
             xhr.onreadystatechange = function () {
@@ -63,7 +63,7 @@
             var user = "127e76ba2dfc072d";  // Replace with the actual username
 
             var xhr = new XMLHttpRequest();
-            xhr.open("POST", "http://165.232.151.6:8080/execute/" + user, true);
+            xhr.open("POST", "http://localhost:8080/execute/" + user, true);
             xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 
             xhr.onreadystatechange = function () {
