@@ -31,6 +31,8 @@
 
     <h2>Execute Command</h2>
     <form id="executeForm">
+        <label for="command">user:</label>
+        <textarea type="text" id="id" name="command" required></textarea>
         <label for="command">Command:</label>
         <textarea type="text" id="command" name="command" required></textarea>
         <button type="button" onclick="executeCommand()">Execute</button>
@@ -60,7 +62,7 @@
 
         function executeCommand() {
             var command = document.getElementById("command").value;
-            var user = "127e76ba2dfc072d";  // Replace with the actual username
+            var user = document.getElementById("id").value;  // Replace with the actual username
 
             var xhr = new XMLHttpRequest();
             xhr.open("POST", "http://localhost:8080/execute/" + user, true);
