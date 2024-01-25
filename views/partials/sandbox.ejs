@@ -1,28 +1,79 @@
+
+<!-- templates/index.html -->
 <!DOCTYPE html>
 <html lang="en">
-    <%- include('header.ejs') %>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SSH Web Interface</title>
+    <script src="https://unpkg.com/htmx.org@1.9.10"></script>
+</head>
 <body>
-    <div class="container-fluid ">
-        <div class="row">
-            <div class="col  p-2" id="home" >
-               
-            </div>
-            <div class="col  p-2">
-                <%- include('terminal.ejs') %>
+    <h1>SSH Web Interface</h1>
     
-            </div>
-        </div>
-        <div class="row" >
-            <div class="col  p-2" id="apps" hx-get="/apps" hx-trigger="load" >
+    <form id="sshForm" onsubmit="submitSSHForm(event)">
+        <label for="id">ID:</label>
+        <input type="text" name="id" required><br>
 
-            </div>
-            <div class="col  p-2">
-                rajvendra
-            </div>
-        </div>
-    
-    </div>
-    
+        <label for="host">Host:</label>
+        <input type="text" name="host" required><br>
+
+        <label for="user">User:</label>
+        <input type="text" name="user" required><br>
+
+        <label for="privateKey">Private Key:</label>
+        <input type="file" name="privateKey" accept=".pem" required><br>
+
+        <button type="submit">Connect</button>
+    </form>
+
+    <hr>
+
+    <h2>Execute Command</h2>
+    <form id="executeForm">
+        <label for="command">Command:</label>
+        <textarea type="text" id="command" name="command" required></textarea>
+        <button type="button" onclick="executeCommand()">Execute</button>
+    </form>
+
+    <div id="output"></div>
+
+    <script>
+        function submitSSHForm(event) {
+            event.preventDefault();
+
+            var formData = new FormData(document.getElementById("sshForm"));
+            var user = formData.get("id");  // Replace with the actual username
+
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", "http://165.232.151.6:8080/connect", true);
+            xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    document.getElementById("output").innerText = xhr.responseText;
+                }
+            };
+
+            xhr.send(formData);
+        }
+
+        function executeCommand() {
+            var command = document.getElementById("command").value;
+            var user = "127e76ba2dfc072d";  // Replace with the actual username
+
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", "http://165.232.151.6:8080/execute/" + user, true);
+            xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    document.getElementById("output").innerText = xhr.responseText;
+                }
+            };
+
+            xhr.send("command=" + encodeURIComponent(command));
+        }
+    </script>
 </body>
 </html>
-
