@@ -129,7 +129,6 @@ app.get("/dashboard/:server", async(req, res) => {
 
   const server = req.params.server
 
-  req.session.server = server
   res.render("partials/test",{server});
 
 });
@@ -166,7 +165,7 @@ app.post("/execommand/:server", async (req, res) => {
 app.get("/sandbox", async (req, res) => {
   try {
     const servers = req.session?.server || [];
- 
+   
 
     const fetchData = async (element) => {
       const username = element.split("@")[0];
@@ -198,7 +197,8 @@ app.get("/sandbox", async (req, res) => {
     res.render('partials/sandbox', { servers });
   } catch (error) {
     // console.error('Error in /sandbox route:', error.message);
-    res.render('partials/sandbox', { servers:[''] });
+    console.log(req.session.server);
+    res.render('partials/sandbox', { servers: req.session.server });
   }
 });
 
