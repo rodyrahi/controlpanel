@@ -1,35 +1,38 @@
-const http = require('http');
-const session = require('express-session');
-const express = require('express');
+const http = require("http");
+const session = require("express-session");
+const express = require("express");
 const app = express();
-const bodyParser = require('body-parser');
-const { NodeSSH } = require('node-ssh');
+const bodyParser = require("body-parser");
+const { NodeSSH } = require("node-ssh");
 const server = http.createServer(app);
-const { userdb, scriptsdb } = require('./routes/db.js');
-const path = require('path');
+const { userdb, scriptsdb } = require("./routes/db.js");
+const path = require("path");
+const crypto = require("crypto");
+const fs = require("fs");
+const { auth, requiresAuth } = require("express-openid-connect");
+const simpleGit = require("simple-git");
+const multer = require('multer');
+const FormData = require('form-data');
 
-const fs = require('fs');
-const { auth, requiresAuth } = require('express-openid-connect');
-const simpleGit = require('simple-git');
-
-app.set('view engine', 'ejs');
+const axios = require('axios');
+app.set("view engine", "ejs");
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-app.use(express.static('public'));
+app.use(express.static("public"));
 
-var isWin = process.platform === 'win32';
-var baseurl = !isWin ? 'https://kadmin.online' : 'http://localhost:9111';
+var isWin = process.platform === "win32";
+var baseurl = !isWin ? "https://kadmin.online" : "http://localhost:9111";
 const config = {
   authRequired: false,
   auth0Logout: true,
-  secret: '3qnLXoHY1TDBvbGhD1Hj24eXk54Rjs2SXZFuXrEj9XvefDMA-uhc4U7dO-VZek4A',
+  secret: "3qnLXoHY1TDBvbGhD1Hj24eXk54Rjs2SXZFuXrEj9XvefDMA-uhc4U7dO-VZek4A",
   baseURL: baseurl,
-  clientID: 'zj17AAKjTh0ZrdOmD3O7hiXTKc1UwHAy',
-  issuerBaseURL: 'https://dev-t42orpastoaad3st.us.auth0.com',
+  clientID: "zj17AAKjTh0ZrdOmD3O7hiXTKc1UwHAy",
+  issuerBaseURL: "https://dev-t42orpastoaad3st.us.auth0.com",
 };
 app.use(
   session({
-    secret: 'fasfasgdghreyt4wsgsdfsdfwer',
+    secret: "fasfasgdghreyt4wsgsdfsdfwer",
     resave: false,
     saveUninitialized: true,
   })
@@ -39,56 +42,48 @@ app.use(auth(config));
 const ssh = new NodeSSH();
 module.exports = { ssh, server, app, bodyParser };
 
+const scriptsRouter = require("./routes/scripts/scripts.js");
+const terminalRouter = require("./routes/terminal.js");
+const readfileRouter = require("./routes/readfile.js");
+const apiRouter = require("./routes/api.js");
+const cronjobRouter = require("./routes/cronjobs.js");
+const blogRouter = require("./routes/blog/blog.js");
+const subRouter = require("./routes/subscription/subscription.js");
 
-const scriptsRouter = require('./routes/scripts/scripts.js');
-const terminalRouter = require('./routes/terminal.js');
-const readfileRouter = require('./routes/readfile.js');
-const apiRouter = require('./routes/api.js');
-const cronjobRouter = require('./routes/cronjobs.js');
-const blogRouter = require('./routes/blog/blog.js');
-const subRouter = require('./routes/subscription/subscription.js');
+app.use("/", scriptsRouter);
+app.use("/terminal", terminalRouter);
+app.use("/readfile", readfileRouter);
+app.use("/api", apiRouter);
+app.use("/cronjob", cronjobRouter);
+app.use("/blog", blogRouter);
+app.use("/subscription", subRouter);
 
 
-app.use('/', scriptsRouter);
-app.use('/terminal', terminalRouter);
-app.use('/readfile', readfileRouter);
-app.use('/api', apiRouter);
-app.use('/cronjob', cronjobRouter);
-app.use('/blog', blogRouter);
-app.use('/subscription', subRouter);
-
+const storage = multer.memoryStorage(); 
+const upload = multer({ storage: storage });
 
 const putConfig = {
-  flags: 'w', // w - write and a - append
+  flags: "w", // w - write and a - append
   encoding: null, // use null for binary files
   mode: 0o666, // mode to use for created file (rwx)
-  autoClose: true // automatically close the write stream when finished
+  autoClose: true, // automatically close the write stream when finished
 };
 
-
-
-
-
-app.post("/upload", async(req, res) => {
+app.post("/upload", async (req, res) => {
   try {
-
-
-    ssh.putFile('./kadmin.png', '/root/app/kadmin.png').then(function() {
-      console.log("The File thing is done")
-    }, function(error) {
-      console.log("Something's wrong")
-      console.log(error)
-    })
-
-
-  }catch(error){
+    ssh.putFile("./kadmin.png", "/root/app/kadmin.png").then(
+      function () {
+        console.log("The File thing is done");
+      },
+      function (error) {
+        console.log("Something's wrong");
+        console.log(error);
+      }
+    );
+  } catch (error) {
     console.log(error);
   }
-
-
 });
-
-
 
 app.get("/server", requiresAuth(), (req, res) => {
   const user = req.oidc.user.sub;
@@ -107,7 +102,7 @@ app.get("/server", requiresAuth(), (req, res) => {
 
     if (expirationDate > currentDate) {
       // The user's expiration date is within the limit, render the 'login' page
-      res.render("login" , {ssh:req.session.sshConfig});
+      res.render("login", { ssh: req.session.sshConfig });
     } else {
       res.send("buy it now 😄");
     }
@@ -126,30 +121,118 @@ app.get("/server", requiresAuth(), (req, res) => {
   }
 });
 
-
-
 app.get("/", (req, res) => {
-
-  res.render("home" , {isauth : req.oidc.isAuthenticated()});
+  res.render("home", { isauth: req.oidc.isAuthenticated() });
 });
 
 app.get("/sandbox", (req, res) => {
 
-  res.render("partials/sandbox" , {isauth : req.oidc.isAuthenticated()  });
+  
+  const result = userdb.prepare("SELECT servers FROM user WHERE user = ?").get(req.oidc.user.sub);
+
+  const servers = result.servers.split(',')
+
+
+
+  res.render("partials/sandbox", { isauth: req.oidc.isAuthenticated() ,  servers });
+});
+
+
+
+function generateRandomString(length) {
+  const characters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+  let randomString = '';
+
+  for (let i = 0; i < length; i++) {
+    const randomIndex = Math.floor(Math.random() * characters.length);
+    randomString += characters.charAt(randomIndex);
+  }
+
+  return randomString;
+}
+
+
+app.post('/sandboxconnect', upload.single('privateKey'), async (req, res) => {
+  try {
+    const { host, user } = req.body;
+
+    // Access the uploaded file via req.file
+    const privateKeyFile = req.file;
+
+    if (!privateKeyFile) {
+      return res.status(400).send('No private key uploaded.');
+    }
+
+    const id = generateRandomString(20);
+
+    // Create a new FormData object
+    const formData = new FormData();
+    formData.append('host', host);
+    formData.append('user', user);
+    formData.append('id', id);
+    formData.append('privateKey', privateKeyFile.buffer, {
+      filename: privateKeyFile.originalname,
+      contentType: privateKeyFile.mimetype,
+    });
+
+    const postUrl = 'https://kapi.kadmin.online/connect'; // Replace with your API endpoint
+
+    // Make the POST request using axios
+    const response = await axios.post(postUrl, formData, {
+      headers: formData.getHeaders(),
+    });
+
+    const data = response.data;
+    console.log('Data from the POST request:', data);
+
+    // Render your view or send a response as needed
+
+    const getUrl = 'https://kapi.kadmin.online/connect/' + id; // Replace with your GET API endpoint
+
+    try {
+        const responseGet = await axios.get(getUrl);
+        
+        if (responseGet.status === 200) {
+
+            console.log('Request successful:', responseGet.data);
+            userdb.prepare("UPDATE user SET servers = servers || ? WHERE user = ?").run(',' + id+'@'+host, req.oidc.user.sub);
+
+      
+
+        } else {
+
+            console.log('Unexpected response status:', responseGet.status);
+        }
+    } catch (error) {
+
+        console.error('Error making the request:', error.message);
+    }
+
+    // const dataFromGet = responseGet.data;
+
+
+
+
+    res.send('File uploaded successfully!'  );
+  } catch (error) {
+    console.error('Error:', error.message);
+    res.send('Internal Server Error');
+  }
+
+
+
+
 });
 
 
 
 
-
-  
 app.get("/apps", async (req, res) => {
   try {
     const pm2Result = await ssh.execCommand("pm2 jlist");
 
     const appList = await processPm2Result(pm2Result);
 
-    
     const scripts = scriptsdb
       .prepare("SELECT * FROM scripts WHERE user=?")
       .all(req.oidc.user.sub);
@@ -159,9 +242,6 @@ app.get("/apps", async (req, res) => {
     res.send(error);
   }
 });
-
-
-
 
 app.get("/folders", async (req, res) => {
   let folder = [];
@@ -182,47 +262,33 @@ app.get("/website", (req, res) => {
   res.render("partials/createwebsite");
 });
 
-
-var sysuser =''
+var sysuser = "";
 app.post("/connect", async (req, res) => {
-  const { host, username, password ,port , privateKey } = req.body;
+  const { host, username, password, port, privateKey } = req.body;
 
   req.session.host = host;
   req.session.username = username;
   req.session.password = password;
 
-
-    sysuser = username
-    if (!req.session.sshConfig) {
-
-      req.session.sshConfig  = {
-        host,
-        username,
-        password,
-        port,
-        privateKey,
-
-  
-      }
-  
-    }
-
-  try {
-    
-    await ssh.connect(req.session.sshConfig) ;
-
-
-    res.redirect("/dashboard");
-   
-  } catch (error) {
-    res.send("Failed to connect to the SSH server." , error );
+  sysuser = username;
+  if (!req.session.sshConfig) {
+    req.session.sshConfig = {
+      host,
+      username,
+      password,
+      port,
+      privateKey,
+    };
   }
 
+  try {
+    await ssh.connect(req.session.sshConfig);
 
-
+    res.redirect("/dashboard");
+  } catch (error) {
+    res.send("Failed to connect to the SSH server.", error);
+  }
 });
-
-
 
 const checkSessionVariables = (req, res, next) => {
   if (
@@ -231,40 +297,35 @@ const checkSessionVariables = (req, res, next) => {
     req.path === "/server" ||
     req.path === "/profile" ||
     req.path === "/userinfo" ||
-    (req.session.sshConfig)
+    req.session.sshConfig
   ) {
     next();
   } else {
-
-
-      res.redirect("/login")
-
-
-      
-    
-
+    res.redirect("/login");
   }
 };
 
 app.use(checkSessionVariables);
 
-
-
-
 app.get("/dashboard", async (req, res) => {
+  const result = scriptsdb
+    .prepare("SELECT * FROM scripts WHERE user=?")
+    .all(req.oidc.user.sub);
 
-  
-  const result = scriptsdb.prepare("SELECT * FROM scripts WHERE user=?").all(req.oidc.user.sub);
-
-  const isuser = userdb.prepare("SELECT * FROM user WHERE user=?").all(req.oidc.user.sub);
+  const isuser = userdb
+    .prepare("SELECT * FROM user WHERE user=?")
+    .all(req.oidc.user.sub);
 
   console.log(isuser);
-  isuser[0].phone ?   res.render("index.ejs", { scripts: result , sysuser , user:req.oidc.user }): res.redirect("/userinfo") 
- 
+  isuser[0].phone
+    ? res.render("index.ejs", { scripts: result, sysuser, user: req.oidc.user })
+    : res.redirect("/userinfo");
 });
 
 app.get("/status", async (req, res) => {
-  const result = scriptsdb.prepare("SELECT * FROM scripts WHERE user=?").all(req.oidc.user.sub);
+  const result = scriptsdb
+    .prepare("SELECT * FROM scripts WHERE user=?")
+    .all(req.oidc.user.sub);
 
   console.log(result);
   res.render("partials/status", { scripts: result });
@@ -280,7 +341,6 @@ async function processPm2Result(pm2Result) {
 
   return appList;
 }
-
 
 app.post("/execute", async (req, res) => {
   const { command } = req.body;
@@ -300,14 +360,14 @@ app.post("/execute", async (req, res) => {
   }
 
   try {
-    const { stdout, stderr } = await ssh.execCommand(`cd /root/app/controlpanel && git pull`);
+    const { stdout, stderr } = await ssh.execCommand(
+      `cd /root/app/controlpanel && git pull`
+    );
 
-      console.log(`Status ✨:\n${stdout}\n\nErrors 💀:\n${stderr}`);
-
+    console.log(`Status ✨:\n${stdout}\n\nErrors 💀:\n${stderr}`);
   } catch (error) {
     console.log(error);
   }
-
 });
 
 function highlightErrors(text) {
@@ -325,24 +385,11 @@ app.post("/changedir", async (req, res) => {
     const { stdout, stderr } = await ssh.execCommand(dir);
     folder = stdout.split("\n").filter(Boolean);
 
-
-
-
-      res.render("partials/folders", { folder });
-
-    
-
+    res.render("partials/folders", { folder });
   } catch (error) {
     res.send(`Error executing the command: ${error.message}`);
   }
 });
-
-
-
-
-
-
-
 
 app.get("/createwebsite.sh", (req, res) => {
   const filePath = path.join(__dirname, "createwebsite.sh");
@@ -358,28 +405,22 @@ app.get("/createwebsite.sh", (req, res) => {
   });
 });
 
-
-
 app.get("/sqlite", (req, res) => {
   res.render("partials/sqlite");
 });
 
-
 app.get("/userinfo", (req, res) => {
-
   res.render("partials/detailsform");
 });
 app.post("/userinfo", (req, res) => {
+  const { name, phone } = req.body;
 
-  const {name , phone } = req.body
+  userdb
+    .prepare("UPDATE user SET name = ?, phone = ? WHERE user = ?")
+    .run(name, phone, req.oidc.user.sub);
 
- 
-  userdb.prepare("UPDATE user SET name = ?, phone = ? WHERE user = ?")
-  .run(name, phone, req.oidc.user.sub);
-
-  res.redirect('/dashboard')
+  res.redirect("/dashboard");
 });
-
 
 app.get("/profile", requiresAuth(), (req, res) => {
   res.send(JSON.stringify(req.oidc.user));
