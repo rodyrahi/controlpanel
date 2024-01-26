@@ -18,7 +18,7 @@
             <div class="border p-2 rounded m-1" >
                 <h5><%= element.split('@')[1] %></h5>
  
-                <button class="btn btn-success">Connect</button>
+                <a href="/dashboard/<%= element.split('@')[0] %>" class="btn btn-success">Connect</a>
             </div>
 
 
@@ -82,7 +82,7 @@
 
         function executeCommand() {
             var command = document.getElementById("command").value;
-            var user = "<%= locals.id %>"  // Replace with the actual username
+            var user = "ioP7utw963eL4GPShrX0"  // Replace with the actual username
 
             var xhr = new XMLHttpRequest();
             xhr.open("POST", "https://kapi.kadmin.online/execute/" + user, true);

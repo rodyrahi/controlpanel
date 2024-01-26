@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://unpkg.com/htmx.org@1.9.10"></script>
+
+</head>
+<body>
+    <p><%= server %></p>
+
+  
+
+    <h2>Execute Command</h2>
+    <form hx-post="/execommand/<%= server %>" hx-target="#output" >
+        <!-- <label for="command">user:</label>
+        <textarea type="text" id="id" name="command" required></textarea> -->
+        <label for="command">Command:</label>
+        <textarea type="text" id="command" name="command" required></textarea>
+        <button type="submit">Execute</button>
+    </form>
+
+    <div id="output"></div>
+
+</body>
+
+
+<script>
+
+</script>
+
+
+
+</html>

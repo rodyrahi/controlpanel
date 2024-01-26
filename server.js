@@ -125,18 +125,82 @@ app.get("/", (req, res) => {
   res.render("home", { isauth: req.oidc.isAuthenticated() });
 });
 
-app.get("/sandbox", (req, res) => {
+app.get("/dashboard/:server", async(req, res) => {
 
-  
-  const result = userdb.prepare("SELECT servers FROM user WHERE user = ?").get(req.oidc.user.sub);
+  const server = req.params.server
 
-  const servers = result.servers.split(',')
+  req.session.server = server
+  res.render("partials/test",{server});
 
-
-
-  res.render("partials/sandbox", { isauth: req.oidc.isAuthenticated() ,  servers });
 });
 
+
+app.post("/execommand/:server", async (req, res) => {
+  const { command } = req.body;
+
+  const user = req.params.server
+  const postData = {
+    command: command
+  };
+
+  try {
+    const response = await axios.post(`https://kapi.kadmin.online/execute/${user}`, postData, {
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+    });
+    console.log('Response from the server:', response.data);
+    // const data = response.data
+
+    res.send(response.data)
+
+  } catch (error) {
+    console.error('Error making POST request:', error.response ? error.response.status : error.message);
+    // Handle errors as needed, e.g., res.status(500).send('Internal Server Error');
+  }
+});
+
+
+
+
+app.get("/sandbox", async (req, res) => {
+  try {
+    const servers = req.session?.server || [];
+ 
+
+    const fetchData = async (element) => {
+      const username = element.split("@")[0];
+      const getUrl = username ? `https://kapi.kadmin.online/user/${username}` : '';
+
+      try {
+        const responseGet = await axios.get(getUrl);
+
+        if (responseGet.status === 200) {
+          // isexit.push(element);
+        }else{
+          const indexToRemove = servers.indexOf(element);
+          if (indexToRemove !== -1) {
+            isexit.splice(indexToRemove, 1);
+          }
+        }
+      } catch (error) {
+        console.error(`Error fetching data for server ${element}: ${error.message}`);
+        const indexToRemove = servers.indexOf(element);
+        if (indexToRemove !== -1) {
+          servers.splice(indexToRemove, 1);
+        }
+      }
+    };
+
+    await Promise.all(servers.map(fetchData));
+
+    console.log(servers);
+    res.render('partials/sandbox', { servers });
+  } catch (error) {
+    // console.error('Error in /sandbox route:', error.message);
+    res.render('partials/sandbox', { servers:[''] });
+  }
+});
 
 
 function generateRandomString(length) {
@@ -195,7 +259,9 @@ app.post('/sandboxconnect', upload.single('privateKey'), async (req, res) => {
         if (responseGet.status === 200) {
 
             console.log('Request successful:', responseGet.data);
-            userdb.prepare("UPDATE user SET servers = servers || ? WHERE user = ?").run(',' + id+'@'+host, req.oidc.user.sub);
+            req.session.server = []
+            req.session.server.push(id+'@'+host)
+            // userdb.prepare("UPDATE user SET servers = servers || ? WHERE user = ?").run(',' + id+'@'+host, req.oidc.user.sub);
 
       
 
