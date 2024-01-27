@@ -1,0 +1,150 @@
+<div class="container-fluid" id="apps">
+    <div class="row">
+  
+    
+    <div class="col p-1">
+      <form id="form" class="row" style="max-height: 70vh; overflow-y: auto;">
+  
+        <% apps.forEach((element , index) => { %>
+  
+  
+        <div class="col m-1 p-2 rounded-2 text-light " style=" max-width: 22rem; min-width: 18rem; background-color: darkslategray; box-shadow: 2px 2px black; border: 2px black solid; ">
+          <div class=" row " style="">
+  
+            <div class="col-6">
+              <h5 class="fw-bold"><%= element.name %></h5>
+              <a class=" ms-auto ms-2 text-warning" type="button" data-cmd="restart" data-name="<%= element.name %>" onclick="apprestart(this)"><i class="fa-solid fa-rotate" style="font-size: 1.3rem;"></i></a>
+              <% if (element.pm2_env.status === 'online') { %>
+              <a class=" ms-1 text-danger ms-2" type="button" data-cmd="stop" data-name="<%= element.name %>" onclick="app(this)"><i class="fa-solid fa-stop" style="font-size: 1.3rem;"></i></a>
+  
+              <% } else { %>
+              <a class=" ms-1 text-success ms-2" type="button" data-cmd="start" data-name="<%= element.name %>" onclick="app(this)"><i class="fa-solid fa-play" style="font-size: 1.3rem;"></i></a>
+  
+              <%} %>
+              <% if (element.pm2_env.versioning) { %>
+              <a type="button" class="text-info ms-2" data-cmd="<%= element.pm2_env.versioning.repo_path %>" data-name="<%= element.name %>" onclick="gitpull(this)"><i class="fa-solid fa-code-pull-request" style="font-size: 1.3rem;"></i></a>
+  
+              <% } %>
+              <a type="button" class="text-info ms-2" data-name="<%= element.name %>" onclick="log(this)"><i class="fa-solid fa-code"" style=" font-size: 1.3rem;"></i></a>
+              <!-- <a target="_blank"  href="/logs/<%= element.name %>" class="text-info ms-2"><i class="fa-solid fa-code"></i></a> -->
+  
+            </div>
+            <div class="col-6 d-flex" style="flex-direction: column;">
+              <h6 class="ms-auto"><i class="fa-solid fa-microchip me-2"></i><%= (element.monit.memory /1024/1024).toFixed(2) %>mb</h6>
+              <h6 class="ms-auto"><i class="fa-solid fa-server me-2"> </i><%= element.monit.cpu %>%</h6>
+  
+  
+  
+            </div>
+  
+          </div>
+          <hr style="margin: 0.4rem 0;">
+  
+  
+          <a class="btn-light btn btn-sm" data-bs-toggle="collapse" href="#collapse<%= index %>" role="button" aria-expanded="false" aria-controls="collapse<%= index %>">
+            Scripts
+          </a>
+  
+          <div class="row p-2 collapse" id="collapse<%= index %>" aria-labelledby="collapse<%= index %>">
+            <% scripts.forEach(element => { %>
+            <div class="bg-dark col d-flex p-2 rounded-2">
+              <h5 class="my-auto"><%= element.name %></h5>
+              <a type="button" class="ms-auto" data-script="<%= element.script %>" onclick="runscript(this)" style="font-size: 1.5rem; color: rgb(1, 196, 1);">
+                <i class="fa-solid fa-circle-play"></i>
+              </a>
+            </div>
+            <% }) %>
+          </div>
+  
+  
+        </div>
+  
+  
+        <% }) %>
+      </form>
+  
+    </div>
+  
+    </div>
+  
+  </div>
+  
+  
+  
+  
+  
+  
+  <script>
+    var user = "<%= sysuser %>"
+  
+    function app(button) {
+      const appName = button.getAttribute('data-name');
+      const cmd = button.getAttribute('data-cmd');
+      console.log(appName)
+      document.getElementById('command').value = `pm2 ${cmd} ${appName}`
+      document.getElementById('exe').click()
+      setTimeout(function() {
+        document.getElementById('apps').click();
+      }, 500);
+  
+    }
+  
+    function apprestart(button) {
+      const appName = button.getAttribute('data-name');
+      const cmd = button.getAttribute('data-cmd');
+      console.log(appName)
+      document.getElementById('command').value = `pm2 ${cmd} ${appName}`
+      document.getElementById('exe').click()
+  
+  
+    }
+  
+    function gitpull(button) {
+      const appName = button.getAttribute('data-name');
+      const cmd = button.getAttribute('data-cmd');
+      console.log(appName)
+      document.getElementById('command').value =
+        `cd ${cmd} && git pull`
+      document.getElementById('exe').click()
+      // document.getElementById('apps').click()
+  
+      // Perform your restart logic using the extracted app name
+    }
+  
+    function addapp() {
+      var url = document.getElementById('giturl').value
+      document.getElementById('command').value =
+        `
+          cd /${user}/app
+          git clone ${url} 
+          `
+      document.getElementById('exe').click()
+      document.getElementById('apps').click()
+  
+    }
+  
+    var interval = null;
+   
+  function log(button) {
+  
+    clearInterval(interval);
+    seelog(button);
+    interval = setInterval(function() {
+      seelog(button);
+    }, 3000);
+  }
+  
+  function seelog(button) {
+    const appName = button.getAttribute('data-name');
+    document.getElementById('command').value = ` pm2 logs ${appName} --nostream`;
+    document.getElementById('exe').click();
+  }
+  
+  
+  
+  
+  </script>
+  
+  
+  
+  

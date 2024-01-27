@@ -125,9 +125,15 @@ app.get("/", (req, res) => {
   res.render("home", { isauth: req.oidc.isAuthenticated() });
 });
 
+
+
+
+
 app.get("/dashboard/:server", async(req, res) => {
 
   const server = req.params.server
+
+  req.session.server = server
 
   res.render("partials/test",{server});
 
@@ -198,7 +204,7 @@ app.get("/sandbox", async (req, res) => {
   } catch (error) {
     // console.error('Error in /sandbox route:', error.message);
     console.log(req.session.server);
-    res.render('partials/sandbox', { servers: req.session.server });
+    res.render('partials/sandbox', { servers: [req.session.server] });
   }
 });
 
@@ -291,6 +297,56 @@ app.post('/sandboxconnect', upload.single('privateKey'), async (req, res) => {
 });
 
 
+app.get("/testapps", async (req, res) => {
+
+
+  const server = req.session.server
+
+  // const server = user[0].split("@")[0]
+
+
+  // console.log(user);
+
+  const postData = {
+    command: `pm2 jlist | jq -r '.[] | {name: .name, status: .pm2_env.status, memory: .monit.memory, cpu: .monit.cpu, repo: .pm2_env.versioning.repo_path}'
+    `
+  };
+
+  try {
+    const response = await axios.post(`https://kapi.kadmin.online/execute/${server}`, postData, {
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+    });
+
+    
+    // console.log('Response from the server:', response.data);
+    // const data = response.data
+
+    console.log(response.data);
+
+    // const appList = await processPm2Result(response.data);
+
+
+    const scripts = scriptsdb
+    .prepare("SELECT * FROM scripts WHERE user=?")
+    .all(req.oidc.user.sub);
+
+  // res.render("partials/createapp", { apps: response.data, sysuser, scripts });
+    res.send(response.data)
+  } catch (error) {
+    console.error('Error making POST request:', error.response ? error.response.status : error.message);
+    // Handle errors as needed, e.g., res.status(500).send('Internal Server Error');
+  }
+});
+
+
+
+
+
+
+
+
 
 
 app.get("/apps", async (req, res) => {
@@ -374,6 +430,9 @@ const checkSessionVariables = (req, res, next) => {
 app.use(checkSessionVariables);
 
 app.get("/dashboard", async (req, res) => {
+
+  const server =req.session.servers
+
   const result = scriptsdb
     .prepare("SELECT * FROM scripts WHERE user=?")
     .all(req.oidc.user.sub);
@@ -384,7 +443,7 @@ app.get("/dashboard", async (req, res) => {
 
   console.log(isuser);
   isuser[0].phone
-    ? res.render("index.ejs", { scripts: result, sysuser, user: req.oidc.user })
+    ? res.render("index.ejs" , { scripts: result, sysuser, user: req.oidc.user, server })
     : res.redirect("/userinfo");
 });
 
