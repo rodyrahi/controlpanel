@@ -319,21 +319,21 @@ app.get("/testapps", async (req, res) => {
       },
     });
 
-    
-    // console.log('Response from the server:', response.data);
-    // const data = response.data
 
-    console.log(response.data);
 
-    // const appList = await processPm2Result(response.data);
 
+    const json = String(response.data);
+
+    const obj = JSON.parse(json);
+
+    console.log(json);
 
     const scripts = scriptsdb
     .prepare("SELECT * FROM scripts WHERE user=?")
     .all(req.oidc.user.sub);
 
-  // res.render("partials/createapp", { apps: response.data, sysuser, scripts });
-    res.send(response.data)
+  res.render("partials/testapps", { apps:[response.data] , sysuser, scripts });
+    // res.send(response.data)
   } catch (error) {
     console.error('Error making POST request:', error.response ? error.response.status : error.message);
     // Handle errors as needed, e.g., res.status(500).send('Internal Server Error');

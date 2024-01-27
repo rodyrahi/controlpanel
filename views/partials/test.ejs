@@ -9,20 +9,21 @@
 </head>
 <body>
     
-    <div hx-get="/testapps" hx-trigger="click">
+    <button hx-get="/testapps" hx-trigger="mouseover" onclick="toggle()" hx-target="#output">
        apps
-    </div>
+    </button>
  
-    
+    <div id="output" style="display: none;">
+
+    </div>
 </body>
 
 
 <script>
-
-</script>
-
-<script>
-
+ function toggle() {
+            var output = document.getElementById('output');
+            output.style.display = (output.style.display === 'block') ? 'none' : 'block';
+        }
 </script>
 
 
