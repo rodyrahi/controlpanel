@@ -129,9 +129,9 @@ app.get("/", (req, res) => {
 
 
 
-app.get("/dashboard/:server", async(req, res) => {
+app.get("/dashboard/me", async(req, res) => {
 
-  const server = req.params.server
+  const server = req.oidc.user.sub
 
   req.session.server = server
 
@@ -143,7 +143,7 @@ app.get("/dashboard/:server", async(req, res) => {
 app.post("/execommand/:server", async (req, res) => {
   const { command } = req.body;
 
-  const user = req.params.server
+  const user = req.oidc.user.sub
   const postData = {
     command: command
   };
@@ -184,14 +184,14 @@ app.get("/sandbox", async (req, res) => {
     } else {
       
       
-      res.render('partials/sandbox', { servers: [''] });
+      res.render('partials/sandbox', { servers: [""] });
     }
   } catch (error) {
     console.error(
       `Error fetching data for server ${servers}: ${error.message}`
     );
     console.log('not found ');
-    res.render('partials/sandbox', { servers: [''] });
+    res.render('partials/sandbox', { servers: [""] });
 
   }
 
