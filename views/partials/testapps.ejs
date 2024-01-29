@@ -1,4 +1,86 @@
+
+
+<div class="row">
+    
+
+
 <% apps.forEach(element => { %>
- <p><%= element %></p>
- <br>
+
+
+    <div class="col-xl-3 p-0">
+
+   
+        <div style="box-shadow: 5px 5px black; background-color: #2F4F4F;"  class="border border-2   text-light <%= element.status === "online" ? "border-success" : "border-danger" %>  rounded m-1 p-1" >
+            
+            <div class="row">
+                <div class="col-6">
+                    <h5 class="m-auto mb-1 fw-bold" ><%= element.name %></h5>
+                    <h5 class="m-auto"  >
+                        <i type="button" data-path="<%= element.repo %>" data-appid="<%= element.id %>" class="fa-solid fa-rotate text-warning" onclick="restartapp(this)"></i>
+                        
+                        <i type="button" data-status="<%= element.status %>"  data-appid="<%= element.id %>" class="fa-solid <%= element.status === 'online' ?  "text-danger fa-solid fa-circle-stop" : "fa-solid fa-circle-play text-success"  %> " onclick="toggleapp(this)"></i>
+
+                        <i type="button" data-path="<%= element.repo %>" data-appid="<%= element.id %>" class="fa-solid fa-code-pull-request " onclick="pullapp(this)"></i>
+
+                    </h5>
+                </div>
+                <div class="col-6 d-flex flex-column">
+                    <p class="m-0 ms-auto"><i class="fa-solid fa-server me-2"></i>  <%= element.cpu %>%</p>
+                    <p class="m-0 ms-auto">  <i class="fa-solid fa-microchip me-2"></i><%= (element.memory /1024/1024).toFixed(2)%>Mb</p>
+                </div>
+            </div>
+            
+           
+
+    
+
+        </div>
+
+       
+    
+    </div>
+
+ 
+ 
 <% }) %>
+</div>
+
+<script>
+
+   
+function restartapp(element) {
+        const out = 'log';
+        const id = element.getAttribute('data-appid');
+        const repo = element.getAttribute('data-path');
+
+        const command = `pm2 restart ${id}`;
+
+        executeCommand(command, out);
+    }
+
+
+    function pullapp(element) {
+        const out = 'log';
+        const id = element.getAttribute('data-appid');
+        const repo = element.getAttribute('data-path');
+
+        const command = `pm2 pull ${id}`;
+
+        executeCommand(command, out);
+    }
+    
+    function toggleapp(element) {
+        const out = 'log';
+        const id = element.getAttribute('data-appid');
+        const status = element.getAttribute('data-status');
+
+        let command = `pm2 start ${id}`;
+        if (status === "online") {
+            command = `pm2 stop ${id}`;
+        }
+            
+        
+
+        executeCommand(command, out);
+    }
+</script>

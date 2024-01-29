@@ -308,7 +308,7 @@ app.get("/testapps", async (req, res) => {
   // console.log(user);
 
   const postData = {
-    command: `pm2 jlist | jq -r '.[] | {name: .name, status: .pm2_env.status, memory: .monit.memory, cpu: .monit.cpu, repo: .pm2_env.versioning.repo_path}'
+    command: `pm2 jlist | jq -c '.[] | {name, status: .pm2_env.status,id:.pm_id, memory: .monit.memory, cpu: .monit.cpu, repo: .pm2_env.versioning.repo_path}'
     `
   };
 
@@ -322,17 +322,19 @@ app.get("/testapps", async (req, res) => {
 
 
 
-    const json = String(response.data);
+    // const json = JSON.stringify(response.data)
 
-    const obj = JSON.parse(json);
 
-    console.log(json);
+    const data = response.data.split('\n');
+    
+    const jsonArray = data.filter(item => item.trim() !== '').map(JSON.parse);
+
 
     const scripts = scriptsdb
     .prepare("SELECT * FROM scripts WHERE user=?")
     .all(req.oidc.user.sub);
 
-  res.render("partials/testapps", { apps:[response.data] , sysuser, scripts });
+  res.render("partials/testapps", { apps:jsonArray , sysuser, scripts  , server});
     // res.send(response.data)
   } catch (error) {
     console.error('Error making POST request:', error.response ? error.response.status : error.message);
