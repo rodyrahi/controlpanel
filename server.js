@@ -169,43 +169,71 @@ app.post("/execommand/:server", async (req, res) => {
 
 
 app.get("/sandbox", async (req, res) => {
+  const servers = req.oidc.user.sub;
+
+
+  const getUrl = `https://kapi.kadmin.online/user/${servers}`;
+
   try {
-    const servers = req.session?.server || [];
+    const responseGet = await axios.get(getUrl);
+
+    if (responseGet.status === 200) {
+
+      console.log('found ');
+      res.render('partials/sandbox', { servers: [servers] });
+    } else {
+      
+      
+      res.render('partials/sandbox', { servers: [''] });
+    }
+  } catch (error) {
+    console.error(
+      `Error fetching data for server ${servers}: ${error.message}`
+    );
+    console.log('not found ');
+    res.render('partials/sandbox', { servers: [''] });
+
+  }
+
+
+  // try {
+    
+  //   console.log(servers);
    
 
-    const fetchData = async (element) => {
-      const username = element.split("@")[0];
-      const getUrl = username ? `https://kapi.kadmin.online/user/${username}` : '';
+  //   const fetchData = async (element) => {
+  //     const username = element.split("@")[0];
+  //     const getUrl = username ? `https://kapi.kadmin.online/user/${element}` : '';
 
-      try {
-        const responseGet = await axios.get(getUrl);
+  //     try {
+  //       const responseGet = await axios.get(getUrl);
 
-        if (responseGet.status === 200) {
-          // isexit.push(element);
-        }else{
-          const indexToRemove = servers.indexOf(element);
-          if (indexToRemove !== -1) {
-            isexit.splice(indexToRemove, 1);
-          }
-        }
-      } catch (error) {
-        console.error(`Error fetching data for server ${element}: ${error.message}`);
-        const indexToRemove = servers.indexOf(element);
-        if (indexToRemove !== -1) {
-          servers.splice(indexToRemove, 1);
-        }
-      }
-    };
+  //       if (responseGet.status === 200) {
+  //         // isexit.push(element);
+  //       }else{
+  //         const indexToRemove = servers.indexOf(element);
+  //         if (indexToRemove !== -1) {
+  //           isexit.splice(indexToRemove, 1);
+  //         }
+  //       }
+  //     } catch (error) {
+  //       console.error(`Error fetching data for server ${element}: ${error.message}`);
+  //       const indexToRemove = servers.indexOf(element);
+  //       if (indexToRemove !== -1) {
+  //         servers.splice(indexToRemove, 1);
+  //       }
+  //     }
+  //   };
 
-    await Promise.all(servers.map(fetchData));
+  //   await Promise.all(servers.map(fetchData));
 
-    console.log(servers);
-    res.render('partials/sandbox', { servers });
-  } catch (error) {
-    // console.error('Error in /sandbox route:', error.message);
-    console.log(req.session.server);
-    res.render('partials/sandbox', { servers: [req.session.server] });
-  }
+  //   console.log(servers);
+  //   res.render('partials/sandbox', { servers });
+  // } catch (error) {
+  //   // console.error('Error in /sandbox route:', error.message);
+  //   console.log(req.session.server);
+  //   res.render('partials/sandbox', { servers: [''] });
+  // }
 });
 
 
@@ -225,7 +253,8 @@ function generateRandomString(length) {
 app.post('/sandboxconnect', upload.single('privateKey'), async (req, res) => {
   try {
     const { host, user } = req.body;
-
+    const gid = req.oidc.user.sub
+    console.log(gid);
     // Access the uploaded file via req.file
     const privateKeyFile = req.file;
 
@@ -240,40 +269,45 @@ app.post('/sandboxconnect', upload.single('privateKey'), async (req, res) => {
     formData.append('host', host);
     formData.append('user', user);
     formData.append('id', id);
+    formData.append('gid', gid);
     formData.append('privateKey', privateKeyFile.buffer, {
       filename: privateKeyFile.originalname,
       contentType: privateKeyFile.mimetype,
     });
+   
+    
 
+    
     const postUrl = 'https://kapi.kadmin.online/connect'; // Replace with your API endpoint
 
     // Make the POST request using axios
     const response = await axios.post(postUrl, formData, {
       headers: formData.getHeaders(),
     });
-
+   
     const data = response.data;
-    console.log('Data from the POST request:', data);
 
-    // Render your view or send a response as needed
 
-    const getUrl = 'https://kapi.kadmin.online/connect/' + id; // Replace with your GET API endpoint
+    
 
+    const getUrl = 'https://kapi.kadmin.online/connect/' + gid; // Replace with your GET API endpoint
+    // console.log(gid);
+ 
     try {
         const responseGet = await axios.get(getUrl);
         
         if (responseGet.status === 200) {
 
-            console.log('Request successful:', responseGet.data);
+            // console.log('Request successful:', responseGet.data);
             req.session.server = []
-            req.session.server.push(id+'@'+host)
+            req.session.server.push(gid+'@'+host)
             // userdb.prepare("UPDATE user SET servers = servers || ? WHERE user = ?").run(',' + id+'@'+host, req.oidc.user.sub);
 
       
 
         } else {
 
-            console.log('Unexpected response status:', responseGet.status);
+            // console.log('Unexpected response status:', responseGet.status);
         }
     } catch (error) {
 
@@ -288,7 +322,7 @@ app.post('/sandboxconnect', upload.single('privateKey'), async (req, res) => {
     res.send('File uploaded successfully!'  );
   } catch (error) {
     console.error('Error:', error.message);
-    res.send('Internal Server Error');
+    res.send(error.message);
   }
 
 
