@@ -2,24 +2,68 @@
 <html lang="en">
 <%- include('./header.ejs') %>
 
+
+<style>
+  .hover:hover{
+    color: cadetblue
+  }
+  .hover{
+    color: white;
+  }
+</style>
+
 <body style="font-family: 'Inclusive Sans', sans-serif; background-color: #343541;" >
 
-    
-  <div class="container-fluid">
+  
+  <nav class="navbar fixed-top navbar-dark bg-dark">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">Kadmin.Online</a>
+    </div>
+  </nav>
+  
+  <div class="container-fluid p-0 h-100">
     
     
 
 
-    <div class="row"  >
-        <div class="col-1 bg-black">
-            <button class=" btn btn-green bg-light" hx-get="/testapps" hx-trigger="mouseover" onclick="toggle()" hx-target="#output">
-                PM2 APPS
-              </button>
+    <div class="row   position-sticky w-100" style="margin-top: 56px; height: 100%;" >
+        <div class="col-2  bg-black">
+          <div class="d-flex p-2">
+            <p class="  m-auto  hover" type="button" hx-get="/testdash"  hx-trigger="mouseover" onclick="toggle('dash')" hx-target="#dash">
+              <i class="fa-solid fa-gauge"></i>  Dashboard
+              </p>
+          </div>          
+          <div class="d-flex p-2">
+            <p class=" hover m-auto" type="button" hx-get="/testapps" hx-trigger="mouseover" onclick="toggle('apps')" hx-target="#apps">
+              <i class="fa-solid fa-terminal"></i>  Terminal
+              </p>
+          </div>          
+          <div class="d-flex p-2">
+            <p class=" hover m-auto" type="button" hx-get="/testapps" hx-trigger="mouseover" onclick="toggle('apps')" hx-target="#apps">
+              <i class="fa-solid fa-paper-plane"></i>  Applications
+              </p>
+          </div>
+          <div class="d-flex p-2">
+            <p class=" hover m-auto" type="button" hx-get="/testfolders" hx-trigger="mouseover" onclick="toggle('folders')" hx-target="#folders">
+              <i class="fa-solid fa-folder"></i>  Folders
+              </p>
+          </div>
+
+          
+           
+
+           
+        </div>
+        
+        <div class="col-10 " id="features" >
+          <div class="" id="dash" style="display: none; "></div>
+          <div class="" id="apps" style="display: none; "></div>
+          <div class="" id="folders" style="display: none; "></div>
           
         </div>
-        <div class="col-11" id="output" style="display: none;">
-            
-        </div>
+        
+        
+        
         <div id="log" class="">
 
         </div>
@@ -29,10 +73,27 @@
 
 
 <script>
-  function toggle() {
-    var output = document.getElementById('output');
-    output.style.display = (output.style.display === 'block') ? 'none' : 'block';
-  }
+  function toggle(e) {
+    var output = document.getElementById(e);
+
+    // Get the parent div
+    var parentDiv = document.getElementById('features');
+    
+    // Get all the divs inside the parent div
+    var childDivs = parentDiv.querySelectorAll('div');
+
+    // Loop through the divs and do something with each one
+    console.log(e);
+    childDivs.forEach(function(div) {
+        if (div.id === e) {
+            console.log(div);
+            div.style.display = 'block';
+        } else {
+            div.style.display = 'none';
+        }
+    });
+}
+
 </script>
 
 

@@ -378,6 +378,15 @@ app.get("/testapps", async (req, res) => {
 
 
 
+app.get("/testdash", async (req, res) => {
+  res.render("partials/testdashboard")
+});
+
+app.get("/testfolders", async (req, res) => {
+  res.render("partials/testfolders")
+});
+
+
 
 
 
