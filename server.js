@@ -131,7 +131,7 @@ app.get("/", (req, res) => {
 
 app.get("/dashboard/me", async(req, res) => {
 
-  const server = req.oidc.user.sub
+  const server = req.oidc.user.sub || req.session.server
 
   req.session.server = server
 
@@ -383,7 +383,47 @@ app.get("/testdash", async (req, res) => {
 });
 
 app.get("/testfolders", async (req, res) => {
-  res.render("partials/testfolders")
+  const server = req.session.server
+
+  // const server = user[0].split("@")[0]
+
+
+  // console.log(user);
+
+  const postData = {
+    command: `ls -la`
+  };
+
+  try {
+    const response = await axios.post(`https://kapi.kadmin.online/execute/${server}`, postData, {
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+    });
+
+
+
+
+    // const json = JSON.stringify(response.data)
+
+
+    const data = response.data.split('\n');
+    
+    // const jsonArray = data.filter(item => item.trim() !== '').map(JSON.parse);
+
+
+
+    const scripts = scriptsdb
+    .prepare("SELECT * FROM scripts WHERE user=?")
+    .all(req.oidc.user.sub);
+
+  res.render("partials/testfolders", { folders:data});
+    // res.send(response.data)
+  } catch (error) {
+    console.error('Error making POST request:', error.response ? error.response.status : error.message);
+    // Handle errors as needed, e.g., res.status(500).send('Internal Server Error');
+  }
+  
 });
 
 

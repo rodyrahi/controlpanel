@@ -1,1 +1,10 @@
-<h1>folders</h1>
+<div class="p-2">
+    <% folders.forEach((element , index) => { %>
+        <% if (index >2) { %>
+            <% let parts = element.split(" "); %>
+            <% let name = parts[parts.length - 1]; %>
+            <p type="button" class="text-light" ><%= name %></p>
+        <% } %>
+     
+    <% }) %>
+</div>
