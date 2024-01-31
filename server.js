@@ -127,6 +127,29 @@ app.get("/", (req, res) => {
 
 
 
+ 
+async function fetchdata(command , req) {
+  const server = req.session.server
+
+  const postData = {
+    command: command
+  };
+
+  const response = await axios.post(`https://kapi.kadmin.online/execute/${server}`, postData, {
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+    },
+  });
+
+  return response.data
+     
+}
+
+
+
+
+
+
 
 
 app.get("/dashboard/me", async(req, res) => {
@@ -383,50 +406,31 @@ app.get("/testdash", async (req, res) => {
 });
 
 app.get("/testfolders", async (req, res) => {
-  const server = req.session.server
 
-  // const server = user[0].split("@")[0]
-
-
-  // console.log(user);
-
-  const postData = {
-    command: `ls -la`
-  };
-
-  try {
-    const response = await axios.post(`https://kapi.kadmin.online/execute/${server}`, postData, {
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-      },
-    });
-
-
-
-
-    // const json = JSON.stringify(response.data)
-
-
-    const data = response.data.split('\n');
-    
-    // const jsonArray = data.filter(item => item.trim() !== '').map(JSON.parse);
-
-
-
-    const scripts = scriptsdb
-    .prepare("SELECT * FROM scripts WHERE user=?")
-    .all(req.oidc.user.sub);
-
-  res.render("partials/testfolders", { folders:data});
-    // res.send(response.data)
-  } catch (error) {
+  try{
+    const data = await fetchdata('ls -la' , req)
+    const scripts = scriptsdb.prepare("SELECT * FROM scripts WHERE user=?").all(req.oidc.user.sub);
+    res.render("partials/testfolders", { folders:data.split('\n')});
+  }catch(error){
     console.error('Error making POST request:', error.response ? error.response.status : error.message);
-    // Handle errors as needed, e.g., res.status(500).send('Internal Server Error');
+
   }
-  
+
 });
 
+app.post("/testchangedic", async (req, res) => {
 
+  const {command} = req.body
+  try{
+    const data = await fetchdata(command , req)
+    const scripts = scriptsdb.prepare("SELECT * FROM scripts WHERE user=?").all(req.oidc.user.sub);
+    res.render("partials/testfolders", { folders:data.split('\n')});
+  }catch(error){
+    console.error('Error making POST request:', error.response ? error.response.status : error.message);
+
+  }
+
+});
 
 
 
