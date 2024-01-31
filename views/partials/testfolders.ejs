@@ -60,11 +60,12 @@ async function cd(el) {
         document.getElementById('changedir').innerHTML = command;
         document.getElementById('changedir').click();
     }else{
-      const data = await execute(`cat ${dir+el.innerHTML.trim()}` )
+      var name = el.innerHTML
+      const data = await execute(`cd ${dir.replace(name , '')}\ncat ${el.innerHTML.trim()}` )
       require.config({ paths: { 'vs': 'https://unpkg.com/monaco-editor@0.30.1/min/vs' }});
 
 
-      var name = el.innerHTML
+      
       el.innerHTML = '<i class="fas fa-spinner fa-spin "></i>'
       require(['vs/editor/editor.main'], function () {
         document.getElementById('editor').innerHTML = ''
