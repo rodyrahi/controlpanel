@@ -22,7 +22,7 @@
         <% if (index >2) { %>
             <% let parts = element.split(" "); %>
             <% let name = parts[parts.length - 1]; %>
-            <p onclick="cd(this)" type="button" data-type="<%= parts[0].includes("d") ? "dic" : "file"  %>"   class="text-light" ><%= name %>
+            <p onclick="cd(this)" type="button" data-type="<%= parts[0].includes("d") ? "dic" : "file"  %>"   class="text-light " ><%= name %>
                 
             </p>
         <% } %>
@@ -64,14 +64,17 @@ async function cd(el) {
       require.config({ paths: { 'vs': 'https://unpkg.com/monaco-editor@0.30.1/min/vs' }});
 
 
-
+      var name = el.innerHTML
+      el.innerHTML = '<i class="fas fa-spinner fa-spin "></i>'
       require(['vs/editor/editor.main'], function () {
+        document.getElementById('editor').innerHTML = ''
         var editor = monaco.editor.create(document.getElementById('editor'), {
           value: '',
           language: 'plaintext'
         })
 
         editor.setValue(data);
+        el.innerHTML = name
 
       });
 

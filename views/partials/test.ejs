@@ -29,9 +29,12 @@
     <div class="row   position-sticky w-100" style="margin-top: 56px; height: 100%;" >
         <div class="col-2  bg-black">
           <div class="d-flex p-2">
-            <p class="  m-auto  hover" type="button" hx-get="/testdash"  hx-trigger="click"  hx-target="#output">
+            <p class="  m-auto  hover" type="button" hx-get="/testdash"  hx-trigger="click"  hx-target="#output" hx-boost="{ preload: true }" >
               <i class="fa-solid fa-gauge"></i>  Dashboard
+
               </p>
+
+            
           </div>          
           <!-- <div class="d-flex p-2">
             <p class=" hover m-auto" type="button" hx-get="/testapps" hx-trigger="click" onclick="toggle('apps')" hx-target="#apps">
@@ -39,9 +42,13 @@
               </p>
           </div>           -->
           <div class="d-flex p-2">
-            <p class=" hover m-auto" type="button" hx-get="/testapps" hx-trigger="click"  hx-target="#output">
-              <i class="fa-solid fa-paper-plane"></i>  Applications
-              </p>
+            <p class="hover m-auto" type="button"  hx-get="/testapps" hx-trigger="click" hx-target="#output"  hx-boost="{ preload: true }">
+              <i class="fa-solid fa-paper-plane"></i> Applications 
+          </p>
+
+
+              
+              
           </div>
           <div class="d-flex p-2">
             <p class=" hover m-auto" type="button" hx-get="/testfolders" hx-trigger="click"  hx-target="#output">
@@ -116,6 +123,32 @@
 }
 
 
+</script>
+
+
+
+
+
+
+<script>
+
+  document.querySelectorAll('.hover').forEach(function(button) {
+
+    var originalButtonContents = button.innerHTML;
+
+    button.addEventListener('click', function () {
+
+      button.innerHTML = '<i class="fas fa-spinner fa-spin "></i>';
+
+
+      htmx.on('htmx:afterRequest', function (event) {
+        if (event.detail.elt.id === button.id) {
+          // Replace with the original innerHTML after loading
+          button.innerHTML = originalButtonContents
+        }
+      });
+    });
+  });
 </script>
 
 
