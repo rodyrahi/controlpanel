@@ -11,7 +11,13 @@
   .hover{
     color: white;
   }
+
+
+
+
 </style>
+
+
 
 <body style="font-family: 'Inclusive Sans', sans-serif; background-color: #343541;" >
 
@@ -28,10 +34,14 @@
 
 
     <div class="row   position-sticky w-100" style="margin-top: 56px; height: 100%;" >
-        <div class="col-2  bg-black">
+        <div class="col-2  bg-black d-flex flex-column">
           <div class="d-flex p-2">
             <p class="  m-auto  hover" type="button" hx-get="/testdash"  hx-trigger="click"  hx-target="#output" hx-boost="{ preload: true }" >
-              <i class="fa-solid fa-gauge"></i>  Dashboard
+              <i class="fa-solid fa-gauge"></i>  
+              <span>
+                Dashboard
+
+              </span>
 
               </p>
 
@@ -44,7 +54,11 @@
           </div>           -->
           <div class="d-flex p-2">
             <p class="hover m-auto" type="button"  hx-get="/testapps" hx-trigger="click" hx-target="#output"  hx-boost="{ preload: true }">
-              <i class="fa-solid fa-paper-plane"></i> Applications 
+              <i class="fa-solid fa-paper-plane"></i> 
+              <span>
+                Applications 
+
+              </span>
           </p>
 
 
@@ -53,8 +67,19 @@
           </div>
           <div class="d-flex p-2">
             <p class=" hover m-auto" type="button" hx-get="/testfolders" hx-trigger="click"  hx-target="#output">
-              <i class="fa-solid fa-folder"></i>  Folders
+              <i class="fa-solid fa-folder"></i>  
+              <span>
+                Folders
+              </span>
+              
               </p>
+          </div>
+
+          <div class="d-flex p-2 mt-auto">
+          
+              <i type="button" style="font-size: 1.5rem;" onclick="togglePanel()"  class="fa-solid fa-circle-left ms-auto text-light"></i>
+
+           
           </div>
 
           
@@ -78,7 +103,26 @@
 </body>
 
 
+<style>
+  .col-2 {
+    transition: width 0.3s ease; /* Add transition property for width with a 0.3s duration and ease timing function */
+  }
+  .col-2.shrink {
+    width: 50px; /* Set the desired width when the panel is shrunk */
+  }
 
+  .col-2.shrink p span {
+    display: none; /* Prevent text wrapping in shrunk state */
+  }
+</style>
+
+
+<script>
+  function togglePanel() {
+    var sidePanel = document.querySelector('.col-2');
+    sidePanel.classList.toggle('shrink');
+  }
+</script>
 
 
 <script>
