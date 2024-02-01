@@ -115,7 +115,7 @@ async function cd(el) {
       const data = await execute(`cd ${dir}\ncat ${el.innerHTML.trim()}` )
 
       
-
+        console.log(data);
         editor.setValue(data);
         el.innerHTML = name
 
