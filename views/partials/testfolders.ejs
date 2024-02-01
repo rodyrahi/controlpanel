@@ -110,13 +110,21 @@ async function cd(el) {
 <script>
   
   async function readfile(el) {
+
+
+
+
         var name = el.innerHTML
       console.log(`cd ${dir.trim()}\ncat ${el.innerHTML.trim()}`);
       const data = await execute(`cd ${dir}\ncat ${el.innerHTML.trim()}` )
 
       
         console.log(data);
-        editor.setValue(data);
+
+        if (editor) {
+          editor.setValue(data);
+        }
+
         el.innerHTML = name
 
    
