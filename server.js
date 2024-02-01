@@ -418,6 +418,13 @@ app.get("/testfolders", async (req, res) => {
 
 });
 
+
+app.get("/testfileditor", async (req, res) => {
+
+  res.render("partials/testfileditor");
+
+
+});
 app.post("/testchangedic", async (req, res) => {
 
   const {command} = req.body
