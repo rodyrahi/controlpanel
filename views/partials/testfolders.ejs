@@ -49,6 +49,8 @@
 
 <textarea  hx-post="/testchangedic" hx-trigger="click" hx-target="#output" name="command" id="changedir" style="display: none;" ></textarea>
 
+
+
 <script>
 let dir = '/root/';
 let editor
@@ -110,25 +112,19 @@ async function cd(el) {
 <script>
   
   async function readfile(el) {
+  var name = el.innerHTML
+  console.log(`cd ${dir.trim()}\ncat ${el.innerHTML.trim()}`);
+  const data = await execute(`cd ${dir}\ncat ${el.innerHTML.trim()}` )
 
 
-
-
-        var name = el.innerHTML
-      console.log(`cd ${dir.trim()}\ncat ${el.innerHTML.trim()}`);
-      const data = await execute(`cd ${dir}\ncat ${el.innerHTML.trim()}` )
-
-      
-        console.log(data);
-
-        
-        setTimeout(function () {
+  setTimeout(function () {
             editor.setValue(data);
-        }, 100); 
-        el.innerHTML = name
+        }, 10); // 100 milliseconds (0.1 seconds) delay
 
-   
-    }
+
+  el.innerHTML = name
+
+  }
       
 
 </script>

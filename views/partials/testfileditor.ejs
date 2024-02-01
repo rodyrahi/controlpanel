@@ -7,29 +7,19 @@
   </div>
 
 
-
-
-<script>
-
-</script>
-
-
 <script>
 
 
 editor = '';
 
     
-    require.config({ paths: { 'vs': 'https://unpkg.com/monaco-editor@0.30.1/min/vs' } });
-    require(['vs/editor/editor.main'], async function () {
-        editor = monaco.editor.create(document.getElementById('editor'), {
-            value: '',
-            language: 'plaintext'
-        });
+require.config({ paths: { 'vs': 'https://unpkg.com/monaco-editor@0.30.1/min/vs' } });
+require(['vs/editor/editor.main'], async function () {
+    editor = monaco.editor.create(document.getElementById('editor'), {
+        value: '',
+        language: 'plaintext'
     });
-
-
-
+});
 
 
 
@@ -46,14 +36,4 @@ async function saveFile(el) {
     
     }
 
-
-   
-
-    function handleKeyPress(event) {
-    // Check if the key combination is Ctrl + S
-    if (event.ctrlKey && event.key === 's') {
-      event.preventDefault(); // Prevent the default browser behavior (e.g., saving the page)
-      saveFile(document.getElementById('saveButton')); // Call your function
-    }
-  }
 </script>
