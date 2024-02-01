@@ -50,7 +50,7 @@
 <textarea  hx-post="/testchangedic" hx-trigger="click" hx-target="#output" name="command" id="changedir" style="display: none;" ></textarea>
 
 <script>
-
+let dir = '/root/';
 let editor
 
 
@@ -122,7 +122,9 @@ async function cd(el) {
         console.log(data);
 
         
-        editor.setValue(data);
+        setTimeout(function () {
+            editor.setValue(data);
+        }, 100); 
         el.innerHTML = name
 
    

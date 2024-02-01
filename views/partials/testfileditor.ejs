@@ -17,23 +17,21 @@
 <script>
 
 
-editor =''
-require.config({ paths: { 'vs': 'https://unpkg.com/monaco-editor@0.30.1/min/vs' }});
-
-
-
-
-    require(['vs/editor/editor.main'],  async function () {
-
- editor = monaco.editor.create(document.getElementById('editor'), {
- value: '',
- language: 'plaintext'
-});
-
+editor = '';
 
     
+    require.config({ paths: { 'vs': 'https://unpkg.com/monaco-editor@0.30.1/min/vs' } });
+    require(['vs/editor/editor.main'], async function () {
+        editor = monaco.editor.create(document.getElementById('editor'), {
+            value: '',
+            language: 'plaintext'
+        });
+    });
 
-});
+
+
+
+
 
 
 
