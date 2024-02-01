@@ -6,8 +6,8 @@
   <!-- <input type="text" class="form-control" placeholder="Username" > -->
   
 
-  <button>Back</button>
-  <button>Home</button>
+  <button  class="btn btn-dark me-2" onclick="back()" ><i class="fa-solid fa-arrow-left"></i></button>
+  <button class="btn btn-primary me-2" onclick="home()"><i class="fa-solid fa-house"></i></button>
   <input type="text" class="form-control" id="filterInput" placeholder="Type to Search" aria-label="Username" aria-describedby="addon-wrapping" 
   style="font-size: 0.7rem; border-radius: 0;"
   >
@@ -28,8 +28,17 @@
         <% if (index >2) { %>
             <% let parts = element.split(" "); %>
             <% let name = parts[parts.length - 1]; %>
-            <p onclick="cd(this)" type="button" <%= parts[0].includes("d") ? "" : `hx-get=/testfileditor hx-trigger=click hx-target=#file hx-swap=innerHTML `  %> data-type="<%= parts[0].includes("d") ? "dic" : "file"  %>"   class="text-light " ><%= name %>
-                
+            <p  onclick="cd( this , '<%= name %>')" type="button" <%= parts[0].includes("d") ? "" : `hx-get=/testfileditor hx-trigger=click hx-target=#file hx-swap=innerHTML `  %> data-type="<%= parts[0].includes("d") ? "dic" : "file"  %>"   class="text-light mb-1  " >
+              <i 
+              style="opacity: <%= name[0]==="." ? 0.3 : 1%>"
+              
+            
+              class="<%= parts[0].includes("d") ? "fa-solid fa-folder text-primary " : "fa-solid fa-file"%>" >
+            </i>
+            <span class="hover">
+              <%= name %>
+            </span>
+             
             </p>
         <% } %>
      
@@ -56,16 +65,16 @@ let dir = '/root/';
 let editor
 
 
-let file =''
 
 
 
 
-async function cd(el) {
+
+async function cd(el , name) {
     const type = el.getAttribute('data-type');
 
     if (type === "dic") {
-        const currentDir = el.innerHTML.trim();
+        const currentDir = name
         dir += currentDir + '/';
 
         const command = `cd ${dir}\nls -la`;
@@ -77,8 +86,8 @@ async function cd(el) {
     }else{
      
   
-      readfile(el)
-      file = el.innerHTML
+      readfile(name)
+ 
 
     }
 }
@@ -113,8 +122,8 @@ async function cd(el) {
   
   async function readfile(el) {
   var name = el.innerHTML
-  console.log(`cd ${dir.trim()}\ncat ${el.innerHTML.trim()}`);
-  const data = await execute(`cd ${dir}\ncat ${el.innerHTML.trim()}` )
+  console.log(`cd ${dir.trim()}\ncat ${el}`);
+  const data = await execute(`cd ${dir}\ncat ${el}` )
 
 
   setTimeout(function () {
@@ -126,6 +135,42 @@ async function cd(el) {
 
   }
       
+
+
+  async function back() {
+    const pathParts = dir.split('/');
+
+
+    if (pathParts.length > 2) {
+      dir = pathParts.slice(0, -2).join('/') + '/';
+
+
+
+        const command = `cd ${dir}\nls -la`;
+        console.log(command);
+
+
+        document.getElementById('changedir').innerHTML = command;
+        document.getElementById('changedir').click();
+    } else {
+      dir = '/'
+    }
+  }
+
+  async function home() {
+
+    dir = '/root/';
+
+
+
+      const command = `cd ${dir}\nls -la`;
+      console.log(command);
+
+
+      document.getElementById('changedir').innerHTML = command;
+      document.getElementById('changedir').click();
+
+  }
 
 </script>
 
