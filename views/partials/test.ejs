@@ -34,7 +34,7 @@
 
 
     <div class="row   position-sticky w-100" style="margin-top: 56px; height: 100%;" >
-        <div class="col-2  bg-black d-flex flex-column">
+        <div style="" class="col  bg-black d-flex flex-column sidepanel" >
           <div class="d-flex p-2">
             <p class="  m-auto  hover" type="button" hx-get="/testdash"  hx-trigger="click"  hx-target="#output" hx-boost="{ preload: true }" >
               <i class="fa-solid fa-gauge"></i>  
@@ -88,7 +88,7 @@
            
         </div>
         
-        <div class="col-10 " id="output" style="height: 92.56vh;  overflow-y: auto;" >
+        <div class="col" id="output" style="height: 92.56vh;  overflow-y: auto;" >
 
           
         </div>
@@ -104,14 +104,15 @@
 
 
 <style>
-  .col-2 {
-    transition: width 0.3s ease; /* Add transition property for width with a 0.3s duration and ease timing function */
+  .sidepanel {
+    max-width: 220px;
+    transition: max-width 0.3s ease; /* Add transition property for width with a 0.3s duration and ease timing function */
   }
-  .col-2.shrink {
-    width: 50px; /* Set the desired width when the panel is shrunk */
+  .sidepanel.shrink {
+    max-width:50px; /* Set the desired width when the panel is shrunk */
   }
 
-  .col-2.shrink p span {
+  .sidepanel.shrink p span {
     display: none; /* Prevent text wrapping in shrunk state */
   }
 </style>
@@ -119,7 +120,7 @@
 
 <script>
   function togglePanel() {
-    var sidePanel = document.querySelector('.col-2');
+    var sidePanel = document.querySelector('.sidepanel');
     sidePanel.classList.toggle('shrink');
   }
 </script>
