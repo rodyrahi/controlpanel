@@ -25,7 +25,7 @@
 
 
         document.getElementById('command').value =
-        `curl -o createwebsite.sh https://admin.kamingo.in/createwebsite.sh && chmod +x createwebsite.sh && ./createwebsite.sh ${website} ${port} && sudo apt install certbot python3-certbot-nginx && sudo certbot --nginx -d ${website} -d www.${website}`
+        `curl -o createwebsite.sh https://admin.kamingo.in/createwebsite.sh \n chmod +x createwebsite.sh \n ./createwebsite.sh ${website} ${port} `
         document.getElementById('exe').click()
 
         // document.getElementById('apps').click()

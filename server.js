@@ -515,6 +515,7 @@ const checkSessionVariables = (req, res, next) => {
     req.path === "/server" ||
     req.path === "/profile" ||
     req.path === "/userinfo" ||
+    req.path === "/createwebsite.sh" ||
     req.session.sshConfig
   ) {
     next();
