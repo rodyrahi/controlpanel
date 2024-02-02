@@ -16,15 +16,29 @@
   </span> -->
 
 </div>
-<hr>
+
 <div class="row" >
 
 
 
 
 
-<div class=" col-3 p-3 " id="explorer" style="height: 80vh;  overflow-y: auto;" >
-    <% folders.forEach((element , index) => { %>
+<div class=" col-3 p-3 py-0 "  >
+
+  <div class="d-flex p-1">
+    <div class="m-1">
+      <button class="btn btn-primary btn-sm me-auto" onclick="deletefile(this)" id="saveButton"><i class="fa-solid fa-folder-plus"></i></button>
+      <!-- <button class="btn btn-primary btn-sm " onclick="deletefile(this)" id="saveButton"><i class="fa-solid fa-file-circle-plus"></i></button> -->
+
+    </div>
+    <div class="m-1">
+      <!-- <button class="btn btn-primary btn-sm me-auto" onclick="deletefile(this)" id="saveButton"><i class="fa-solid fa-folder-plus"></i></button> -->
+      <button class="btn btn-primary btn-sm " onclick="deletefile(this)" id="saveButton"><i class="fa-solid fa-file-circle-plus"></i></button>
+
+    </div>
+  </div>
+    <div class="p-3" id="explorer" style="height: 79vh;  overflow-y: auto;">
+      <% folders.forEach((element , index) => { %>
         <% if (index >2) { %>
             <% let parts = element.split(" "); %>
             <% let name = parts[parts.length - 1]; %>
@@ -43,6 +57,12 @@
         <% } %>
      
     <% }) %>
+    </div>
+   
+
+
+
+   
 </div>
 
 <div class="col-9">

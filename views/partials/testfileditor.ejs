@@ -1,10 +1,35 @@
 
 
-  <div id="editor" style="height: 75vh;"></div>
-  <div class="m-2">
-    <button class="btn btn-primary" onclick="saveFile(this)" id="saveButton"><i class="fa-solid fa-floppy-disk"></i></button>
+<div class="d-flex">
+  <div class="m-1">
+    <button class="btn btn-sm btn-primary" onclick="saveFile(this)" id="saveButton"><i class="fa-solid fa-floppy-disk"></i></button>
 
   </div>
+  <div class="m-1">
+    <button class="btn btn-sm btn-success" onclick="saveFile(this)" id="saveButton"><i class="fa-solid fa-circle-play"></i></button>
+
+  </div>
+
+  <div class="m-1">
+   
+    <select class="form-select form-select-sm" id="mySelect">
+        <option value="option1">Option 1</option>
+        <option value="option2">Option 2</option>
+        <option value="option3">Option 3</option>
+    </select>
+  </div>
+  <p class="m-auto text-light"  ><span id="filename"></span></p>
+  <div class="m-1">
+    <button class="btn btn-sm btn-dark" onclick="deletefile(this)" id="saveButton"><i class="fa-solid fa-trash"></i></button>
+
+  </div>
+ 
+ 
+ 
+
+</div>
+  <div id="editor" style="height: 75vh;"></div>
+
 
 
 <script>
@@ -21,7 +46,7 @@ require(['vs/editor/editor.main'], async function () {
     });
 });
 
-
+document.getElementById('filename').innerText = file
 
 
 
@@ -35,5 +60,17 @@ async function saveFile(el) {
 
     
     }
+
+    async function deletefile(el) {
+    var name = el.innerHTML
+    el.innerHTML = '<i class="fas fa-spinner fa-spin "></i>'
+
+    const data = await execute(`rm -r ${dir+file}`)
+    console.log(data);
+    el.innerHTML = name 
+
+    
+    }
+
 
 </script>
