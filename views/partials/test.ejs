@@ -106,14 +106,18 @@
 <style>
   .sidepanel {
     max-width: 220px;
-    transition: max-width 0.3s ease; /* Add transition property for width with a 0.3s duration and ease timing function */
+    transition:  max-width 0.3s ease; /* Add transition property for width with a 0.3s duration and ease timing function */
   }
   .sidepanel.shrink {
     max-width:50px; /* Set the desired width when the panel is shrunk */
+    .fa-circle-left {
+      transform: rotate(180deg);
+    }
   }
 
   .sidepanel.shrink p span {
     display: none; /* Prevent text wrapping in shrunk state */
+ 
   }
 </style>
 
