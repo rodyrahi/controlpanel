@@ -1,1 +1,47 @@
-<h1>rajvednra</h1>
+
+<div class="row text-light">
+    <div class="col p-1">
+        <div class="m-1 mb-2">
+           
+            <button class="btn  btn-success" onclick="setupserver(this)" id="saveButton"><i class="fa-solid fa-wand-magic-sparkles"></i> Setup Server</button>
+           
+          </div>
+          <hr>
+
+          <p class="m-0 text-muted ms-3">Intall Sapratly</p>
+         
+          <div class="m-1">
+            <button class="btn btn-sm btn-danger ms-3" onclick="nodejs(this)" id="saveButton"><i class="fa-brands fa-node"></i> Install Nodejs</button>
+        
+          </div>
+          <div class="m-1">
+            <button class="btn btn-sm btn-danger ms-3" onclick="nginx(this)" id="saveButton"><i class="fa-solid fa-server"></i> Install Nginx</button>
+        
+          </div>
+          <div class="m-1">
+            <button class="btn btn-sm btn-danger ms-3" onclick="npm(this)" id="saveButton"><i class="fa-solid fa-gear"></i> Install NPM and PM2</button>
+        
+          </div>
+          <div class="m-1">
+            <button class="btn btn-sm btn-danger ms-3" onclick="python(this)" id="saveButton"><i class="fa-brands fa-python"></i> Install Python</button>
+        
+          </div>
+          <div class="m-1">
+            <button class="btn btn-sm btn-danger ms-3" onclick="git(this)" id="saveButton"><i class="fa-brands fa-git-alt"></i> Install Git</button>
+        
+          </div>
+          <hr>
+    </div>
+</div>
+
+
+<script>
+    async function setupserver(el) {
+        var name = el.innerHTML
+        el.innerHTML = '<i class="fas fa-spinner fa-spin "></i>'
+
+        const data = await execute(`sudo apt install git\nsudo apt-get install nodejs\nsudo apt install npm -y\nnpm install pm2 -g `)
+        console.log(data);
+        el.innerHTML = name 
+    }
+</script>

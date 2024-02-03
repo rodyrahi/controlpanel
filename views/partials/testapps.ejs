@@ -1,6 +1,6 @@
 
 
-<div class="row">
+<div class="row p-1">
     
 
 
@@ -45,6 +45,17 @@
 <% }) %>
 </div>
 
+
+<div id="log" class="row bg-black text-light mt-auto p-1">
+    <div class="col">
+        <p class="">Logs</p>
+       
+    </div>
+    
+
+</div>
+
+
 <script>
 
    
@@ -64,7 +75,8 @@ function restartapp(element) {
         const id = element.getAttribute('data-appid');
         const repo = element.getAttribute('data-path');
 
-        const command = `pm2 pull ${id}`;
+        console.log(`cd ${repo}\ngit pull`);
+        const command = `cd ${repo}\ngit pull`;
 
         executeCommand(command, out);
     }

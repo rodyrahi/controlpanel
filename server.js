@@ -135,7 +135,7 @@ async function fetchdata(command , req) {
     command: command
   };
 
-  const response = await axios.post(`https://kapi.kadmin.online/execute/${server}`, postData, {
+  const response = await axios.post(`https://api.kadmin.online/execute/${server}`, postData, {
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded',
     },
@@ -172,7 +172,7 @@ app.post("/execommand/:server", async (req, res) => {
   };
 
   try {
-    const response = await axios.post(`https://kapi.kadmin.online/execute/${user}`, postData, {
+    const response = await axios.post(`https://api.kadmin.online/execute/${user}`, postData, {
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
       },
@@ -195,7 +195,7 @@ app.get("/sandbox", async (req, res) => {
   const servers = req.oidc.user.sub;
 
 
-  const getUrl = `https://kapi.kadmin.online/user/${servers}`;
+  const getUrl = `https://api.kadmin.online/user/${servers}`;
 
   try {
     const responseGet = await axios.get(getUrl);
@@ -226,7 +226,7 @@ app.get("/sandbox", async (req, res) => {
 
   //   const fetchData = async (element) => {
   //     const username = element.split("@")[0];
-  //     const getUrl = username ? `https://kapi.kadmin.online/user/${element}` : '';
+  //     const getUrl = username ? `https://api.kadmin.online/user/${element}` : '';
 
   //     try {
   //       const responseGet = await axios.get(getUrl);
@@ -301,7 +301,7 @@ app.post('/sandboxconnect', upload.single('privateKey'), async (req, res) => {
     
 
     
-    const postUrl = 'https://kapi.kadmin.online/connect'; // Replace with your API endpoint
+    const postUrl = 'https://api.kadmin.online/connect'; // Replace with your API endpoint
 
     // Make the POST request using axios
     const response = await axios.post(postUrl, formData, {
@@ -313,7 +313,7 @@ app.post('/sandboxconnect', upload.single('privateKey'), async (req, res) => {
 
     
 
-    const getUrl = 'https://kapi.kadmin.online/connect/' + gid; // Replace with your GET API endpoint
+    const getUrl = 'https://api.kadmin.online/connect/' + gid; // Replace with your GET API endpoint
     // console.log(gid);
  
     try {
@@ -370,7 +370,7 @@ app.get("/testapps", async (req, res) => {
   };
 
   try {
-    const response = await axios.post(`https://kapi.kadmin.online/execute/${server}`, postData, {
+    const response = await axios.post(`https://api.kadmin.online/execute/${server}`, postData, {
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
       },
@@ -425,6 +425,9 @@ app.get("/testfileditor", async (req, res) => {
 
 
 });
+
+
+
 app.post("/testchangedic", async (req, res) => {
 
   const {command} = req.body

@@ -37,16 +37,14 @@
 
     </div>
   </div>
-    <div class="p-3" id="explorer" style="height: 79vh;  overflow-y: auto;">
+    <div class="p-3 scrollbar-pink" id="explorer" style="height: 79vh;  overflow-y: auto;">
       <% folders.forEach((element , index) => { %>
-        <% if (index >2) { %>
+        <% if (index >2 && element !== '' ) { %>
             <% let parts = element.split(" "); %>
             <% let name = parts[parts.length - 1]; %>
-            <p  onclick="cd( this , '<%= name %>')" type="button" <%= parts[0].includes("d") ? "" : `hx-get=/testfileditor hx-trigger=click hx-target=#file hx-swap=innerHTML `  %> data-type="<%= parts[0].includes("d") ? "dic" : "file"  %>"   class="text-light mb-1  " >
+            <p  onclick="cd( this , '<%= name %>')" type="button" <%= parts[0].includes("d") ? `` : `hx-get=/testfileditor`%> hx-trigger="click" hx-target="#file" hx-swap="innerHTML" data-type="<%= parts[0].includes("d") ? "dic" : "file"  %>"   class="text-light mb-1  " >
               <i 
               style="opacity: <%= name[0]==="." ? 0.3 : 1%>"
-              
-            
               class="<%= parts[0].includes("d") ? "fa-solid fa-folder text-primary " : "fa-solid fa-file"%>" >
             </i>
             <span class="hover">
@@ -66,7 +64,9 @@
 </div>
 
 <div class="col">
-  <div id="file" style="height: 75vh;"></div>
+  <div id="file" style="height: 75vh;">
+    <%- include('./foldersettings.ejs') %>
+  </div>
 
 </div>
 
@@ -81,11 +81,6 @@
 
 
 <script>
-let dir = '/root/';
-let editor
-
-
-let file=''
 
 
 
