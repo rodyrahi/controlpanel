@@ -33,15 +33,21 @@
           <hr>
     </div>
 </div>
+<div class="row text-light" >
+  <pre id="logs" style="height: 50vh;  overflow-y: auto; "></pre>
+</div>
 
 
 <script>
     async function setupserver(el) {
         var name = el.innerHTML
-        el.innerHTML = '<i class="fas fa-spinner fa-spin "></i>'
+        el.innerHTML = '<i class="fas fa-spinner fa-spin "></i> Be Patient it will take a while...'
 
-        const data = await execute(`sudo apt install git -y \nsudo apt-get install nodejs -y\nsudo apt install npm -y\nnpm install pm2 -g`)
+        const data = await execute(`sudo apt-cache install git -y \nsudo apt-get install nodejs -y\nsudo apt-get install npm -y\nnpm install pm2 -g\n sudo apt-get install nginx -y\nsudo apt-get install jq -y\napt-get install pyhton3 -y`)
         console.log(data);
-        el.innerHTML = name 
+        document.getElementById('logs').innerHTML = data
+
+
+        el.innerHTML = `<i class="fa-solid fa-circle-check"></i> Done..` 
     }
 </script>
