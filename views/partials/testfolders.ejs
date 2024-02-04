@@ -61,13 +61,13 @@
 
     </div>
   </div>
-    <div class="p-3 scrollbar-pink" id="explorer" style="height: 79vh;  overflow-y: auto;">
+    <div class="p-3 scrollbar-pink" id="explorer" style="height: 79vh;  overflow-y: auto; " >
       <% folders.forEach((element , index) => { %>
         <% if (index >2 && element !== '' ) { %>
             <% let parts = element.split(" "); %>
             <% let name = parts[parts.length - 1]; %>
 
-            <div  class="d-flex " style="border-bottom: 1px solid rgba(104, 104, 104, 0.37);" oncontextmenu="showContextMenu(event ,this)">
+            <div  class="d-flex folders " style="border-bottom: 1px solid rgba(104, 104, 104, 0.37);  " >
             <p  onclick="cd( this , '<%= name %>')" type="button" <%= parts[0].includes("d") ? `` : `hx-get=/testfileditor`%> hx-trigger="click" hx-target="#file" hx-swap="innerHTML" data-type="<%= parts[0].includes("d") ? "dic" : "file"  %>"   class="text-light mb-1  " >
               <i 
               style="opacity: <%= name[0]==="." ? 0.3 : 1%>"
@@ -88,7 +88,7 @@
               
              
               <!-- Context menu -->
-              <div class="context-menu" id="contextMenu" style="font-size: 0.8rem;">
+              <div class="context-menu" id="contextMenu" style="font-size: 0.8rem; z-index: 1000;">
                 <div class="context-menu-item" onclick="renameAction()">
                   <i class="fa-solid fa-square-up-right"></i> Open
                 </div>
@@ -103,36 +103,21 @@
                 </div>
               </div>
               
-              <script>
-                function showContextMenu(event, el) {
-                 
 
-
-
-
-                  file = el.querySelector('span').textContent.trim();
-                  event.preventDefault();
-                  var contextMenu = document.getElementById('contextMenu');
-                  contextMenu.style.display = 'block';
-                  contextMenu.style.left = event.clientX + 10 + 'px';
-                  contextMenu.style.top = event.clientY - 57 + 'px';
-              
-                  document.addEventListener('click', function() {
-                    hideContextMenu(el);
-                  });
-              
-                  el.style.backgroundColor = 'red';
-                }
-              
-                function hideContextMenu(el) {
-                  var contextMenu = document.getElementById('contextMenu');
-                  contextMenu.style.display = 'none';
-                  document.removeEventListener('click', hideContextMenu);
-                  el.style.backgroundColor = '';
-                }
-              </script>
-              
-
+              <div class="context-menu" id="contextMenuExplorer" style="font-size: 0.8rem; z-index: 0;" >
+                <div class="context-menu-item" onclick="renameAction()">
+                  <i class="fa-brands fa-npm"></i> npm i
+                </div>
+                <div class="context-menu-item" onclick="renameAction()">
+                  <i class="fas fa-edit"></i> Rename
+                </div>
+                <div class="context-menu-item" onclick="pasteInsideAction()">
+                  <i class="fas fa-clipboard"></i> Paste Inside
+                </div>
+                <div class="context-menu-item" onclick="deletefile(this)">
+                  <i class="fas fa-trash"></i> Delete
+                </div>
+              </div>
               
             </div>
            
@@ -144,6 +129,9 @@
         <% } %>
      
     <% }) %>
+
+            
+
     </div>
    
 
@@ -167,6 +155,93 @@
 
 <textarea  hx-post="/testchangedic" hx-trigger="click" hx-target="#output" name="command" id="changedir" style="display: none;" ></textarea>
 
+
+
+
+
+
+
+<script>
+
+
+  var explorer = document.getElementById('explorer');
+  var folders = document.querySelectorAll('.folders');
+
+  // Click event on the container
+  explorer.addEventListener('contextmenu', function(event) {
+  // Prevent the default context menu from appearing
+  event.preventDefault();
+  
+
+  showExplorerMenu(event, explorer);
+  console.log('exporere');
+});
+
+  // Click event on each list item
+  folders.forEach(function (item) {
+    item.style.backgroundColor = ''
+    item.addEventListener('contextmenu', function(event) {
+  // Prevent the default context menu from appearing
+    event.preventDefault();
+    event.stopPropagation();
+
+  showContextMenu(event, item);
+  console.log('contsxt');
+});
+
+  });
+
+
+
+  function showContextMenu(event, el) {
+ 
+    
+    file = el.querySelector('span').textContent.trim();
+    event.preventDefault();
+    document.getElementById('contextMenuExplorer').style.display = 'none';
+    var contextMenu = document.getElementById('contextMenu');
+    contextMenu.style.display = 'block';
+    contextMenu.style.left = event.clientX + 10 + 'px';
+    contextMenu.style.top = event.clientY - 57 + 'px';
+
+    document.addEventListener('click', function() {
+      hideContextMenu(el , contextMenu);
+    });
+
+    el.style.backgroundColor = 'red';
+  }
+
+
+
+  function showExplorerMenu(event, el) {
+ 
+  //  file = el.querySelector('span').textContent.trim();
+  document.getElementById('contextMenu').style.display = 'none';
+   event.preventDefault();
+   var contextMenu = document.getElementById('contextMenuExplorer');
+   contextMenu.style.display = 'block';
+   contextMenu.style.left = event.clientX + 10 + 'px';
+   contextMenu.style.top = event.clientY - 57 + 'px';
+
+   document.addEventListener('click', function() {
+     hideContextMenu(el , contextMenu);
+   });
+
+  
+ }
+
+
+
+ function hideContextMenu(el , menu) {
+  
+  document.getElementById('contextMenu').style.display = 'none';
+    document.getElementById('contextMenuExplorer').style.display = 'none';
+    document.removeEventListener('click', hideContextMenu);
+    el.style.backgroundColor = '';
+  }
+
+
+</script>
 
 
 
@@ -313,4 +388,5 @@ async function cd(el , name) {
 
 
 </script>
+
 
