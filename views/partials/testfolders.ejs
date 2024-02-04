@@ -9,8 +9,8 @@
     border-radius: 0.2rem;
    
   }
+  
 
- 
   .context-menu-item {
     padding: 8px 12px;
     cursor: pointer;
@@ -89,7 +89,7 @@
               
              
               <!-- Context menu -->
-              <div class="context-menu" id="contextMenu" style="font-size: 0.8rem; z-index: 1000;" >
+              <div class="context-menu" id="contextMenu" style="font-size: 0.8rem; z-index: 1000;">
                 <div class="context-menu-item" onclick="renameAction()">
                   <i class="fa-solid fa-square-up-right"></i> Open
                 </div>
@@ -176,7 +176,7 @@ var contextMenuExplorer = document.getElementById('contextMenuExplorer');
 
 explorer.addEventListener('contextmenu', function(event) {
   event.preventDefault();
-  showMenu(event, contextMenuExplorer);
+  showMenu(event, contextMenuExplorer , null);
 });
 
 folders.forEach(function (item) {
@@ -196,18 +196,18 @@ function showMenu(event, menu, el = null) {
   menu.style.left = event.clientX + 10 + 'px';
   menu.style.top = event.clientY - 57 + 'px';
 
-  if(el.querySelector('span')){
+  if(el){
     file = el.querySelector('span').textContent.trim();
 
   }
 
 
   document.addEventListener('click', function(event) {
-    var isClickInsideContextMenu = menu.contains(event.target);
-
-    if (!isClickInsideContextMenu) {
+      
+ 
       hideContextMenu(el, menu);
-    }
+   
+    
   });
 
   if (el) {
