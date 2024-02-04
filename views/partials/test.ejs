@@ -86,7 +86,7 @@
               
           </div>
           <div class="d-flex p-2">
-            <p class=" hover m-auto" type="button" hx-get="/testfolders" hx-trigger="click"  hx-target="#output">
+            <p class=" hover m-auto" type="button" onclick="changedir()" hx-get="/testfolders" hx-trigger="click"  hx-target="#output">
               <i class="fa-solid fa-folder"></i>  
               <span>
                 Folders
@@ -245,4 +245,11 @@
 
 
 
+
+<script>
+  function changedir() {
+    dir = '/root/'
+
+  }
+</script>
 </html>
