@@ -410,7 +410,8 @@ app.get("/testfolders", async (req, res) => {
   try{
     const data = await fetchdata('ls -la' , req)
     const scripts = scriptsdb.prepare("SELECT * FROM scripts WHERE user=?").all(req.oidc.user.sub);
-    res.render("partials/testfolders", { folders:data.split('\n')});
+    console.log(scripts);
+    res.render("partials/testfolders", { folders:data.split('\n') , scripts});
   }catch(error){
     console.error('Error making POST request:', error.response ? error.response.status : error.message);
 
@@ -434,7 +435,7 @@ app.post("/testchangedic", async (req, res) => {
   try{
     const data = await fetchdata(command , req)
     const scripts = scriptsdb.prepare("SELECT * FROM scripts WHERE user=?").all(req.oidc.user.sub);
-    res.render("partials/testfolders", { folders:data.split('\n')});
+    res.render("partials/testfolders", { folders:data.split('\n') , scripts});
   }catch(error){
     console.error('Error making POST request:', error.response ? error.response.status : error.message);
 

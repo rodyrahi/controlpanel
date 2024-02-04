@@ -1,41 +1,45 @@
 
 <div class="row text-light">
-    <div class="col p-1">
-        <div class="m-1 mb-2">
-           
-            <button class="btn  btn-success" onclick="setupserver(this)" id="saveButton"><i class="fa-solid fa-wand-magic-sparkles"></i> Setup Server</button>
-           
-          </div>
-          <hr>
+  <div class="col mb-2">
+           <h2 style="font-family: 'Rubik', sans-serif;" class="fw-bold m-1" >Setup Your Server</h2>
+           <p class="text-muted m-1" >This will Install all the required programs : Nginx , Git , Nodejs , Pm2 , Python</p>
+    <button class="btn  btn-primary ms-1" onclick="setupserver(this)" id="saveButton"><i class="fa-solid fa-wand-magic-sparkles"></i> Setup Server</button>
+    <hr>
+    <p class="m-0 text-muted ms-3">Intall Sapratly</p>
 
-          <p class="m-0 text-muted ms-3">Intall Sapratly</p>
-         
-          <div class="m-1">
-            <button class="btn btn-sm btn-danger ms-3" onclick="nodejs(this)" id="saveButton"><i class="fa-brands fa-node"></i> Install Nodejs</button>
-        
-          </div>
-          <div class="m-1">
-            <button class="btn btn-sm btn-danger ms-3" onclick="nginx(this)" id="saveButton"><i class="fa-solid fa-server"></i> Install Nginx</button>
-        
-          </div>
-          <div class="m-1">
-            <button class="btn btn-sm btn-danger ms-3" onclick="npm(this)" id="saveButton"><i class="fa-solid fa-gear"></i> Install NPM and PM2</button>
-        
-          </div>
-          <div class="m-1">
-            <button class="btn btn-sm btn-danger ms-3" onclick="python(this)" id="saveButton"><i class="fa-brands fa-python"></i> Install Python</button>
-        
-          </div>
-          <div class="m-1">
-            <button class="btn btn-sm btn-danger ms-3" onclick="git(this)" id="saveButton"><i class="fa-brands fa-git-alt"></i> Install Git</button>
-        
-          </div>
-          <hr>
+    <div class="m-1">
+      <button class="btn btn-sm btn-danger ms-3" onclick="nodejs(this)" id="saveButton"><i class="fa-brands fa-node"></i> Install Nodejs</button>
+
     </div>
+    <div class="m-1">
+      <button class="btn btn-sm btn-danger ms-3" onclick="nginx(this)" id="saveButton"><i class="fa-solid fa-server"></i> Install Nginx</button>
+
+    </div>
+    <div class="m-1">
+      <button class="btn btn-sm btn-danger ms-3" onclick="npm(this)" id="saveButton"><i class="fa-solid fa-gear"></i> Install NPM and PM2</button>
+
+    </div>
+    <div class="m-1">
+      <button class="btn btn-sm btn-danger ms-3" onclick="python(this)" id="saveButton"><i class="fa-brands fa-python"></i> Install Python</button>
+
+    </div>
+    <div class="m-1">
+      <button class="btn btn-sm btn-danger ms-3" onclick="git(this)" id="saveButton"><i class="fa-brands fa-git-alt"></i> Install Git</button>
+
+    </div>
+    <hr>
+  </div>
+  
 </div>
-<div class="row text-light" >
-  <pre id="logs" style="height: 50vh;  overflow-y: auto; "></pre>
+
+
+
+
+
+<div class="row text-light" style="max-height: 50vh;  overflow-y: auto; ">
+  <pre id="logs" ></pre>
 </div>
+
 
 
 <script>

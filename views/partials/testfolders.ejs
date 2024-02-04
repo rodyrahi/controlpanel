@@ -23,6 +23,20 @@
     color: white;
     
   }
+  .sub-menu {
+      display: none;
+      position: absolute;
+      width: 150px;
+      background-color: #fff;
+      top: 0;
+      left: 100%;
+      color: black;
+    
+    }
+
+    .context-menu-item:hover .sub-menu {
+      display: block;
+    }
 </style>
 
 
@@ -122,24 +136,34 @@
         <% } %>
      
     <% }) %>
+    <div class="context-menu" id="contextMenuExplorer" style="font-size: 0.8rem; z-index: 0;">
+      <div class="context-menu-item" onclick="">
+        <i class="fa-solid fa-file-code"></i> Scripts
+        <!-- Sub-menu for "Scripts" -->
+        <div class="sub-menu p-1 rounded-2">
 
-    <div class="context-menu" id="contextMenuExplorer" style="font-size: 0.8rem; z-index: 0;" >
-      <div class="context-menu-item" onclick="npmi()">
-        <i class="fa-brands fa-npm"></i> npm i
+          <% scripts.forEach(element => { %>
+            <div class="context-menu-item" onclick="runScript(this)">
+              <i class="fas fa-code"></i> <%= element.name %>
+              <textarea class="d-none" id="" cols="30" rows="10"><%= element.script %></textarea>
+            </div>
+          <% }) %>
+         
+          
+
+        </div>
       </div>
       <div class="context-menu-item" onclick="createfile()">
-        <i class="fa-solid fa-file-circle-plus" ></i> 
-       New File
+        <i class="fa-solid fa-file-circle-plus"></i> New File
       </div>
       <div class="context-menu-item" onclick="createfolder()">
-        <i class="fa-solid fa-folder-plus"></i> New Foldeer
+        <i class="fa-solid fa-folder-plus"></i> New Folder
       </div>
       <div class="context-menu-item" onclick="paste(this)">
         <i class="fas fa-clipboard"></i> Paste
       </div>
-     
     </div>
-
+  
     </div>
    
 
@@ -477,6 +501,17 @@ async function createfile() {
     // Handle the case where the user did not provide a file name
     console.log('File name not provided');
   }
+}
+
+async function runScript(el) {
+  var script = el.querySelector('textarea').value
+  const data = await execute(`cd ${dir}\n${script}`);
+
+    document.getElementById('changedir').innerHTML = `cd ${dir}\nls -la`;
+    document.getElementById('changedir').click();
+  console.log(data);
+
+
 }
 
 
