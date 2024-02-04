@@ -1,4 +1,28 @@
+<style>
+  .context-menu {
+    display: none;
+    position: absolute;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    
+    z-index: 1000;
+    border-radius: 0.2rem;
+   
+  }
 
+  .context-menu-item {
+    padding: 8px 12px;
+    cursor: pointer;
+  }
+
+  .context-menu-item:hover {
+    background-color: #0D6EFD;
+    border-radius: 0.2rem;
+ 
+    color: white;
+    
+  }
+</style>
 
 
 
@@ -42,6 +66,8 @@
         <% if (index >2 && element !== '' ) { %>
             <% let parts = element.split(" "); %>
             <% let name = parts[parts.length - 1]; %>
+
+            <div  class="d-flex " style="border-bottom: 1px solid rgba(104, 104, 104, 0.37);" oncontextmenu="showContextMenu(event ,this)">
             <p  onclick="cd( this , '<%= name %>')" type="button" <%= parts[0].includes("d") ? `` : `hx-get=/testfileditor`%> hx-trigger="click" hx-target="#file" hx-swap="innerHTML" data-type="<%= parts[0].includes("d") ? "dic" : "file"  %>"   class="text-light mb-1  " >
               <i 
               style="opacity: <%= name[0]==="." ? 0.3 : 1%>"
@@ -52,6 +78,69 @@
             </span>
              
             </p>
+
+            
+
+
+
+               
+           
+              
+             
+              <!-- Context menu -->
+              <div class="context-menu" id="contextMenu" style="font-size: 0.8rem;">
+                <div class="context-menu-item" onclick="renameAction()">
+                  <i class="fa-solid fa-square-up-right"></i> Open
+                </div>
+                <div class="context-menu-item" onclick="renameAction()">
+                  <i class="fas fa-edit"></i> Rename
+                </div>
+                <div class="context-menu-item" onclick="pasteInsideAction()">
+                  <i class="fas fa-clipboard"></i> Paste Inside
+                </div>
+                <div class="context-menu-item" onclick="deletefile(this)">
+                  <i class="fas fa-trash"></i> Delete
+                </div>
+              </div>
+              
+              <script>
+                function showContextMenu(event, el) {
+                 
+
+
+
+
+                  file = el.querySelector('span').textContent.trim();
+                  event.preventDefault();
+                  var contextMenu = document.getElementById('contextMenu');
+                  contextMenu.style.display = 'block';
+                  contextMenu.style.left = event.clientX + 10 + 'px';
+                  contextMenu.style.top = event.clientY - 57 + 'px';
+              
+                  document.addEventListener('click', function() {
+                    hideContextMenu(el);
+                  });
+              
+                  el.style.backgroundColor = 'red';
+                }
+              
+                function hideContextMenu(el) {
+                  var contextMenu = document.getElementById('contextMenu');
+                  contextMenu.style.display = 'none';
+                  document.removeEventListener('click', hideContextMenu);
+                  el.style.backgroundColor = '';
+                }
+              </script>
+              
+
+              
+            </div>
+           
+            
+
+
+
+
         <% } %>
      
     <% }) %>
@@ -77,6 +166,7 @@
 
 
 <textarea  hx-post="/testchangedic" hx-trigger="click" hx-target="#output" name="command" id="changedir" style="display: none;" ></textarea>
+
 
 
 
@@ -187,6 +277,40 @@ async function cd(el , name) {
       document.getElementById('changedir').click();
 
   }
+
+
+  async function deletefile(el) {
+    var name = el.innerHTML;
+
+    // Display a confirmation dialog
+    var confirmDelete = confirm(`Are you sure you want to delete '${file}'`);
+
+    if (confirmDelete) {
+        // Proceed with the deletion
+        el.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+
+        try {
+            const data = await execute(`rm -r ${dir + file}`);
+            console.log(data);
+            el.innerHTML = name;
+            document.getElementById('changedir').innerHTML = `cd ${dir}\nls -la`;
+            document.getElementById('changedir').click();
+
+        } catch (error) {
+            console.error("Error deleting file:", error);
+            el.innerHTML = name;
+            alert("An error occurred while deleting the file.");
+        }
+    } else {
+
+
+
+
+        // User canceled the deletion, revert the changes
+        el.innerHTML = name;
+    }
+}
+
 
 </script>
 
