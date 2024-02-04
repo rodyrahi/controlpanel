@@ -127,8 +127,8 @@
       <div class="context-menu-item" onclick="npmi()">
         <i class="fa-brands fa-npm"></i> npm i
       </div>
-      <div class="context-menu-item">
-        <i class="fa-solid fa-file-circle-plus" onclick="createfile()"></i> 
+      <div class="context-menu-item" onclick="createfile()">
+        <i class="fa-solid fa-file-circle-plus" ></i> 
        New File
       </div>
       <div class="context-menu-item" onclick="createfolder()">
@@ -463,7 +463,7 @@ async function cd(el , name) {
 
 
 async function createfile() {
-  console.log('test');
+  
   // Prompt the user for file name
   const fileName = prompt('Enter the file name:');
   
