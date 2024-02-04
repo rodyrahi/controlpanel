@@ -4,7 +4,7 @@
     position: absolute;
     background-color: #fff;
     border: 1px solid #ddd;
-    
+    width: 150px;
     z-index: 1000;
     border-radius: 0.2rem;
    
@@ -68,7 +68,7 @@
             <% let parts = element.split(" "); %>
             <% let name = parts[parts.length - 1]; %>
 
-            <div  class="d-flex folders " style="border-bottom: 1px solid rgba(104, 104, 104, 0.37);  " >
+            <div  class="d-flex folders " style="border-bottom: 1px solid rgba(104, 104, 104, 0.37);  " oncontextmenu="menu(this)" >
             <p  onclick="cd( this , '<%= name %>')" type="button" <%= parts[0].includes("d") ? `` : `hx-get=/testfileditor`%> hx-trigger="click" hx-target="#file" hx-swap="innerHTML" data-type="<%= parts[0].includes("d") ? "dic" : "file"  %>"   class="text-light mb-1  " >
               <i 
               style="opacity: <%= name[0]==="." ? 0.3 : 1%>"
@@ -80,46 +80,37 @@
              
             </p>
 
-            
-
-
-
-               
-           
+    
               
              
               <!-- Context menu -->
               <div class="context-menu" id="contextMenu" style="font-size: 0.8rem; z-index: 1000;">
-                <div class="context-menu-item" onclick="renameAction()">
+                <!-- <div class="context-menu-item" onclick="renameAction()">
                   <i class="fa-solid fa-square-up-right"></i> Open
-                </div>
+                </div> -->
+                
                 <div class="context-menu-item" onclick="renameAction()">
                   <i class="fas fa-edit"></i> Rename
                 </div>
-                <div class="context-menu-item" onclick="pasteInsideAction()">
-                  <i class="fas fa-clipboard"></i> Paste Inside
+                <div class="context-menu-item" onclick="copy('<%= name %>')">
+                  <i class="fa-solid fa-copy"></i> Copy
                 </div>
+
+                <% if (parts[0].includes("d")) { %>
+                  <div class="context-menu-item" onclick="pasteInsideAction()">
+                    <i class="fas fa-clipboard"></i> Paste Inside
+                  </div>
+  
+                <% } %>
+
+                
                 <div class="context-menu-item" onclick="deletefile(this)">
                   <i class="fas fa-trash"></i> Delete
                 </div>
               </div>
               
 
-              <div class="context-menu" id="contextMenuExplorer" style="font-size: 0.8rem; z-index: 0;" >
-                <div class="context-menu-item" onclick="renameAction()">
-                  <i class="fa-brands fa-npm"></i> npm i
-                </div>
-                <div class="context-menu-item">
-                  <i class="fas fa-edit"></i> 
-                 test
-                </div>
-                <div class="context-menu-item" onclick="pasteInsideAction()">
-                  <i class="fas fa-clipboard"></i> Paste Inside
-                </div>
-                <div class="context-menu-item" onclick="deletefile(this)">
-                  <i class="fas fa-trash"></i> Delete
-                </div>
-              </div>
+
               
             </div>
            
@@ -132,7 +123,22 @@
      
     <% }) %>
 
-            
+    <div class="context-menu" id="contextMenuExplorer" style="font-size: 0.8rem; z-index: 0;" >
+      <div class="context-menu-item" onclick="renameAction()">
+        <i class="fa-brands fa-npm"></i> npm i
+      </div>
+      <div class="context-menu-item">
+        <i class="fas fa-edit"></i> 
+       New File
+      </div>
+      <div class="context-menu-item" onclick="">
+        <i class="fas fa-trash"></i> New Foldeer
+      </div>
+      <div class="context-menu-item" onclick="paste(this)">
+        <i class="fas fa-clipboard"></i> Paste
+      </div>
+     
+    </div>
 
     </div>
    
@@ -175,13 +181,27 @@ explorer.addEventListener('contextmenu', function(event) {
   showMenu(event, contextMenuExplorer , null);
 });
 
-folders.forEach(function (item) {
-  item.addEventListener('contextmenu', function(event) {
+// folders.forEach(function (item) {
+//   item.addEventListener('contextmenu', function(event) {
+//     event.preventDefault();
+//     event.stopPropagation();
+//     showMenu(event, contextMenu, item);
+//   });
+// });
+
+
+function menu(el) {
+  var allContextMenus = document.querySelectorAll('.context-menu');
+  allContextMenus.forEach(function(menu) {
+    menu.style.display = 'none';
+  });
+
+  
     event.preventDefault();
     event.stopPropagation();
-    showMenu(event, contextMenu, item);
-  });
-});
+    showMenu(event, el.querySelector('.context-menu'), el);
+}
+
 
 function showMenu(event, menu, el = null) {
   Array.from(folders).forEach(item => item.style.backgroundColor = '');
@@ -200,7 +220,6 @@ function showMenu(event, menu, el = null) {
 
   document.addEventListener('click', function(event) {
       
- 
       hideContextMenu(el, menu);
    
     
@@ -369,3 +388,26 @@ async function cd(el , name) {
 </script>
 
 
+<script>
+
+
+  async function copy(el) {
+    copyfile = dir+el
+    console.log(copyfile);
+  }
+
+
+  async function paste(el) {
+
+    console.log(copyfile);
+    console.log(`cp -r ${copyfile} ${dir}`);
+    document.getElementById('overlay').style.display = 'block';
+    const data = await execute(`cp -r ${copyfile} ${dir}`)
+    document.getElementById('changedir').innerHTML = `cd ${dir}\nls -la`;
+    document.getElementById('changedir').click();
+    document.getElementById('overlay').style.display = 'none';
+
+
+  }
+
+</script>
