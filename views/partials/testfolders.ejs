@@ -10,6 +10,7 @@
    
   }
 
+ 
   .context-menu-item {
     padding: 8px 12px;
     cursor: pointer;
@@ -88,7 +89,7 @@
               
              
               <!-- Context menu -->
-              <div class="context-menu" id="contextMenu" style="font-size: 0.8rem; z-index: 1000;">
+              <div class="context-menu" id="contextMenu" style="font-size: 0.8rem; z-index: 1000;" >
                 <div class="context-menu-item" onclick="renameAction()">
                   <i class="fa-solid fa-square-up-right"></i> Open
                 </div>
@@ -108,8 +109,13 @@
                 <div class="context-menu-item" onclick="renameAction()">
                   <i class="fa-brands fa-npm"></i> npm i
                 </div>
-                <div class="context-menu-item" onclick="renameAction()">
-                  <i class="fas fa-edit"></i> Rename
+                <div class="context-menu-item">
+                  <i class="fas fa-edit"></i> 
+                  <select class="form-select form-select-sm" id="mySelect">
+                    <option value="option1">Option 1</option>
+                    <option value="option2">Option 2</option>
+                    <option value="option3">Option 3</option>
+                </select>
                 </div>
                 <div class="context-menu-item" onclick="pasteInsideAction()">
                   <i class="fas fa-clipboard"></i> Paste Inside
@@ -163,82 +169,59 @@
 
 <script>
 
+var explorer = document.getElementById('explorer');
+var folders = document.querySelectorAll('.folders');
+var contextMenu = document.getElementById('contextMenu');
+var contextMenuExplorer = document.getElementById('contextMenuExplorer');
 
-  var explorer = document.getElementById('explorer');
-  var folders = document.querySelectorAll('.folders');
-
-  // Click event on the container
-  explorer.addEventListener('contextmenu', function(event) {
-  // Prevent the default context menu from appearing
+explorer.addEventListener('contextmenu', function(event) {
   event.preventDefault();
-  
-
-  showExplorerMenu(event, explorer);
-  console.log('exporere');
+  showMenu(event, contextMenuExplorer);
 });
 
-  // Click event on each list item
-  folders.forEach(function (item) {
-    item.style.backgroundColor = ''
-    item.addEventListener('contextmenu', function(event) {
-  // Prevent the default context menu from appearing
+folders.forEach(function (item) {
+  item.addEventListener('contextmenu', function(event) {
     event.preventDefault();
     event.stopPropagation();
-
-  showContextMenu(event, item);
-  console.log('contsxt');
+    showMenu(event, contextMenu, item);
+  });
 });
 
+function showMenu(event, menu, el = null) {
+  Array.from(folders).forEach(item => item.style.backgroundColor = '');
+  document.getElementById('contextMenu').style.display = 'none';
+  document.getElementById('contextMenuExplorer').style.display = 'none';
+
+  menu.style.display = 'block';
+  menu.style.left = event.clientX + 10 + 'px';
+  menu.style.top = event.clientY - 57 + 'px';
+
+  if(el.querySelector('span')){
+    file = el.querySelector('span').textContent.trim();
+
+  }
+
+
+  document.addEventListener('click', function(event) {
+    var isClickInsideContextMenu = menu.contains(event.target);
+
+    if (!isClickInsideContextMenu) {
+      hideContextMenu(el, menu);
+    }
   });
 
-
-
-  function showContextMenu(event, el) {
- 
-    
-    file = el.querySelector('span').textContent.trim();
-    event.preventDefault();
-    document.getElementById('contextMenuExplorer').style.display = 'none';
-    var contextMenu = document.getElementById('contextMenu');
-    contextMenu.style.display = 'block';
-    contextMenu.style.left = event.clientX + 10 + 'px';
-    contextMenu.style.top = event.clientY - 57 + 'px';
-
-    document.addEventListener('click', function() {
-      hideContextMenu(el , contextMenu);
-    });
-
+  if (el) {
     el.style.backgroundColor = 'red';
   }
+}
 
-
-
-  function showExplorerMenu(event, el) {
- 
-  //  file = el.querySelector('span').textContent.trim();
-  document.getElementById('contextMenu').style.display = 'none';
-   event.preventDefault();
-   var contextMenu = document.getElementById('contextMenuExplorer');
-   contextMenu.style.display = 'block';
-   contextMenu.style.left = event.clientX + 10 + 'px';
-   contextMenu.style.top = event.clientY - 57 + 'px';
-
-   document.addEventListener('click', function() {
-     hideContextMenu(el , contextMenu);
-   });
-
-  
- }
-
-
-
- function hideContextMenu(el , menu) {
-  
-  document.getElementById('contextMenu').style.display = 'none';
-    document.getElementById('contextMenuExplorer').style.display = 'none';
-    document.removeEventListener('click', hideContextMenu);
+function hideContextMenu(el, menu) {
+  menu.style.display = 'none';
+  document.removeEventListener('click', hideContextMenu);
+  if (el) {
     el.style.backgroundColor = '';
   }
+}
 
 
 </script>
