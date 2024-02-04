@@ -40,7 +40,7 @@
         var name = el.innerHTML
         el.innerHTML = '<i class="fas fa-spinner fa-spin "></i>'
 
-        const data = await execute(`sudo apt install git\nsudo apt-get install nodejs\nsudo apt install npm -y\nnpm install pm2 -g `)
+        const data = await execute(`sudo apt install git -y \nsudo apt-get install nodejs -y\nsudo apt install npm -y\nnpm install pm2 -g`)
         console.log(data);
         el.innerHTML = name 
     }
