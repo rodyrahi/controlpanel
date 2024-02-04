@@ -52,13 +52,13 @@
 
   <div class="d-flex p-1">
     <div class="m-1">
-      <button class="btn btn-primary btn-sm me-auto" onclick="deletefile(this)" id="saveButton"><i class="fa-solid fa-folder-plus"></i></button>
+      <button class="btn btn-primary btn-sm me-auto" onclick="toggleFolders(this)" id="saveButton"><i class="fa-solid fa-eye"></i></button>
       <!-- <button class="btn btn-primary btn-sm " onclick="deletefile(this)" id="saveButton"><i class="fa-solid fa-file-circle-plus"></i></button> -->
 
     </div>
     <div class="m-1">
       <!-- <button class="btn btn-primary btn-sm me-auto" onclick="deletefile(this)" id="saveButton"><i class="fa-solid fa-folder-plus"></i></button> -->
-      <button class="btn btn-primary btn-sm " onclick="deletefile(this)" id="saveButton"><i class="fa-solid fa-file-circle-plus"></i></button>
+      <button class="btn btn-primary btn-sm " onclick="" id="saveButton"><i class="fa-solid fa-file-circle-plus"></i></button>
 
     </div>
   </div>
@@ -68,7 +68,7 @@
             <% let parts = element.split(" "); %>
             <% let name = parts[parts.length - 1]; %>
 
-            <div  class="d-flex folders " style="border-bottom: 1px solid rgba(104, 104, 104, 0.37);  " oncontextmenu="menu(this)" >
+            <div  class=" folders " style="border-bottom: 1px solid rgba(104, 104, 104, 0.37);  " oncontextmenu="menu(this)" >
             <p  onclick="cd( this , '<%= name %>')" type="button" <%= parts[0].includes("d") ? `` : `hx-get=/testfileditor`%> hx-trigger="click" hx-target="#file" hx-swap="innerHTML" data-type="<%= parts[0].includes("d") ? "dic" : "file"  %>"   class="text-light mb-1  " >
               <i 
               style="opacity: <%= name[0]==="." ? 0.3 : 1%>"
@@ -124,15 +124,15 @@
     <% }) %>
 
     <div class="context-menu" id="contextMenuExplorer" style="font-size: 0.8rem; z-index: 0;" >
-      <div class="context-menu-item" onclick="renameAction()">
+      <div class="context-menu-item" onclick="npmi()">
         <i class="fa-brands fa-npm"></i> npm i
       </div>
       <div class="context-menu-item">
-        <i class="fas fa-edit"></i> 
+        <i class="fa-solid fa-file-circle-plus" onclick="createfile()"></i> 
        New File
       </div>
-      <div class="context-menu-item" onclick="">
-        <i class="fas fa-trash"></i> New Foldeer
+      <div class="context-menu-item" onclick="createfolder()">
+        <i class="fa-solid fa-folder-plus"></i> New Foldeer
       </div>
       <div class="context-menu-item" onclick="paste(this)">
         <i class="fas fa-clipboard"></i> Paste
@@ -165,6 +165,27 @@
 
 
 
+
+
+<script>
+
+function toggleFolders(el) {
+  var folders = document.querySelectorAll('.folders');
+  folders.forEach(element => {
+    var folderName = element.querySelector('span').innerHTML.trim();
+    console.log(folderName);
+    
+    if (folderName[0] === '.') {
+      // If folder starts with '.', toggle the display property
+      element.style.display = (element.style.display === 'none') ? '' : 'none';
+      console.log(folderName);
+    }
+  });
+  el.innerHTML === '<i class="fa-solid fa-eye-slash"></i>'?el.innerHTML='<i class="fa-solid fa-eye"></i>':el.innerHTML='<i class="fa-solid fa-eye-slash"></i>'
+}
+
+
+</script>
 
 
 
@@ -409,5 +430,55 @@ async function cd(el , name) {
 
 
   }
+
+
+  async function npmi() {
+  
+    
+    document.getElementById('overlay').style.display = 'block';
+    const data = await execute(`cd ${dir} \n npm i`)
+    document.getElementById('changedir').innerHTML = `cd ${dir}\nls -la`;
+    document.getElementById('changedir').click();
+    document.getElementById('overlay').style.display = 'none';
+  }
+
+
+  async function createfolder() {
+  // Prompt the user for folder name
+  const folderName = prompt('Enter the folder name:');
+
+  // Check if the user provided a folder name
+  if (folderName) {
+    const data = await execute(`mkdir ${dir}/${folderName}`);
+    document.getElementById('changedir').innerHTML = `cd ${dir}\nls -la`;
+    document.getElementById('changedir').click();
+  } else {
+    // Handle the case where the user did not provide a folder name
+    console.log('Folder name not provided');
+  }
+}
+
+
+
+
+
+async function createfile() {
+  console.log('test');
+  // Prompt the user for file name
+  const fileName = prompt('Enter the file name:');
+  
+
+  // Check if the user provided a file name
+  if (fileName) {
+    const data = await execute(`touch ${dir}/${fileName}`);
+    document.getElementById('changedir').innerHTML = `cd ${dir}\nls -la`;
+    document.getElementById('changedir').click();
+  } else {
+    // Handle the case where the user did not provide a file name
+    console.log('File name not provided');
+  }
+}
+
+
 
 </script>
