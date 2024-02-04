@@ -7,15 +7,43 @@
 <% apps.forEach(element => { %>
 
 
-    <div class="col-xl-3 p-0">
+    <div class="col-xl-2 p-0">
 
    
-        <div style="box-shadow: 5px 5px black; background-color: #2F4F4F;"  class="border border-2   text-light <%= element.status === "online" ? "border-success" : "border-danger" %>  rounded m-1 p-1" >
+        <div style="box-shadow: 5px 5px black; background-color: #212529;"  class="border border-2 row  text-light <%= element.status === "online" ? "border-success" : "border-danger" %>  rounded m-1 " >
             
-            <div class="row">
+            <div class="col">
+                <div class="row p-1  bg-success ">
+                    <div class="d-flex">
+                        <h5 class="me-auto  fw-bold " ><%= element.name %></h5>
+                        <!-- <i class="fa-solid fa-circle-xmark"></i> -->
+                        <i class="fa-solid fa-trash my-auto ms-auto"></i>
+                    </div>
+                   
+                </div>
+                <div class="row p-1 bg-black">
+                    <p class="m-0 ms-auto"><i class="fa-solid fa-server me-2"></i> Cpu - <%= element.cpu %>%</p>
+                    <p class="m-0 ms-auto">  <i class="fa-solid fa-microchip me-2"></i> Mem - <%= (element.memory /1024/1024).toFixed(2)%>Mb</p>
+                </div>
+                
+                <div class="row p-1 bg-dark text-light">
+                    <h5 class="m-auto" style="font-size: 1.5rem;"  >
+                        <i type="button" data-path="<%= element.repo %>" data-appid="<%= element.id %>" class="fa-solid fa-rotate text-warning m-1" onclick="restartapp(this)"></i>
+                        
+                        <i type="button" data-status="<%= element.status %>"  data-appid="<%= element.id %>" class="fa-solid m-1 <%= element.status === 'online' ?  "text-danger fa-solid fa-circle-stop" : "fa-solid fa-circle-play text-success"  %> " onclick="toggleapp(this)"></i>
+
+                        <i type="button" data-path="<%= element.repo %>" data-appid="<%= element.id %>" class="fa-solid fa-code-pull-request m-1" onclick="pullapp(this)"></i>
+
+                    </h5>
+                </div>
+            </div>
+
+
+
+            <!-- <div class="row">
                 <div class="col-6">
-                    <h5 class="m-auto mb-1 fw-bold" ><%= element.name %></h5>
-                    <h5 class="m-auto"  >
+                    <h5 class="m-auto mb-3 fw-bold " ><%= element.name %></h5>
+                    <h5 class="m-auto" style="font-size: 1.5rem;"  >
                         <i type="button" data-path="<%= element.repo %>" data-appid="<%= element.id %>" class="fa-solid fa-rotate text-warning" onclick="restartapp(this)"></i>
                         
                         <i type="button" data-status="<%= element.status %>"  data-appid="<%= element.id %>" class="fa-solid <%= element.status === 'online' ?  "text-danger fa-solid fa-circle-stop" : "fa-solid fa-circle-play text-success"  %> " onclick="toggleapp(this)"></i>
@@ -24,11 +52,11 @@
 
                     </h5>
                 </div>
-                <div class="col-6 d-flex flex-column">
+                <div class="col-6 d-flex flex-column" >
                     <p class="m-0 ms-auto"><i class="fa-solid fa-server me-2"></i>  <%= element.cpu %>%</p>
                     <p class="m-0 ms-auto">  <i class="fa-solid fa-microchip me-2"></i><%= (element.memory /1024/1024).toFixed(2)%>Mb</p>
                 </div>
-            </div>
+            </div> -->
             
            
 
@@ -46,9 +74,9 @@
 </div>
 
 
-<div id="log" class="row bg-black text-light mt-auto p-1">
+<div  class="row bg-black text-light mt-auto p-1">
     <div class="col">
-        <p class="">Logs</p>
+        <pre id="log" class="">Logs</pre>
        
     </div>
     
