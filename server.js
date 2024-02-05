@@ -203,18 +203,18 @@ app.get("/sandbox", async (req, res) => {
     if (responseGet.status === 200) {
 
       console.log('found ');
-      res.render('partials/sandbox', { servers: [servers] });
+      res.render('partials/sandbox', { servers: [servers] , user: req.oidc.user });
     } else {
       
       
-      res.render('partials/sandbox', { servers: [""] });
+      res.render('partials/sandbox', { servers: [""] , user: req.oidc.user });
     }
   } catch (error) {
     console.error(
       `Error fetching data for server ${servers}: ${error.message}`
     );
     console.log('not found ');
-    res.render('partials/sandbox', { servers: [""] });
+    res.render('partials/sandbox', { servers: [""] , user: req.oidc.user});
 
   }
 
