@@ -443,6 +443,16 @@ app.post("/testchangedic", async (req, res) => {
 
 });
 
+app.get("/testcreatewebsite", async (req, res) => {
+  res.render("partials/testcreatewebsite")
+});
+
+
+
+
+
+
+
 
 
 
