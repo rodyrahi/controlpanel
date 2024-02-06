@@ -53,8 +53,12 @@ document.getElementById('filename').innerText = file
 async function saveFile(el) {
     var name = el.innerHTML
     el.innerHTML = '<i class="fas fa-spinner fa-spin "></i>'
-    console.log(`echo '${editor.getValue()}' > ${dir+file}`);
-    const data = await execute(`echo '${editor.getValue()}' > ${dir+file}`)
+
+    const content = editor.getValue().toString();
+
+    console.log(` cat > ${dir+file} << "EOF"  '${content}' EOF`);
+    const data = await execute(`cat <<EOF > ${dir+file}\n${content}\nEOF`);
+
     console.log(data);
     el.innerHTML = name 
 
