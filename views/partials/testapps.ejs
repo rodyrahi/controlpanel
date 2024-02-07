@@ -1,13 +1,22 @@
 
 
-<div class="row p-1">
+
+
+<style>
+    .form-control{
+        border-radius: 0;
+    }
+</style>
+
+
+<div class="row p-1 bg-dark rounded-3 m-md-2">
     
 
 
 <% apps.forEach(element => { %>
 
 
-    <div class="col-xl-2 p-0">
+    <div class="col-xl-2 p-0 ">
 
    
         <div style="box-shadow: 5px 5px black; background-color: #212529;"  class="border border-2 row  text-light <%= element.status === "online" ? "border-success" : "border-danger" %>  rounded m-1 " >
@@ -27,13 +36,14 @@
                 </div>
                 
                 <div class="row p-1 bg-dark text-light">
-                    <h5 class="m-auto" style="font-size: 1.5rem;"  >
-                        <i type="button" data-path="<%= element.repo %>" data-appid="<%= element.id %>" class="fa-solid fa-rotate text-warning m-1" onclick="restartapp(this)"></i>
+                    <h5 class="m-auto" style="font-size: 1.3rem;"  >
+                        <i type="button" data-path="<%= element.repo %>" data-appid="<%= element.id %>" class="fa-solid fa-rotate text-warning me-1" onclick="restartapp(this)"></i>
                         
-                        <i type="button" data-status="<%= element.status %>"  data-appid="<%= element.id %>" class="fa-solid m-1 <%= element.status === 'online' ?  "text-danger fa-solid fa-circle-stop" : "fa-solid fa-circle-play text-success"  %> " onclick="toggleapp(this)"></i>
+                        <i type="button" data-status="<%= element.status %>"  data-appid="<%= element.id %>" class="fa-solid mx-1 <%= element.status === 'online' ?  "text-danger fa-solid fa-circle-stop" : "fa-solid fa-circle-play text-success"  %> " onclick="toggleapp(this)"></i>
 
-                        <i type="button" data-path="<%= element.repo %>" data-appid="<%= element.id %>" class="fa-solid fa-code-pull-request m-1" onclick="pullapp(this)"></i>
-
+                        <i type="button" data-path="<%= element.repo %>" data-appid="<%= element.id %>" class="fa-solid fa-code-pull-request text-info mx-1" onclick="pullapp(this)"></i>
+                        
+                        <i type="button" data-appid="<%= element.id %>"   class="fa-solid fa-code mx-1 text-light " onclick="logs(this)"></i>
                     </h5>
                 </div>
             </div>
@@ -71,12 +81,31 @@
  
  
 <% }) %>
+
+
+
 </div>
+
+<hr>
+
+<div class="row">
+    <div class="col-md-4 col  text-light p-3 bg-dark mx-md-3 rounded-2  ">
+        <label for="domain">Git Repository Url</label>
+        <input type="text" class="form-control form-control-sm mb-3" id="dgiturl" placeholder="github.com/example.git">
+        <label for="port">App File (ex.server.js)</label>
+        <input type="text" class="form-control form-control-sm mb-2" id="server" placeholder="Server.js">
+        <button class="btn btn-primary btn-sm" onclick="createapp(this)">Create App</button>
+    </div>
+    
+</div>
+
+
+
 
 
 <div  class="row bg-black text-light mt-auto p-1">
     <div class="col">
-        <pre id="log" class="">Logs</pre>
+        <pre id="log" class="" style="max-height: 30vh;" >Logs</pre>
        
     </div>
     
@@ -120,6 +149,18 @@ function restartapp(element) {
         }
             
         
+
+        executeCommand(command, out);
+    }
+
+
+    function logs(element) {
+        const out = 'log';
+        const id = element.getAttribute('data-appid');
+        // const repo = element.getAttribute('data-path');
+
+        console.log(`pm2 logs ${id}`);
+        const command = `pm2 logs ${id} --nostream`;
 
         executeCommand(command, out);
     }

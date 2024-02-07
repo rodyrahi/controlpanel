@@ -1,24 +1,29 @@
 <style>
     .form-control{
         border-radius: 0;
-        box-shadow: 4px 4px black;
+        
     }
 </style>
 
 <div class="row p-1">
-    <div class="col text-light">
-        <pre class="" id="websites">
+    <div class="col text-light ">
+        <h1 >Websites</h1>
+        <pre class="mt-2 bg-dark p-2 rounded-2" id="websites">
         
         </pre>
     </div>
-    <div class="col text-light p-2 border m-1">
+
+  
+</div>
+
+<div class="row">
+    <div class="col-md-4 text-light p-3 bg-dark mx-md-3 rounded-2">
         <label for="domain">Domain Name</label>
         <input type="text" class="form-control form-control-sm mb-2" id="domain" placeholder="Example.com">
         <label for="port">Port</label>
         <input type="text" class="form-control form-control-sm mb-2" id="port" placeholder="8080">
         <button class="btn btn-primary btn-sm" onclick="createwebsite(this)">Create</button>
     </div>
-  
 </div>
 
 
