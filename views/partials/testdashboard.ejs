@@ -1,4 +1,71 @@
 
+
+
+
+  <!-- Your chart canvas will be placed here -->
+
+  <div class="row">
+    <div class="col-6">
+      <canvas id="ramChart" ></canvas>
+
+    </div>
+
+  </div>
+
+  <!-- Your JavaScript code for creating the chart will go here -->
+
+  <script>
+    var ctx = document.getElementById('ramChart').getContext('2d');
+  
+    var ramData = {
+      labels: [],
+      datasets: [{
+        label: 'RAM Usage (%)',
+        borderColor: 'rgb(75, 192, 192)',
+        borderWidth: 2,
+        data: [],
+        fill: false,
+      }]
+    };
+  
+    var ramChart = new Chart(ctx, {
+      type: 'line',
+      data: ramData,
+      options: {
+        scales: {
+          y: { min: 0, max: 100 }
+        }
+      }
+    });
+  
+    async function fetchData() {
+      const data = await execute('free | awk \'/^Mem/ {print $3/$2 * 100.0}\'');
+      const timestamp = new Date().toLocaleTimeString();
+  
+      // Add new data
+      ramData.labels.push(timestamp);
+      ramData.datasets[0].data.push(parseFloat(data)); // Convert to percentage
+  
+      // Remove oldest data if more than 10 datasets
+      if (ramData.labels.length > 5) {
+        ramData.labels.shift();
+        ramData.datasets[0].data.shift();
+      }
+  
+      ramChart.update();
+    }
+    
+    fetchData()
+    // Fetch data every 2 seconds (adjust as needed)
+    setInterval(fetchData, 5000);
+  </script>
+  
+
+
+
+
+
+
 <div class="row text-light">
   <div class="col mb-2">
            <h2 style="font-family: 'Rubik', sans-serif;" class="fw-bold m-1" >Setup Your Server</h2>
@@ -55,3 +122,6 @@
         el.innerHTML = `<i class="fa-solid fa-circle-check"></i> Done..` 
     }
 </script>
+
+
+
