@@ -4,9 +4,15 @@
 
   <!-- Your chart canvas will be placed here -->
 
-  <div class="row">
+  <div class="row text-light fw-bold p-1">
+
+    <h2 style="font-family: 'Rubik', sans-serif;" class="fw-bold m-1" >System Stats</h2>
     <div class="col-6">
       <canvas id="ramChart" ></canvas>
+
+    </div>
+    <div class="col-6">
+      <canvas id="cpuChart" ></canvas>
 
     </div>
 
@@ -15,8 +21,9 @@
   <!-- Your JavaScript code for creating the chart will go here -->
 
   <script>
-    var ctx = document.getElementById('ramChart').getContext('2d');
-  
+    // RAM Chart
+    var ramCtx = document.getElementById('ramChart').getContext('2d');
+    
     var ramData = {
       labels: [],
       datasets: [{
@@ -28,7 +35,9 @@
       }]
     };
   
-    var ramChart = new Chart(ctx, {
+    var ramHistory = [];
+  
+    var ramChart = new Chart(ramCtx, {
       type: 'line',
       data: ramData,
       options: {
@@ -38,33 +47,86 @@
       }
     });
   
+    // CPU Chart
+    var cpuCtx = document.getElementById('cpuChart').getContext('2d');
+    
+    var cpuData = {
+      labels: [],
+      datasets: [{
+        label: 'CPU Usage (%)',
+        borderColor: 'rgb(255, 99, 132)',
+        borderWidth: 2,
+        data: [],
+        fill: false,
+      }]
+    };
+  
+    var cpuHistory = [];
+  
+    var cpuChart = new Chart(cpuCtx, {
+      type: 'line',
+      data: cpuData,
+      options: {
+        scales: {
+          y: { min: 0, max: 100 }
+        }
+      }
+    });
+  
     async function fetchData() {
-      const data = await execute('free | awk \'/^Mem/ {print $3/$2 * 100.0}\'');
-      const timestamp = new Date().toLocaleTimeString();
+      // RAM Data
+      const ramUsage = await execute('free | awk \'/^Mem/ {print $3/$2 * 100.0}\'');
+      const ramTimestamp = new Date().toLocaleTimeString();
   
-      // Add new data
-      ramData.labels.push(timestamp);
-      ramData.datasets[0].data.push(parseFloat(data)); // Convert to percentage
+      // Add new RAM data
+      ramData.labels.push(ramTimestamp);
+      ramData.datasets[0].data.push(parseFloat(ramUsage));
   
-      // Remove oldest data if more than 10 datasets
-      if (ramData.labels.length > 5) {
+      // Save RAM data in history
+      ramHistory.push({ timestamp: ramTimestamp, usage: parseFloat(ramUsage) });
+  
+      // Remove oldest RAM data if more than 20 datasets
+      if (ramData.labels.length > 20) {
         ramData.labels.shift();
         ramData.datasets[0].data.shift();
       }
   
+      // Update RAM chart
       ramChart.update();
+  
+      // CPU Data
+      const cpuUsage = await execute('top -bn1 | awk \'/^%Cpu/ {print $2}\'');
+      const cpuTimestamp = new Date().toLocaleTimeString();
+  
+      // Add new CPU data
+      cpuData.labels.push(cpuTimestamp);
+      cpuData.datasets[0].data.push(parseFloat(cpuUsage));
+  
+      // Save CPU data in history
+      cpuHistory.push({ timestamp: cpuTimestamp, usage: parseFloat(cpuUsage) });
+  
+      // Remove oldest CPU data if more than 20 datasets
+      if (cpuData.labels.length > 20) {
+        cpuData.labels.shift();
+        cpuData.datasets[0].data.shift();
+      }
+  
+      // Update CPU chart
+      cpuChart.update();
     }
     
-    fetchData()
-    // Fetch data every 2 seconds (adjust as needed)
+    fetchData();
+  
+    // Fetch data every 5 seconds (adjust as needed)
     setInterval(fetchData, 5000);
   </script>
+  
+  
   
 
 
 
-
-
+<hr>
 
 <div class="row text-light">
   <div class="col mb-2">
@@ -72,7 +134,7 @@
            <p class="text-muted m-1" >This will Install all the required programs : Nginx , Git , Nodejs , Pm2 , Python</p>
     <button class="btn  btn-primary ms-1" onclick="setupserver(this)" id="saveButton"><i class="fa-solid fa-wand-magic-sparkles"></i> Setup Server</button>
     <hr>
-    <p class="m-0 text-muted ms-3">Intall Sapratly</p>
+    <!-- <p class="m-0 text-muted ms-3">Intall Sapratly</p>
 
     <div class="m-1">
       <button class="btn btn-sm btn-danger ms-3" onclick="nodejs(this)" id="saveButton"><i class="fa-brands fa-node"></i> Install Nodejs</button>
@@ -93,8 +155,8 @@
     <div class="m-1">
       <button class="btn btn-sm btn-danger ms-3" onclick="git(this)" id="saveButton"><i class="fa-brands fa-git-alt"></i> Install Git</button>
 
-    </div>
-    <hr>
+    </div> -->
+    <!-- <hr> -->
   </div>
   
 </div>

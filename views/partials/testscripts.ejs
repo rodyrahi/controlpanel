@@ -70,14 +70,17 @@
 
 </div>
 
+<hr>
 
-
-<div class="row">
+<div class="row text-light">
+    <h2 style="font-family: 'Rubik', sans-serif;" class="fw-bold m-1" >Create Script</h2>
     <form hx-post="/testcreatescript" hx-target="#output" class="col-md-4 col  text-light p-3 bg-dark mx-md-3 rounded-2  ">
         <label for="scriptname">Name</label>
-        <input type="text" name="scriptname" class="form-control form-control-sm mb-3" id="scriptname" placeholder="">
+        <input type="text" name="scriptname" class="form-control form-control-sm mb-3" id="scriptname" placeholder="My Script">
         <label for="script">Script</label>
-        <textarea class="form-control text-dark bg-light my-3" name="script" id="script" cols="30" rows="5" style="" ></textarea>
+        <textarea class="form-control text-dark bg-light my-3" name="script" id="script" cols="30" rows="5" style="" >
+cd apps
+ls</textarea>
  
         <input  type="text" id="id" name="id" class="d-none">
         <button class="btn btn-primary btn-sm" id="create" >Create </button>
