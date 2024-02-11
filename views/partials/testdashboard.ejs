@@ -1,6 +1,19 @@
 
 
+<style>
+  
+  #ramstats {
+    height: 100%;
+    transition: width 0.1s ease; /* Adjust the duration and easing as needed */
+    
+  }
 
+  #cpustats {
+    height: 100%;
+    transition: width 0.5s ease; /* Adjust the duration and easing as needed */
+    min-width: 1%;
+  }
+</style>
 
   <!-- Your chart canvas will be placed here -->
 
@@ -8,6 +21,29 @@
 
     <h2 style="font-family: 'Rubik', sans-serif;" class="fw-bold m-1" >System Stats</h2>
     <div class="col-6">
+     
+      <p class="m-0">Ram Usage</p>
+      
+      <div class="d-flex mb-3 " style="height: 30%;" >
+        <div class="bg-success border-end " id="ramstats" ></div>
+        <p class="my-auto ms-2" id="ram">
+          0%
+        </p>
+      </div>
+
+      <p class="m-0">Cpu Usage</p>
+      <div class="d-flex" style="height: 30%;">
+
+        <div class="bg-danger border-end" id="cpustats" ></div>
+        <p class="my-auto ms-2" id="cpu">
+          0%
+        </p>
+      </div>
+
+           
+
+     
+     
       <canvas id="ramChart" ></canvas>
 
     </div>
@@ -16,11 +52,41 @@
 
     </div>
 
+
+
   </div>
 
   <!-- Your JavaScript code for creating the chart will go here -->
 
+ 
+  
   <script>
+async function getdata() {
+  try {
+    const ramUsage = await execute('free | awk \'/^Mem/ {print $3/$2 * 100.0}\'');
+    const cpuUsage = await execute('top -bn1 | awk \'/^%Cpu/ {print $2}\'');
+
+    
+    if (!isNaN(ramUsage)) { // Check if ramUsage is a valid number
+      console.log(ramUsage+'%');
+      document.getElementById('ramstats').style.width = Math.round(ramUsage) + '%';
+      document.getElementById('ram').innerHTML = Math.round(ramUsage) + '%'
+      document.getElementById('cpustats').style.width = Math.round(cpuUsage) + '%';
+      document.getElementById('cpu').innerHTML = Math.round(cpuUsage) + '%'
+
+    } else {
+      console.error('Invalid RAM usage value:', ramUsage);
+    }
+  } catch (error) {
+    console.error('Error fetching RAM usage:', error);
+  }
+}
+
+    getdata()
+    var statsinterval = setInterval(getdata, 2000);
+  </script>
+  
+ <!-- <script>
     // RAM Chart
     var ramCtx = document.getElementById('ramChart').getContext('2d');
     
@@ -106,7 +172,7 @@
       cpuHistory.push({ timestamp: cpuTimestamp, usage: parseFloat(cpuUsage) });
   
       // Remove oldest CPU data if more than 20 datasets
-      if (cpuData.labels.length > 20) {
+      if (cpuData.labels.length > 10) {
         cpuData.labels.shift();
         cpuData.datasets[0].data.shift();
       }
@@ -118,12 +184,9 @@
     fetchData();
   
     // Fetch data every 5 seconds (adjust as needed)
-    setInterval(fetchData, 10000);
-  </script>
+    var statsinterval = setInterval(fetchData, 10000);
+  </script> -->
   
-  
-  
-
 
 
 <hr>
