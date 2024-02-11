@@ -64,22 +64,33 @@
   
 
   
-  <div class="container-fluid p-0 " style="height: 92.7vh;
+  <div class="container-fluid p-0 " style="height: 100vh;
   display: flex;
   flex-direction: column;">
     
 
+  <div class="row   position-sticky w-100 m-0" style=" height: 9%" >
 
-
-    <div class="row   position-sticky w-100 m-0" style=" height: 100%" >
-      <nav class="navbar  navbar-dark bg-dark">
+<nav class="navbar  navbar-dark bg-dark">
         <div class="container-fluid">
           <a class="navbar-brand" style="font-family: 'Rubik', sans-serif;" href="#">Kadmin.Online</a>
         </div>
       </nav>
   
 
+    </div>
+
+    <div class="row   position-sticky w-100 m-0" style=" height: 91%" >
+      
         <div style="" class="col  bg-black d-flex flex-column sidepanel shrink"  >
+
+            <!-- <nav class="navbar  navbar-dark bg-dark">
+        <div class="container-fluid">
+          <a class="navbar-brand" style="font-family: 'Rubik', sans-serif;" href="#">Kadmin.Online</a>
+        </div>
+      </nav>
+   -->
+
           <div class="d-flex p-2">
             <p class="  m-auto  hover" type="button" hx-get="/testdash"  hx-trigger="click"  hx-target="#output" hx-boost="{ preload: true }" >
               <i class="fa-solid fa-gauge"></i>  
