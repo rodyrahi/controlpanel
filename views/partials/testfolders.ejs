@@ -260,7 +260,7 @@ function showMenu(event, menu, el = null) {
 
   menu.style.display = 'block';
   menu.style.left = event.clientX  + 'px';
-  menu.style.top = event.clientY  + 'px';
+  menu.style.top = event.clientY-80  + 'px';
 
   if(el){
     file = el.querySelector('span').textContent.trim();
