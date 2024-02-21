@@ -22,12 +22,16 @@ NGINX_SITES_ENABLED_DIR="/etc/nginx/sites-enabled"
 CONFIG_FILE="$NGINX_CONFIG_DIR/$DOMAIN"
 cat <<EOF > "$CONFIG_FILE"
 server {
-    listen $PORT;
+    listen 80;
     server_name $DOMAIN www.$DOMAIN;
 
     location / {
-        root /var/www/$DOMAIN;
-        index index.html;
+        proxy_pass http://localhost:$PORT;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade \$http_upgrade;
+        proxy_set_header Connection 'upgrade';
+        proxy_set_header Host \$host;
+        proxy_cache_bypass \$http_upgrade;
     }
 }
 EOF

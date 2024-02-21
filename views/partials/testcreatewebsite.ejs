@@ -19,7 +19,7 @@
 <div class="row">
     <div class="col-md-4 text-light p-3 bg-dark mx-md-3 rounded-2">
         <label for="domain">Domain Name</label>
-        <input type="text" class="form-control form-control-sm mb-2" id="domain" placeholder="Example.com">
+        <input type="text"  class="form-control form-control-sm mb-2" id="domain" placeholder="Example.com">
         <label for="port">Port</label>
         <input type="text" class="form-control form-control-sm mb-2" id="port" placeholder="8080">
         <button class="btn btn-primary btn-sm" onclick="createwebsite(this)">Create</button>
@@ -30,7 +30,7 @@
 <script>
     async function createwebsite(el) {
        
-       var website = document.getElementById('website').value
+       var website = document.getElementById('domain').value
        var port = document.getElementById('port').value
 
        var name = el.innerHTML

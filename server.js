@@ -30,6 +30,7 @@ const config = {
   clientID: "zj17AAKjTh0ZrdOmD3O7hiXTKc1UwHAy",
   issuerBaseURL: "https://dev-t42orpastoaad3st.us.auth0.com",
 };
+app.use(auth(config));
 app.use(
   session({
     secret: "fasfasgdghreyt4wsgsdfsdfwer",
@@ -37,7 +38,7 @@ app.use(
     saveUninitialized: true,
   })
 );
-app.use(auth(config));
+
 
 const ssh = new NodeSSH();
 module.exports = { ssh, server, app, bodyParser };

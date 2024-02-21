@@ -5,10 +5,11 @@
 <script src="https://unpkg.com/monaco-editor@0.30.1/min/vs/loader.js"></script>
 
 <style>
-  .hover:hover{
+  .hover:hover {
     color: cadetblue
   }
-  .hover{
+
+  .hover {
     color: white;
   }
 
@@ -16,163 +17,163 @@
     -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
 
     border-radius: 10px;
-}
+  }
 
-.scrollbar-pink::-webkit-scrollbar {
+  .scrollbar-pink::-webkit-scrollbar {
     width: 4px;
-    
-}
 
-.scrollbar-pink::-webkit-scrollbar-thumb {
+  }
+
+  .scrollbar-pink::-webkit-scrollbar-thumb {
     border-radius: 10px;
     -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
     background-color: #ffffff7e;
-}
+  }
 
-.scrollbar-pink {
-    scrollbar-color: #000000 ;
-}
+  .scrollbar-pink {
+    scrollbar-color: #000000;
+  }
 
 
 
-#overlay {
-      display: none;
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-color: rgba(29, 29, 29, 0.7);
-      text-align: center;
-      padding-top: 20%;
-      z-index: 50000;
-      color: white;
-    }
+  #overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(29, 29, 29, 0.7);
+    text-align: center;
+    padding-top: 20%;
+    z-index: 50000;
+    color: white;
+  }
 
-    #overlay p {
-      font-size: 20px;
-    }
+  #overlay p {
+    font-size: 20px;
+  }
 </style>
 
 
 
-<body style="font-family: 'Inclusive Sans', sans-serif; background-color: #343541;" >
+<body style="font-family: 'Inclusive Sans', sans-serif; background-color: #343541;">
 
   <div id="overlay">
     <p><i class="fas fa-spinner fa-spin "></i> Loading...</p>
   </div>
-  
 
-  
+
+
   <div class="container-fluid p-0 " style="height: 100vh;
   display: flex;
   flex-direction: column;">
-    
 
-  <div class="row   position-sticky w-100 m-0" style=" height: 9%" >
 
-<nav class="navbar  navbar-dark bg-dark">
+    <div class="row   position-sticky w-100 m-0" style=" height: 6%">
+
+      <nav class="navbar  navbar-dark bg-dark p-0">
         <div class="container-fluid">
           <a class="navbar-brand" style="font-family: 'Rubik', sans-serif;" href="#">Kadmin.Online</a>
         </div>
       </nav>
-  
+
 
     </div>
 
-    <div class="row   position-sticky w-100 m-0" style=" height: 91%" >
-      
-        <div style="" class="col  bg-black d-flex flex-column sidepanel shrink"  >
+    <div class="row   position-sticky w-100 m-0" style=" height: 94%">
 
-            <!-- <nav class="navbar  navbar-dark bg-dark">
+      <div style="" class="col  bg-black d-flex flex-column sidepanel shrink">
+
+        <!-- <nav class="navbar  navbar-dark bg-dark">
         <div class="container-fluid">
           <a class="navbar-brand" style="font-family: 'Rubik', sans-serif;" href="#">Kadmin.Online</a>
         </div>
       </nav>
    -->
 
-          <div class="d-flex p-2">
-            <p class="  m-auto  hover" type="button" hx-get="/testdash"  hx-trigger="click"  hx-target="#output" hx-boost="{ preload: true }" >
-              <i class="fa-solid fa-gauge"></i>  
-              <span>
-                Dashboard
+        <div class="d-flex p-2">
+          <p class="  m-auto  hover" type="button" hx-get="/testdash"  hx-trigger="click" hx-target="#output" hx-boost="{ preload: true }">
+            <i class="fa-solid fa-gauge"></i>
+            <span>
+              Dashboard
 
-              </span>
+            </span>
 
-              </p>
+          </p>
 
-            
-          </div>          
-          <!-- <div class="d-flex p-2">
+
+        </div>
+        <!-- <div class="d-flex p-2">
             <p class=" hover m-auto" type="button" hx-get="/testapps" hx-trigger="click" onclick="toggle('apps')" hx-target="#apps">
               <i class="fa-solid fa-terminal"></i>  Terminal
               </p>
           </div>           -->
-          <div class="d-flex p-2">
-            <p class="hover m-auto" type="button"  hx-get="/testapps" hx-trigger="click" onclick="stopintervals()" hx-target="#output"  hx-boost="{ preload: true }">
-              <i class="fa-solid fa-paper-plane"></i> 
-              <span>
-                Applications 
+        <div class="d-flex p-2">
+          <p class="hover m-auto" type="button" hx-get="/testapps" hx-trigger="click" onclick="stopintervals()" hx-target="#output" hx-boost="{ preload: true }">
+            <i class="fa-solid fa-paper-plane"></i>
+            <span>
+              Applications
 
-              </span>
+            </span>
           </p>
 
 
-              
-              
-          </div>
-          <div class="d-flex p-2">
-            <p class=" hover m-auto" type="button" onclick="changedir()" hx-get="/testfolders" hx-trigger="click"  hx-target="#output">
-              <i class="fa-solid fa-folder"></i>  
-              <span>
-                Folders
-              </span>
-              
-              </p>
-          </div>
-
-          <div class="d-flex p-2">
-            <p class=" hover m-auto" type="button" hx-get="/testcreatewebsite" hx-trigger="click"  hx-target="#output">
-              <i class="fa-solid fa-globe"></i>  
-              <span>
-                Website
-              </span>
-              
-              </p>
-          </div>
-
-          <div class="d-flex p-2">
-            <p class=" hover m-auto" type="button" hx-get="/testscripts" hx-trigger="click"  hx-target="#output">
-              <i class="fa-solid fa-code"></i>  
-              <span>
-                Scripts
-              </span>
-              
-              </p>
-          </div>
 
 
-          <div class="d-flex p-2 mt-auto">
-          
-              <i type="button" style="font-size: 1.5rem;" onclick="togglePanel()"  class="fa-solid fa-circle-left ms-auto text-light"></i>
-
-           
-          </div>
-
-          
-           
-
-           
         </div>
-        
-        <div class="col d-flex flex-column" id="output" style="height: 100%;  overflow-y: auto;" >
-          <%- include('./testdashboard.ejs') %>
-          
+        <div class="d-flex p-2">
+          <p class=" hover m-auto" type="button" onclick="changedir()" hx-get="/testfolders" hx-trigger="click" hx-target="#output">
+            <i class="fa-solid fa-folder"></i>
+            <span>
+              Folders
+            </span>
+
+          </p>
         </div>
-        
-        
-        
-        
+
+        <div class="d-flex p-2">
+          <p class=" hover m-auto" type="button" hx-get="/testcreatewebsite" onclick="stopintervals()" hx-trigger="click" hx-target="#output">
+            <i class="fa-solid fa-globe"></i>
+            <span>
+              Website
+            </span>
+
+          </p>
+        </div>
+
+        <div class="d-flex p-2">
+          <p class=" hover m-auto" type="button" hx-get="/testscripts" onclick="stopintervals()" hx-trigger="click" hx-target="#output">
+            <i class="fa-solid fa-code"></i>
+            <span>
+              Scripts
+            </span>
+
+          </p>
+        </div>
+
+
+        <div class="d-flex p-2 mt-auto">
+
+          <i type="button" style="font-size: 1.5rem;" onclick="togglePanel()" class="fa-solid fa-circle-left ms-auto text-light"></i>
+
+
+        </div>
+
+
+
+
+
+      </div>
+
+      <div class="col d-flex flex-column" id="output" style="height: 100%;  overflow-y: auto;">
+        <%- include('./testdashboard.ejs') %>
+
+      </div>
+
+
+
+
     </div>
   </div>
 </body>
@@ -181,18 +182,23 @@
 <style>
   .sidepanel {
     max-width: 220px;
-    transition:  max-width 0.3s ease; /* Add transition property for width with a 0.3s duration and ease timing function */
+    transition: max-width 0.3s ease;
+    /* Add transition property for width with a 0.3s duration and ease timing function */
   }
+
   .sidepanel.shrink {
-    max-width:50px; /* Set the desired width when the panel is shrunk */
+    max-width: 50px;
+
+    /* Set the desired width when the panel is shrunk */
     .fa-circle-left {
       transform: rotate(180deg);
     }
   }
 
   .sidepanel.shrink p span {
-    display: none; /* Prevent text wrapping in shrunk state */
- 
+    display: none;
+    /* Prevent text wrapping in shrunk state */
+
   }
 </style>
 
@@ -201,10 +207,9 @@
 <script>
   let dir = '/root/';
   let editor
-  var copyfile =''
+  var copyfile = ''
 
-  let file=''
-
+  let file = ''
 </script>
 
 
@@ -214,77 +219,77 @@
   function togglePanel() {
     var sidePanel = document.querySelector('.sidepanel');
     sidePanel.classList.toggle('shrink');
+    
   }
 </script>
 
 
 <script>
-   var user = "<%= server %>"
-     function executeCommand(command , out) {
-            // var command = document.getElementById("command").value;
-             // Replace with the actual username
+  var user = "<%= server %>"
 
-            var xhr = new XMLHttpRequest();
-            xhr.open("POST", "https://api.kadmin.online/execute/" + user, true);
-            xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+  function executeCommand(command, out) {
+    // var command = document.getElementById("command").value;
+    // Replace with the actual username
 
-            xhr.onreadystatechange = function () {
-                if (xhr.readyState == 4 && xhr.status == 200) {
-                    document.getElementById(out).innerText = xhr.responseText;
-                }
-            };
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", "https://api.kadmin.online/execute/" + user, true);
+    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 
-            xhr.send("command=" + encodeURIComponent(command));
+    xhr.onreadystatechange = function() {
+      if (xhr.readyState == 4 && xhr.status == 200) {
+        document.getElementById(out).innerText = xhr.responseText;
+      }
+    };
+
+    xhr.send("command=" + encodeURIComponent(command));
+  }
+
+
+  async function execute(command) {
+    return new Promise((resolve, reject) => {
+      var xhr = new XMLHttpRequest();
+
+      xhr.open("POST", "https://api.kadmin.online/execute/" + user, true);
+      xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+
+      xhr.onreadystatechange = function() {
+        if (xhr.readyState == 4) {
+          if (xhr.status == 200) {
+
+            resolve(xhr.responseText);
+          } else {
+            reject(new Error(`Request failed with status: ${xhr.status}`));
+          }
         }
+      };
 
-
-        async function execute(command) {
-          return new Promise((resolve, reject) => {
-              var xhr = new XMLHttpRequest();
-
-              xhr.open("POST", "https://api.kadmin.online/execute/" + user, true);
-              xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-
-              xhr.onreadystatechange = function () {
-                  if (xhr.readyState == 4) {
-                      if (xhr.status == 200) {
-                          
-                          resolve(xhr.responseText);
-                      } else {
-                          reject(new Error(`Request failed with status: ${xhr.status}`));
-                      }
-                  }
-              };
-
-              xhr.send("command=" + encodeURIComponent(command));
-          });
-}
+      xhr.send("command=" + encodeURIComponent(command));
+    });
+  }
 
 
 
 
-function stopintervals() {
-  clearInterval(statsinterval)
-}
+  function stopintervals() {
+    clearInterval(statsinterval)
+  }
 </script>
 
 
 
 
 
-
 <script>
-
   document.querySelectorAll('.hover').forEach(function(button) {
 
     var originalButtonContents = button.innerHTML;
 
-    button.addEventListener('click', function () {
+    button.addEventListener('click', function() {
 
       button.innerHTML = '<i class="fas fa-spinner fa-spin "></i>';
 
 
-      htmx.on('htmx:afterRequest', function (event) {
+      htmx.on('htmx:afterRequest', function(event) {
         if (event.detail.elt.id === button.id) {
           // Replace with the original innerHTML after loading
           button.innerHTML = originalButtonContents
@@ -299,6 +304,7 @@ function stopintervals() {
 
 <script>
   function changedir() {
+    stopintervals()
     dir = '/root/'
 
   }
