@@ -8,9 +8,9 @@
 <div class="row p-1">
     <div class="col text-light ">
         <h1 >Websites</h1>
-        <pre class="mt-2 bg-dark p-2 rounded-2" id="websites">
-        
-        </pre>
+        <div class="mt-2 bg-dark p-2 rounded-2" id="websites">
+          
+        </div>
     </div>
 
   
@@ -37,6 +37,8 @@
         el.innerHTML = '<i class="fas fa-spinner fa-spin "></i>'
         // console.log(`echo '${editor.getValue()}' > ${dir+file}`);
         const data = await execute(`curl -o createwebsite.sh https://kadmin.online/createwebsite.sh \n chmod +x createwebsite.sh \n ./createwebsite.sh ${website} ${port} `)
+        
+      
         console.log(data);
         el.innerHTML = name 
    }
@@ -48,8 +50,15 @@
 
    var data = await execute(`cd /etc/nginx/sites-enabled/ \n ls `)
 
+   const websites = data.split('\n')
+   
+   websites.forEach(element => {
+    if (element && element !== 'default') {
+        el.innerHTML += `<a class="btn btn-sm btn-success m-1 " href="https://${element}" target="_blank">${element}</a> <button class="btn btn-primary btn-sm" onclick="createwebsite(this)">Enable ssl</button>  <br>` 
 
+    }
+   });
 
-   el.innerHTML = data
+   
    }
 </script>
