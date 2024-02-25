@@ -54,7 +54,7 @@
    
    websites.forEach(element => {
     if (element && element !== 'default') {
-        el.innerHTML += `<a class="btn btn-sm btn-success m-1 " href="https://${element}" target="_blank">${element}</a> <button class="btn btn-primary btn-sm" onclick="createwebsite(this)">Enable ssl</button>  <br>` 
+        el.innerHTML += `<button class="btn btn-primary btn-sm me-1" onclick="createwebsite(this)">Enable ssl</button><a class="btn btn-sm btn-success m-1 " href="https://${element}" target="_blank">${element}</a>   <br>` 
 
     }
    });
