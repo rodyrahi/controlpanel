@@ -216,6 +216,10 @@
 
 
 <script>
+
+      var username = "<%= username.User%>"
+      console.log(user);
+
   function togglePanel() {
     var sidePanel = document.querySelector('.sidepanel');
     sidePanel.classList.toggle('shrink');
@@ -270,9 +274,7 @@
 
 
 
-  function stopintervals() {
-    clearInterval(statsinterval)
-  }
+
 </script>
 
 
@@ -304,7 +306,7 @@
 
 <script>
   function changedir() {
-    stopintervals()
+    
     dir = '/root/'
 
   }

@@ -159,7 +159,12 @@ app.get("/dashboard/me", async(req, res) => {
 
   req.session.server = server
 
-  res.render("partials/test",{server});
+  
+  // const responseGet = await axios.get(getUrl);
+  const username = await axios.get(`https://api.kadmin.online/username/${server}`);
+
+  // console.log(username.data.data.User);
+  res.render("partials/test",{server , username:username.data.data});
 
 });
 
@@ -200,6 +205,8 @@ app.get("/sandbox", async (req, res) => {
 
   try {
     const responseGet = await axios.get(getUrl);
+    
+
 
     if (responseGet.status === 200) {
 
@@ -220,44 +227,6 @@ app.get("/sandbox", async (req, res) => {
   }
 
 
-  // try {
-    
-  //   console.log(servers);
-   
-
-  //   const fetchData = async (element) => {
-  //     const username = element.split("@")[0];
-  //     const getUrl = username ? `https://api.kadmin.online/user/${element}` : '';
-
-  //     try {
-  //       const responseGet = await axios.get(getUrl);
-
-  //       if (responseGet.status === 200) {
-  //         // isexit.push(element);
-  //       }else{
-  //         const indexToRemove = servers.indexOf(element);
-  //         if (indexToRemove !== -1) {
-  //           isexit.splice(indexToRemove, 1);
-  //         }
-  //       }
-  //     } catch (error) {
-  //       console.error(`Error fetching data for server ${element}: ${error.message}`);
-  //       const indexToRemove = servers.indexOf(element);
-  //       if (indexToRemove !== -1) {
-  //         servers.splice(indexToRemove, 1);
-  //       }
-  //     }
-  //   };
-
-  //   await Promise.all(servers.map(fetchData));
-
-  //   console.log(servers);
-  //   res.render('partials/sandbox', { servers });
-  // } catch (error) {
-  //   // console.error('Error in /sandbox route:', error.message);
-  //   console.log(req.session.server);
-  //   res.render('partials/sandbox', { servers: [''] });
-  // }
 });
 
 
@@ -458,7 +427,7 @@ app.post("/testcreatescript", (req, res) => {
 
   const result = scriptsdb.prepare("SELECT * FROM scripts WHERE id= ?").get(id);
 
-  if (!result) {
+  if (!result) {  
     scriptsdb
       .prepare(`INSERT INTO scripts (name , script ,user) VALUES (?,? ,?) `)
       .run(scriptname, script, req.oidc.user.sub);
@@ -482,7 +451,10 @@ app.get("/testdeletescript/:id", (req, res) => {
 });
 
 
-
+app.get("/monitor", async (req, res) => {
+  const server = req.oidc.user.sub;
+  res.render("partials/monitor" , {server})
+});
 
 
 

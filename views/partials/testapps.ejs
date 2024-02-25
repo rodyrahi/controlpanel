@@ -3,9 +3,9 @@
 
 
 <style>
-    .form-control{
+    /* .form-control{
         border-radius: 0;
-    }
+    } */
 </style>
 
 
@@ -86,14 +86,14 @@
 
 </div>
 
-<hr>
+<h3 class="text-light m-1" >Create App</h3>
 
-<div class="row">
+<div class="row p-1">
     <div class="col-md-4 col  text-light p-3 bg-dark mx-md-3 rounded-2  ">
         <label for="domain">Git Repository Url</label>
-        <input type="text" class="form-control form-control-sm mb-3" id="dgiturl" placeholder="github.com/example.git">
+        <input type="text" class="form-control form-control-sm mb-3" id="giturl" placeholder="github.com/example.git">
         <label for="port">App File (ex.server.js)</label>
-        <input type="text" class="form-control form-control-sm mb-2" id="server" placeholder="Server.js">
+        <input type="text" class="form-control form-control-sm mb-2" id="appname" placeholder="Server.js">
         <button class="btn btn-primary btn-sm" onclick="createapp(this)">Create App</button>
     </div>
     
@@ -163,5 +163,33 @@ function restartapp(element) {
         const command = `pm2 logs ${id} --nostream`;
 
         executeCommand(command, out);
+    }
+
+
+    async function createapp(el) {
+  
+        console.log(user);
+        var url = document.getElementById('giturl').value
+        var appname = document.getElementById('appname').value
+
+        var parts = url.split("/");
+        var repoName = parts[parts.length - 1].replace('.git', ''); 
+        
+
+
+        var name = el.innerHTML
+        el.innerHTML = '<i class="fas fa-spinner fa-spin "></i> Be Patient it will take a while...'
+
+        console.log(`cd /${username}/app && git clone ${url}\ncd /${username}/app/${repoName}\npm2 start ${appname}\nnpm i`);
+
+        const data = await execute(`cd /${username}/app && git clone ${url}\ncd /${username}/app/${repoName}\npm2 start ${appname}\nnpm i`)
+        
+        el.innerHTML = `<i class="fa-solid fa-circle-check"></i> Done..` 
+
+        document.getElementById('logs').innerHTML = data
+      
+
+    
+
     }
 </script>

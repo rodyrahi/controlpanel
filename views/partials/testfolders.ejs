@@ -255,7 +255,10 @@ function menu(el) {
 
 function showMenu(event, menu, el = null) {
   Array.from(folders).forEach(item => item.style.backgroundColor = '');
-  document.getElementById('contextMenu').style.display = 'none';
+  if (document.getElementById('contextMenu')) {
+    document.getElementById('contextMenu').style.display = 'none';
+  }
+  
   document.getElementById('contextMenuExplorer').style.display = 'none';
 
   menu.style.display = 'block';
@@ -388,7 +391,7 @@ async function cd(el , name) {
 
   async function home() {
 
-    dir = '/root/';
+    dir = `/${username}/`;
 
 
 
