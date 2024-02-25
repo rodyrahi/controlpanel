@@ -44,8 +44,7 @@
 <script>
   const terminalDiv = document.getElementById('terminal');
   const inputElement = document.getElementById('input');
-  const ws = new WebSocket('wss://165.232.151.6:8181/terminal/google-oauth2|104503941770410173437');
-
+  const ws = new WebSocket('ws://localhost:8181/terminal/google-oauth2|104503941770410173437'); // Replace USER_ID with the actual user ID
 
   const commandHistory = [];
   let historyIndex = 0;
