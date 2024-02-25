@@ -3,18 +3,38 @@
 
 <%- include('./header.ejs') %>
 
-<body style="font-family: 'Inclusive Sans', sans-serif; background-color: #343541;">
+<body class="text-light" style="font-family: 'Inclusive Sans', sans-serif; background-color: #343541;">
 
-  <div style="width:80%; margin: auto;">
-    <label for="daysFilter">Select Days:</label>
-    <select id="daysFilter" onchange="fetchAndDrawChart()">
-      <option value="5">Last 5 mins</option>
-      <option value="604800">Last 7 Days</option>
-      <option value="2592000">Last 30 Days</option>
-      <!-- Add more options as needed -->
-    </select>
-    <canvas id="lineChart"></canvas>
+
+
+  <div class="container-fluid">
+    <div class="row">
+
+      <div class="col d-flex flex-column" style="height: 80vh;">
+        <div class="me-auto">
+          <h2>System Usage</h2>
+        </div>
+        <hr>
+        <div class="me-auto ms-4">
+          <select style="" class="form-select form-select-sm" id="daysFilter" onchange="fetchAndDrawCharts()">
+            <option value="5">Last 5 mins</option>
+            <option value="604800">Last 7 Days</option>
+            <option value="2592000">Last 30 Days</option>
+          </select>
+        </div>
+
+        <!-- CPU Usage Chart -->
+        <canvas id="cpulineChart"></canvas>
+
+        <!-- RAM Usage Chart -->
+        <canvas id="ramlineChart"></canvas>
+        <canvas id="disklineChart"></canvas>
+      </div>
+
+    </div>
   </div>
+
+
 
 
   <script>
@@ -46,88 +66,153 @@
 
 
 
-  <script>
-  
-      function parseLogFile(logData, selectedMinutes) {
-        const lines = logData.split('\n');
-        const timestamps = [];
-        const cpuUsages = [];
-
-        for (let i = 0; i < lines.length; i++) {
-            const line = lines[i];
-            const match = line.match(/(\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2},\d{3}).*CPU Usage: (\d+(\.\d+)?)%/);
-            if (match) {
-              const timeOfLine = new Date(match[1].split(',')[0]).getTime();
-              const lastMinute = Date.now() - (331+selectedMinutes) * 60 * 1000;
+    <script>
 
 
-              console.log(timeOfLine <= lastMinute);
-
-              if (timeOfLine > lastMinute) {
-                  timestamps.push(match[1]);
-                  cpuUsages.push(parseFloat(match[2]));
-              }
-            }
-        }
-
-        return { timestamps, cpuUsages };
-      }
-
-
-    // Function to draw line chart
-    function drawLineChart(timestamps, cpuUsages) {
-      var ctx = document.getElementById('lineChart').getContext('2d');
-
-      // Check if the chart exists
-      if (window.myChart) {
-        // Update the existing chart with new data
-        window.myChart.data.labels = timestamps;
-        window.myChart.data.datasets[0].data = cpuUsages;
-        window.myChart.update();
-      } else {
-        // Create a new chart
-        window.myChart = new Chart(ctx, {
-          type: 'line',
-          data: {
-            labels: timestamps,
-            datasets: [{
-              label: 'CPU Usage',
-              data: cpuUsages,
-              borderColor: 'rgba(75, 192, 192, 1)',
-              borderWidth: 1,
-              fill: false
-            }]
-          },
-          options: {
-            scales: {
-              y: {
-                min: 0,
-                max: 100
-              }
+      // Common chart configuration
+      const chartConfig = {
+        type: 'line',
+        borderWidth: 1,
+        fill: false,
+        options: {
+          scales: {
+            y: {
+              min: 0,
+              max: 100
             }
           }
-        });
+        },
+      };
+    
+      function parseLogram(logData, selectedMinutes) {
+        const lines = logData.split('\n');
+        const timestamps = [];
+        const usages = [];
+    
+        for (let i = 0; i < lines.length; i++) {
+          const line = lines[i];
+          const match = line.match(/(\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2},\d{3}).*(Memory) Usage: (\d+(\.\d+)?)%/);
+    
+          if (match) {
+            const timeOfLine = new Date(match[1].split(',')[0]).getTime();
+            const lastMinute = Date.now() - (331 + selectedMinutes) * 60 * 1000;
+            
+           
+
+            if (timeOfLine > lastMinute) {
+              timestamps.push(match[1].split(',')[0].split(' ')[0]);
+              usages.push(parseFloat(match[3]));
+            }
+          }
+        }
+    
+        return { timestamps, usages };
       }
-    }
+    
+      function parseLogcpu(logData, selectedMinutes) {
+        const lines = logData.split('\n');
+        const timestamps = [];
+        const usages = [];
+    
+        for (let i = 0; i < lines.length; i++) {
+          const line = lines[i];
+          const match = line.match(/(\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2},\d{3}).*(CPU) Usage: (\d+(\.\d+)?)%/);
+    
+          if (match) {
+            const timeOfLine = new Date(match[1].split(',')[0]).getTime();
+            const lastMinute = Date.now() - (331 + selectedMinutes) * 60 * 1000;
+            
+            
 
-    // Function to fetch log data and draw chart
-    async function fetchAndDrawChart() {
-      const selectedMinutes = document.getElementById('daysFilter').value;
-      const data = await execute('cat /root/app/deamon/logfile.log');
-      const { timestamps, cpuUsages } = parseLogFile(data, parseInt(selectedMinutes));
-      drawLineChart(timestamps, cpuUsages);
-    }
+            if (timeOfLine > lastMinute) {
+              timestamps.push(match[1].split(',')[0].split(' ')[0]);
+              usages.push(parseFloat(match[3]));
+            }
+          }
+        }
+    
+        return { timestamps, usages };
+      }
+    
+
+      function parseLogdisk(logData, selectedMinutes) {
+        const lines = logData.split('\n');
+        const timestamps = [];
+        const usages = [];
+    
+        for (let i = 0; i < lines.length; i++) {
+          const line = lines[i];
+          const match = line.match(/(\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2},\d{3}).*(Disk) Usage: (\d+(\.\d+)?)%/);
+    
+          if (match) {
+            const timeOfLine = new Date(match[1].split(',')[0]).getTime();
+            const lastMinute = Date.now() - (331 + selectedMinutes) * 60 * 1000;
+            
+            console.log(match);
+
+            if (timeOfLine > lastMinute) {
+              timestamps.push(match[1].split(',')[0].split(' ')[0]);
+              usages.push(parseFloat(match[3]));
+            }
 
 
-    // Call the function to fetch and draw the chart initially
-    fetchAndDrawChart();
+          }
+        }
+    
+        return { timestamps, usages };
+      }
+    
 
-    // Refresh the chart every 5 seconds
-    setInterval(fetchAndDrawChart, 5000);
-  </script>
 
 
+      function drawLineChart(ctx, label, timestamps, usages) {
+        const config = {
+          ...chartConfig,
+          data: {
+            labels: timestamps,
+            datasets: [
+              {
+                label,
+                data: usages,
+                borderColor: 'rgba(75, 192, 192, 1)',
+              },
+            ],
+          },
+        };
+    
+        // Check if the chart exists
+        if (ctx.myChart) {
+          // Update the existing chart with new data
+          ctx.myChart.data.labels = timestamps;
+          ctx.myChart.data.datasets[0].data = usages;
+          ctx.myChart.update();
+        } else {
+          // Create a new chart
+          ctx.myChart = new Chart(ctx, config);
+        }
+      }
+    
+      async function fetchAndDrawChart() {
+        const selectedMinutes = document.getElementById('daysFilter').value;
+        const data = await execute('cat /root/app/deamon/logfile.log');
+    
+        const { timestamps: cpuTimestamps, usages: cpuUsages } = parseLogcpu(data, parseInt(selectedMinutes));
+        drawLineChart(document.getElementById('cpulineChart').getContext('2d'), 'CPU Usage', cpuTimestamps, cpuUsages);
+    
+        const { timestamps: ramTimestamps, usages: ramUsages } = parseLogram(data, parseInt(selectedMinutes));
+        drawLineChart(document.getElementById('ramlineChart').getContext('2d'), 'RAM Usage', ramTimestamps, ramUsages);
 
+        const { timestamps: diskTimestamps, usages: diskUsages } = parseLogdisk(data, parseInt(selectedMinutes));
+        drawLineChart(document.getElementById('disklineChart').getContext('2d'), 'DISK Usage', diskTimestamps, diskUsages);
+      }
+    
+      // Call the function to fetch and draw the chart initially
+      fetchAndDrawChart();
+    
+      // Refresh the chart every 5 seconds
+      setInterval(fetchAndDrawChart, 5000);
+    </script>
+    
 
 
 </body>
@@ -137,3 +222,5 @@
 
 
   
+
+
