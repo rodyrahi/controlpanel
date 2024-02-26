@@ -18,7 +18,7 @@
         const terminalOutput = document.getElementById('terminal');
         const inputCommand = document.getElementById('inputCommand');
 
-        const ws = new WebSocket('ws://localhost:8181/terminal/:user'); // Replace with your server URL
+        const ws = new WebSocket('ws://localhost:8181/terminal/google-oauth2|104503941770410173437'); // Replace with your server URL
 
         ws.onmessage = function (event) {
             terminalOutput.value += event.data;
