@@ -1,107 +1,233 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SSH Terminal</title>
-  <style>
-    body {
-      font-family: 'Courier New', monospace;
-      margin: 0;
-      padding: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      height: 100vh;
-      background-color: #282c34;
+
+<%- include('./header.ejs') %>
+
+<body class="text-light" style="font-family: 'Inclusive Sans', sans-serif; background-color: #343541;">
+
+
+
+  <div class="container-fluid">
+    <div class="row">
+      <div class="d-flex">
+        <div class="me-auto">
+          <h2>System Usage</h2>
+        </div>
+       
+        <div class="ms-auto my-auto ">
+          <select style="" class="form-select form-select-sm" id="daysFilter" onchange="fetchAndDrawCharts()">
+            <option value="5">Last 5 mins</option>
+            <option value="2880">Last 2 Days</option>
+            <option value="604800">Last 7 Days</option>
+            <option value="2592000">Last 30 Days</option>
+          </select>
+        </div>
+
+      </div>
+      <hr>
+      <div class="col d-flex flex-column" style="height: 80vh;">
+       
+
+
+        <!-- CPU Usage Chart -->
+        <canvas id="cpulineChart"></canvas>
+
+        <!-- RAM Usage Chart -->
+        <canvas id="ramlineChart"></canvas>
+        
+      </div>
+      <div class="col">
+        <canvas id="disklineChart"></canvas>
+      </div>
+    </div>
+  </div>
+
+
+
+  <script>
+
+    var user = "<%= server %>"
+     async function execute(command) {
+      return new Promise((resolve, reject) => {
+        var xhr = new XMLHttpRequest();
+  
+        xhr.open("POST", "https://api.kadmin.online/execute/" + user, true);
+        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+  
+        xhr.onreadystatechange = function() {
+          if (xhr.readyState == 4) {
+            if (xhr.status == 200) {
+  
+              resolve(xhr.responseText);
+            } else {
+              reject(new Error(`Request failed with status: ${xhr.status}`));
+            }
+          }
+        };
+  
+        xhr.send("command=" + encodeURIComponent(command));
+      });
     }
+  </script>
+    
 
-    #terminal {
-      width: 80%;
-      height: 400px;
-      border: 1px solid #000000;
-      overflow: auto;
-      padding: 10px;
-      background-color: #1e1e1e;
-      color: #ffffff;
-    }
 
-    input {
-      width: calc(100% - 22px);
-      padding: 10px;
-      border: none;
-      background-color: #1e1e1e;
-      color: #ffffff;
-      outline: none;
-    }
-  </style>
-</head>
-<body>
 
-<div id="terminal"></div>
-<input id="input" placeholder="Type your command..." autocomplete="off">
+    <script>
 
-<script>
-  const terminalDiv = document.getElementById('terminal');
-  const inputElement = document.getElementById('input');
-  const ws = new WebSocket('wss://localhost:8181/terminal/google-oauth2|104503941770410173437'); // Replace USER_ID with the actual user ID
 
-  const commandHistory = [];
-  let historyIndex = 0;
+      // Common chart configuration
+      const chartConfig = {
+        type: 'line',
+        borderWidth: 1,
+        fill: false,
+        options: {
+          scales: {
+            y: {
+              min: 0,
+              max: 100
+            }
+          }
+        },
+      };
+    
+      function parseLogram(logData, selectedMinutes) {
+        const lines = logData.split('\n');
+        const timestamps = [];
+        const usages = [];
+    
+        for (let i = 0; i < lines.length; i++) {
+          const line = lines[i];
+          const match = line.match(/(\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2},\d{3}).*(Memory) Usage: (\d+(\.\d+)?)%/);
+    
+          if (match) {
+            const timeOfLine = new Date(match[1].split(',')[0]).getTime();
+            const lastMinute = Date.now() - (331 + selectedMinutes) * 60 * 1000;
+            
+           
 
-  ws.onopen = (event) => {
-    console.log('WebSocket connection opened:', event);
-  };
-
-  ws.onmessage = (event) => {
-    const data = event.data;
-    writeToTerminal(data);
-  };
-
-  ws.onclose = (event) => {
-    console.log('WebSocket connection closed:', event);
-  };
-
-  function writeToTerminal(message) {
-    const div = document.createElement('div');
-    div.textContent = message;
-    terminalDiv.appendChild(div);
-    terminalDiv.scrollTop = terminalDiv.scrollHeight;
-  }
-
-  function sendCommand(command) {
-    ws.send(command);
-    commandHistory.push(command);
-    historyIndex = commandHistory.length;
-    inputElement.value = '';
-  }
-
-  inputElement.addEventListener('keydown', (event) => {
-    if (event.key === 'Enter') {
-      const command = inputElement.value.trim();
-      if (command !== '') {
-        writeToTerminal('$ ' + command); // Display the entered command in the terminal
-        sendCommand(command);
+            if (timeOfLine > lastMinute) {
+              timestamps.push(match[1].split(',')[0].split(' ')[0]);
+              usages.push(parseFloat(match[3]));
+            }
+          }
+        }
+    
+        return { timestamps, usages };
       }
-    } else if (event.key === 'ArrowUp') {
-      // Navigate command history (up)
-      if (historyIndex > 0) {
-        historyIndex--;
-        inputElement.value = commandHistory[historyIndex];
+    
+      function parseLogcpu(logData, selectedMinutes) {
+        const lines = logData.split('\n');
+        const timestamps = [];
+        const usages = [];
+    
+        for (let i = 0; i < lines.length; i++) {
+          const line = lines[i];
+          const match = line.match(/(\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2},\d{3}).*(CPU) Usage: (\d+(\.\d+)?)%/);
+    
+          if (match) {
+            const timeOfLine = new Date(match[1].split(',')[0]).getTime();
+            const lastMinute = Date.now() - (331 + selectedMinutes) * 60 * 1000;
+            
+            
+
+            if (timeOfLine > lastMinute) {
+              timestamps.push(match[1].split(',')[0].split(' ')[0]);
+              usages.push(parseFloat(match[3]));
+            }
+          }
+        }
+    
+        return { timestamps, usages };
       }
-    } else if (event.key === 'ArrowDown') {
-      // Navigate command history (down)
-      if (historyIndex < commandHistory.length - 1) {
-        historyIndex++;
-        inputElement.value = commandHistory[historyIndex];
-      } else {
-        // Clear input when at the latest command in history
-        historyIndex = commandHistory.length;
-        inputElement.value = '';
+    
+
+      function parseLogdisk(logData, selectedMinutes) {
+        const lines = logData.split('\n');
+        const timestamps = [];
+        const usages = [];
+    
+        for (let i = 0; i < lines.length; i++) {
+          const line = lines[i];
+          const match = line.match(/(\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2},\d{3}).*(Disk) Usage: (\d+(\.\d+)?)%/);
+    
+          if (match) {
+            const timeOfLine = new Date(match[1].split(',')[0]).getTime();
+            const lastMinute = Date.now() - (331 + selectedMinutes) * 60 * 1000;
+            
+            console.log(match);
+
+            if (timeOfLine > lastMinute) {
+              timestamps.push(match[1].split(',')[0].split(' ')[0]);
+              usages.push(parseFloat(match[3]));
+            }
+
+
+          }
+        }
+    
+        return { timestamps, usages };
       }
-    }
-  });
-</script>
+    
+
+
+
+      function drawLineChart(ctx, label, timestamps, usages) {
+        const config = {
+          ...chartConfig,
+          data: {
+            labels: timestamps,
+            datasets: [
+              {
+                label,
+                data: usages,
+                borderColor: 'rgba(75, 192, 192, 1)',
+              },
+            ],
+          },
+        };
+    
+        // Check if the chart exists
+        if (ctx.myChart) {
+          // Update the existing chart with new data
+          ctx.myChart.data.labels = timestamps;
+          ctx.myChart.data.datasets[0].data = usages;
+          ctx.myChart.update();
+        } else {
+          // Create a new chart
+          ctx.myChart = new Chart(ctx, config);
+        }
+      }
+    
+      async function fetchAndDrawChart() {
+        const selectedMinutes = document.getElementById('daysFilter').value;
+        const data = await execute('cat /root/app/deamon/logfile.log');
+    
+        const { timestamps: cpuTimestamps, usages: cpuUsages } = parseLogcpu(data, parseInt(selectedMinutes));
+        drawLineChart(document.getElementById('cpulineChart').getContext('2d'), 'CPU Usage', cpuTimestamps, cpuUsages);
+    
+        const { timestamps: ramTimestamps, usages: ramUsages } = parseLogram(data, parseInt(selectedMinutes));
+        drawLineChart(document.getElementById('ramlineChart').getContext('2d'), 'RAM Usage', ramTimestamps, ramUsages);
+
+        const { timestamps: diskTimestamps, usages: diskUsages } = parseLogdisk(data, parseInt(selectedMinutes));
+        drawLineChart(document.getElementById('disklineChart').getContext('2d'), 'DISK Usage', diskTimestamps, diskUsages);
+      }
+    
+      // Call the function to fetch and draw the chart initially
+      fetchAndDrawChart();
+    
+      // Refresh the chart every 5 seconds
+      setInterval(fetchAndDrawChart, 5000);
+    </script>
+    
+
 
 </body>
 </html>
+
+
+
+
+  
+
+

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebSocket Terminal</title>
+</head>
+<body>
+    <div>
+        <textarea id="terminal" cols="80" rows="20" readonly></textarea>
+    </div>
+    <div>
+        <input type="text" id="inputCommand" placeholder="Enter command">
+        <button onclick="sendCommand()">Send Command</button>
+    </div>
+
+    <script>
+        const terminalOutput = document.getElementById('terminal');
+        const inputCommand = document.getElementById('inputCommand');
+
+        const ws = new WebSocket('ws://localhost:8181/terminal/:user'); // Replace with your server URL
+
+        ws.onmessage = function (event) {
+            terminalOutput.value += event.data;
+            terminalOutput.scrollTop = terminalOutput.scrollHeight;
+        };
+
+        ws.onclose = function (event) {
+            terminalOutput.value += '\n--- WebSocket connection closed ---\n';
+        };
+
+        function sendCommand() {
+            const command = inputCommand.value;
+            ws.send(command + '\n');
+            inputCommand.value = '';
+        }
+    </script>
+</body>
+</html>

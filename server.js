@@ -457,6 +457,10 @@ app.get("/monitor", async (req, res) => {
 });
 
 
+app.get("/goterminal", async (req, res) => {
+  const server = req.oidc.user.sub;
+  res.render("partials/goterminal" , {server})
+});
 
 
 
