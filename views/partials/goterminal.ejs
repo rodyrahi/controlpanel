@@ -6,26 +6,34 @@
     <title>WebSocket Terminal</title>
 </head>
 <body>
+    <div id="output"></div>
+    <input type="text" id="input" placeholder="Type a command...">
+    <button onclick="sendCommand()">Send</button>
 
-<script>
-    const socket = new WebSocket('ws://165.232.151.6:8181/terminal/google-oauth2|104503941770410173437');
+    <script>
+        const outputElement = document.getElementById("output");
+        const inputElement = document.getElementById("input");
+        const ws = new WebSocket("ws://165.232.151.6:8181/terminal/google-oauth2|104503941770410173437");
 
-    socket.addEventListener('open', (event) => {
-        console.log('WebSocket connection opened:', event);
-    });
+        ws.onmessage = function(event) {
+            const data = event.data;
+            const isStdout = data.startsWith("stdout");
+            const isStderr = data.startsWith("stderr");
 
-    socket.addEventListener('message', (event) => {
-        console.log('WebSocket message received:', event.data);
-    });
+            if (isStdout || isStderr) {
+                const message = data.slice(7); // Remove the stream indicator
+                const outputDiv = document.createElement("div");
+                outputDiv.style.color = isStderr ? "red" : "black";
+                outputDiv.textContent = message;
+                outputElement.appendChild(outputDiv);
+            }
+        };
 
-    socket.addEventListener('close', (event) => {
-        console.log('WebSocket connection closed:', event);
-    });
-
-    socket.addEventListener('error', (event) => {
-        console.error('WebSocket error:', event);
-    });
-</script>
-
+        function sendCommand() {
+            const command = inputElement.value;
+            ws.send(command);
+            inputElement.value = "";
+        }
+    </script>
 </body>
 </html>
