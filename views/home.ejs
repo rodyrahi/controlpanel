@@ -3,6 +3,7 @@
 
 <%- include('./partials/header.ejs') %>
 
+
 <style>
   .img {
     width: 100%;
@@ -46,215 +47,327 @@
     }
   }
 
+  .btn {
+    border-radius: 0;
+    height: 50px;
+  }
+
+  body {
+    background-color: #DFDBE5;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Cg fill-rule='evenodd'%3E%3Cg fill='%239C92AC' fill-opacity='0.06'%3E%3Cpath opacity='.5' d='M96 95h4v1h-4v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9zm-1 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-9-10h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm9-10v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-9-10h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm9-10v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-9-10h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm9-10v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-9-10h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9z'/%3E%3Cpath d='M6 5V0H5v5H0v1h5v94h1V6h94V5H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  }
+
+  .shield {
+    background-color: #DFDBE5;
+    background-image: url("data:image/svg+xml,%3Csvg width='42' height='44' viewBox='0 0 42 44' xmlns='http://www.w3.org/2000/svg'%3E%3Cg id='Page-1' fill='none' fill-rule='evenodd'%3E%3Cg id='brick-wall' fill='%239C92AC' fill-opacity='0.09'%3E%3Cpath d='M0 0h42v44H0V0zm1 1h40v20H1V1zM0 23h20v20H0V23zm22 0h20v20H22V23z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  }
 
 
+  a{
+    text-decoration: none;
+    color: white;
+  }
+  a:hover{
+    color:  #006280;
+  }
+  .nav-link {
+    font-size: 1.3rem;
+  }
 </style>
 
-<body>
-  
+
+<body class="bg-black text-light" style="font-family: 'Rubik', sans-serif;">
+
   <!-- Google Tag Manager (noscript) -->
-<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-P7V7QPRG"
-  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-P7V7QPRG" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <!-- End Google Tag Manager (noscript) -->
 
 
-  <div class="container mt-2 ">
-    <%- include('./partials/navbar.ejs') %>
-    <div class="row rounded-5 border p-2 home">
 
-
-      <div class="col-md-6 ">
-        <h2 class="fw-bold mt-5" style="font-size: 3rem;">Manage VPS</h2>
-      
-          <h4 class="">Made Easier with </h4>
- 
-          <h4 class="  fw-bold " style="color: cadetblue;" > KADMIN.ONLINE</h4>
-
-
-
-        <h5 class="my-5 text-muted">"Effortlessly manage your servers with our user-friendly website, ensuring seamless performance and optimal security."
-        </h5>
-
-        <div class="mb-2">
-          <a href="/server" class="btn btn-primary btn-lg my-3" style="font-family: 'Rubik', sans-serif; ">GET STARTED</a>
-        </div>
+  <nav class="navbar navbar-expand-lg  navbar-dark bg-dark sticky-top " style="border-bottom: 1px  white solid;">
+    <div class="container-fluid ">
+      <div class=" justify-content-center">
+        <img src="kadmin.png" class=" my-2" alt="" srcset="" width="50px">
+        <a class="navbar-brand fw-bold " href="#">KADMIN</a>
       </div>
 
+      <button class="navbar-toggler  " type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse " id="navbarText">
+        <ul class="navbar-nav mx-auto mb-2 mb-lg-0 ">
+          <li class="nav-item mx-3">
+            <a class="nav-link active" aria-current="page" href="#">Home</a>
+          </li>
+          <li class="nav-item mx-3 ">
+            <a class="nav-link" href="/#features">Features</a>
+          </li>
+          <li class="nav-item mx-3 ">
+            <a class="nav-link" href="#">Pricing</a>
+          </li>
 
-      <div class="col-md-6 d-flex text-center " style="">
-        <img src="kadminback.png"  alt=""  style=" max-width: 25rem; width: 100%; object-fit: scale-down;" class="m-auto">
-
-        <!-- <div class="img rounded-3 d-flex" style="align-content: center; align-items: center;">
-          <img src="kadminback.png" alt="" style="max-width: 5rem;" class="">
-          <div class="animated-background"></div>
-        </div> -->
+          <li class="nav-item mx-3 ">
+            <a class="nav-link" href="#">Blogs</a>
+          </li>
+        </ul>
+        <a href="/login" class="btn btn-light  me-2 d-flex"> <p class="m-auto">Login</p></a>
+        <a href="/server" class="btn btn-light d-flex"> <p class="m-auto">Get Started</p></a>
       </div>
-
-
 
     </div>
 
+  </nav>
 
-    
-    <div class="row mt-4  border rounded-5 ">
-      <div class=" my-4  text-center">
-        <h3 class=" fw-bold" id="features">FEATURES</h3>
-  
+
+
+  <div class="container-fluid ">
+
+    <div class="row " style="height: 90vh;">
+      <div class="col-6 d-flex ">
+
+        <div class="m-auto">
+          <div class="d-flex">
+            <!-- <img src="kadmin.png" class="" alt="" srcset="" width="100px" style="height: auto;" > -->
+            <h1 class="m-0 " style="font-size: 5rem; color: cadetblue; ">KADMIN</h1>
+          </div>
+
+          <h2 class="mb-3">Manage Your VPS Server</h2>
+
+          <p class="m-0" style="font-weight: 0px;">"Effortlessly manage your servers with our user-friendly website, </p>
+          <p>ensuring seamless performance and optimal security."</p>
+
+          <div class="row">
+            <div class="col-6">
+              <a href="/login" class="btn btn-light w-100 d-flex"> <p class="m-auto">Login</p></a>
+
+            </div>
+            <div class="col-6">
+              <a href="/server" class="btn btn-outline-light w-100 d-flex"> <p class="m-auto">Get Started</p></a>
+
+            </div>
+          </div>
+        </div>
+
       </div>
-      
-      <div class="col-md-4 text-center">
-        <h1 style="font-size: 5rem;">💻</h1>
-        <h5>System Status Monitoring</h5>
-        <p class="text-muted">Real-time monitoring of system health and status, including CPU usage, memory, and disk space.</p>
+      <div class="col-6 d-flex">
+        <div class="container m-auto">
+          <div class="row">
+            <div class="col d-flex  m-1">
+              <object type="image/svg+xml" class="d-md-block d-none" data="back.svg"></object>
+              <!-- <img src="back.svg" class="m-auto" alt="" width="600px" srcset=""> -->
+            </div>
+            <!-- <div class="col p-2  d-flex m-1">
+              <img src="file.svg" alt="" class="m-auto"  width="300px" srcset="">
+            </div> -->
+          </div>
+          <!-- <div class="row">
+            <div class="col p-2 d-flex m-1">
+              <img src="pm2.svg" class="m-auto" alt="" width="300px" srcset="">
+            </div>
+            <div class="col p-2 d-flex m-1">
+              <img src="pm2.svg" class="m-auto" alt="" width="300px" srcset="">
+            </div>
+          </div> -->
+        </div>
 
-      </div>
 
-      <div class="col-md-4 text-center">
-        <h1 style="font-size: 5rem;">📝</h1>
-        <h5>Scheduling Feature</h5>
-        <p class="text-muted">Schedule tasks and operations for specific times and dates, such as backups and maintenance.</p>
 
-      </div>
-      <div class="col-md-4 text-center">
-        <h1 style="font-size: 5rem;">👨‍💻</h1>
-
-        <h5>Node.js Application Management</h5>
-        <p class="text-muted"> Create, deploy, and manage Node.js applications.
-          Directly create apps from Git repositories.
-          Start, stop, and restart Node.js applications.
-          Monitor app storage and memory usage.
-          Access app terminal for debugging and management.</p>
-      </div>
-      <div class="col-md-4 text-center">
-        <h1 style="font-size: 5rem;">💾</h1>
-
-        <h5>Database Management System</h5>
-        <p class="text-muted"> Integrate with and manage databases (MySQL) for data storage and retrieval.
-          Perform backups, restores, and query execution.</p>
-      </div>
-      <div class="col-md-4 text-center">
-        <h1 style="font-size: 5rem;">🗃</h1>
-
-        <h5>File Explorer</h5>
-        <p class="text-muted"> Explore and manage files and directories on the server.
-          Upload, download, and manipulate files easily.</p>
-      </div>
-      <div class="col-md-4 text-center">
-
-        <h1 style="font-size: 5rem;">⚙</h1>
-
-        <h5>Custom Scripts</h5>
-
-        <p class="text-muted">Execute custom scripts and commands for advanced server and application management.</p>
-      </div>
-      <div class="col-md-4 text-center">
-        <h1 style="font-size: 5rem;">🕸</h1>
-
-        <h5>Web Server (Nginx) Usage</h5>
-        <p class="text-muted"> Configure and manage the Nginx web server for efficient website hosting.
-          Customize server settings and virtual hosts.</p>
-      </div>
-      <div class="col-md-4 text-center">
-        <h1 style="font-size: 5rem;">🔔</h1>
-
-        <h5>Email Notifications</h5>
-        <p class="text-muted">Users can choose to receive important notifications via email, providing an additional layer of redundancy and ensuring they don't miss critical events.</p>
-      </div>
-      <div class="col-md-4 text-center">
-        <h1 style="font-size: 5rem;">👑</h1>
-
-        <h5>24x7 Support</h5>
-        <p class="text-muted">We understand that your business operates around the clock, and so do we. Our commitment to providing constant support ensures that whenever a question arises or an issue needs attention, our dedicated team is ready to assist.</p>
       </div>
 
-
-
-      
+    </div>
+    <div class="row text-center" >
+      <h1 class="fw-light">
+        ONE CLICK TO SETUP
+      </h1>
     </div>
 
 
+    <div class="row" style="margin-bottom: 5rem;" >
+      <div class="col border p-2" >
+        <div class="m-2">
+          <h3 class="">Setp 1</h3>
 
-    <div class="row mt-4 p-3 rounded-5" id="pricing">
-      <div class="mb-2 text-center">
-        <h3 class="fw-bold" id="features">PRICING</h3>
+          <h5>LOGIN INTO SSH</h5>
+          <p>Login into your ssh using privatekey or if already connected just click connect</p>
+          <div class="p-2">
+            <img src="ssh.png" class="img-fluid" alt="">
+
+          </div>
+        </div>
+
       </div>
-    
-      <div class="col-md-4  d-flex justify-content-center">
-        <div class="text-center m-2">
-          <div class="border rounded-4 row" style="max-width: 300px;">
-            <h5 class="fw-bold">Free</h5>
-            <h1 style="font-size: 5rem;">😇</h1>
-            <h1>7 Days Trial</h1>
-            <div class="text-start m-2">
-              <h5 class="mt-4"> ✔ System Status Monitoring</h5>
-              <h5> ✔ Scheduling Feature</h5>
-              <h5> ✔ Node.js Application</h5>
-              <h5> ✔ Database Management</h5>
-              <h5> ✔ Custom Scripts</h5>
-              <h5> ✔ File Explorer</h5>
-              <h5> ✔ Web Server (Nginx) Usage</h5>
-            </div>
-            <div class="mb-2">
-              <a href="/server"><button class="btn btn-primary btn-lg my-3" style="font-family: 'Rubik', sans-serif;">GET STARTED FOR FREE</button>
-              </div></a>
+      <div class="col border p-2">
+        <div class="m-2">
+          <h3 class="">Setp 2</h3>
+
+          <h5>SETUP SERVER</h5>
+          <p>Click on setup server to intall all the dependenices on your server</p>
+          <div class="p-2">
+            <img src="setup.png" class="img-fluid" alt="">
+
           </div>
         </div>
       </div>
-    
-      <div class="col-md-4 d-flex justify-content-center">
-        <div class="text-center m-2">
-          <div class="border rounded-4 row" style="max-width: 300px;">
-            <h5 class="fw-bold">Premium</h5>
-            <h1 style="font-size: 5rem;">👑</h1>
-            <h5>$19.99/Yearly / ₹1,666/Yearly </h5>
-            <div class="text-start m-2">
-              <h5 class="mt-2"> ✔ System Status Monitoring</h5>
-              <h5> ✔ Scheduling Feature</h5>
-              <h5> ✔ Node.js Application</h5>
-              <h5> ✔ Database Management</h5>
-              <h5> ✔ Custom Scripts</h5>
-              <h5> ✔ File Explorer</h5>
-              <h5> ✔ Web Server (Nginx) Usage</h5>
-            </div>
-            <div class="mb-2">
-              <a href="subscription/yearly"><button class="btn btn-primary btn-lg my-3" style="font-family: 'Rubik', sans-serif;">BUY NOW</button></a>
-            </div>
-          </div>
+      <div class="col border bg-success d-flex">
+        <div class="m-auto">
+          <h1 style="font-size: 5rem;">👍</h1>
+          <h1>DONE</h1>
+
+
+
         </div>
       </div>
-
-          
-     <div class="col-md-4 d-flex justify-content-center">
-        <div class="text-center m-2">
-          <div class="border rounded-4 row" style="max-width: 300px;">
-            <h5 class="fw-bold">Plus</h5>
-            <h1 style="font-size: 5rem;">🎁</h1>
-            <h5>$5.99/Monthly / ₹499/Monthly</h5>
-            <div class="text-start m-2">
-              <h5 class="mt-2"> ✔ System Status Monitoring</h5>
-              <h5> ✔ Scheduling Feature</h5>
-              <h5> ✔ Node.js Application</h5>
-              <h5> ✔ Database Management</h5>
-              <h5> ✔ Custom Scripts</h5>
-              <h5> ✔ File Explorer</h5>
-              <h5> ✔ Web Server (Nginx) Usage</h5>
-              
-            </div>
-
-           <div class="mb-2">
-              <a href="subscription/monthly"><button class="btn btn-primary btn-lg my-3" style="font-family: 'Rubik', sans-serif;">BUY NOW</button></a>
-            </div>
-          </div>
-        </div>
     </div>
 
-      
+    <div class="row d-flex" style="margin-bottom: 5rem;" >
+      <div class=" col-md-5 col-12 border p-2 d-flex mb-auto shield " style="background-color: #3333FF; height: 50vh;">
+        <div class="m-auto">
+          <i class="fa-solid fa-shield-heart" style="font-size: 10rem;"></i>
+        </div>
 
+      </div>
+      <div class="col-md-7 col-12  border d-flex p-2  mb-auto " style="height: 50vh;">
+
+
+        <div class="m-auto ">
+          <h1>Privacy</h1>
+          <p>We do not store any of your information also the information we save is incrypted and is not shared at all also we do not login with password only privateKey is used
+            to login into ssh. </p>
+
+          <div class="col-4  ">
+            <a href="/server" class="btn btn-outline-light w-100 text-center d-flex"> <p class="m-auto">Get Started</p> </a>
+
+          </div>
+        </div>
+
+
+      </div>
+
+    </div>
+
+    <div class="row d-flex" id="features"  >
+      <div class="col-md-3 col-12 mt-auto text-center border p-2 d-flex" style=" height: 50vh;">
+        <div class="m-auto ">
+          <i class="fa-solid fa-chart-simple" style="font-size: 50px;"></i>
+          <h4 class="fw-light">System Status Monitoring</h4>
+          <p>Real-time monitoring of system health and status, including CPU usage, memory, and disk space.</p>
+        </div>
+
+      </div>
+      <div class="col-md-3 col-12 mt-auto text-center border p-2 d-flex" style=" height: 50vh;">
+        <div class="m-auto ">
+          <i class="fa-solid fa-clock" style="font-size: 50px;"></i>
+          <h4 class="fw-light">Scheduling Feature</h4>
+          <p>Schedule tasks and operations for specific times and dates, such as backups and maintenance.</p>
+        </div>
+      </div>
+      <div class="col-md-3 col-12 mt-auto text-center border p-2 d-flex" style=" height: 50vh;">
+        <div class="m-auto ">
+          <i class="fa-solid fa-paper-plane" style="font-size: 50px;"></i>
+          <h4 class="fw-light">Application Management</h4>
+          <p>Create, deploy, and manage Node.js applications. Directly create apps from Git repositories. Start, stop, and restart Node.js applications. Monitor app storage and memory usage. Access app terminal for debugging and management.</p>
+        </div>
+      </div>
+      <div class="col-md-3 col-12 mt-auto text-center border p-2 d-flex" style=" height: 50vh;">
+        <div class="m-auto ">
+          <i class="fa-solid fa-folder-open" style="font-size: 50px;"></i>
+          <h1 class="fw-light">File Explorer</h1>
+          <p>Explore and manage files and directories on the server. Upload, download, and manipulate files easily.</p>
+        </div>
+      </div>
+
+    </div>
+    <div class="row d-flex"  style="margin-bottom: 5rem;">
+      <div class="col-md-3 col-12 mb-auto text-center border p-2 d-flex" style=" height: 50vh;">
+        <div class="m-auto ">
+          <i class="fa-solid fa-globe mb-2" style="font-size: 50px;"></i>
+          <h4 class="fw-light">Web Server (Nginx) Usage</h4>
+          <p >Configure and manage the Nginx web server for efficient website hosting. Customize server settings and virtual hosts.</p>
+        </div>
+
+      </div>
+      <div class="col-md-3 col-12 mb-auto text-center border p-2 d-flex" style=" height: 50vh;">
+        <div class="m-auto ">
+          <i class="fa-solid fa-gear" style="font-size: 50px;"></i>
+          <h4 class="fw-light">Automation</h4>
+          <p>Execute custom scripts and commands for advanced server and application management.</p>
+        </div>
+      </div>
+      <div class="col-md-3 col-12 mb-auto text-center border p-2 d-flex" style=" height: 50vh;">
+        <div class="m-auto ">
+          <i class="fa-solid fa-bell" style="font-size: 50px;"></i>
+          <h4 class="fw-light">Email Notifications</h4>
+          <p>Users can choose to receive important notifications via email, providing an additional layer of redundancy and ensuring they don't miss critical events.</p>
+        </div>
+      </div>
+      <div class="col-md-3 col-12 mb-auto text-center border p-2 d-flex" style=" height: 50vh;">
+        <div class="m-auto ">
+          <i class="fa-solid fa-headset" style="font-size: 50px;"></i>
+          <h4 class="fw-light">24x7 Support</h4>
+          <p>We understand that your business operates around the clock, and so do we. Our commitment to providing constant support ensures that whenever a question arises or an issue needs attention, our dedicated team is ready to assist.</p>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="row border bg-black p-3">
+      <div class="col text-center">
+        <div class=" justify-content-center">
+          <img src="kadmin.png" class=" my-2" alt="" srcset="" width="50px">
+          <a class="navbar-brand fw-bold " href="#">KADMIN</a>
+        </div>
+      </div>
+      <div class="col text-center d-flex flex-column" >
+        <h5 class="text-start text-decoration-underline" >Socials</h5>
+        <div class="m-3 text-start">
+          <a href=""><i class="fa-brands fa-facebook"></i> Facebook</a>
+        </div>
+        
+      
+        <div class="m-3 text-start">
+          <a href="" ><i class="fa-brands fa-x-twitter"></i> Twitter</a>
+        </div>
+       
+       <div class="m-3 text-start">
+        <a href="" ><i class="fa-brands fa-instagram"></i> Instagram</a>
+
+       </div>
+
+      </div>
+      <div class="col text-center d-flex flex-column" >
+        <h5 class="text-start text-decoration-underline" >Contact Us</h5>
+        <div class="m-3 text-start">
+          <a href=""><i class="fa-solid fa-at"></i> Email</a>
+        </div>
+        
+      
+        
+       
+       <div class="m-3 text-start">
+        <a href="" ><i class="fa-solid fa-square-phone"></i> Contact</a>
+
+       </div>
+
+      </div>
+      <div class="col text-center  d-flex flex-column">
+        <h5 class="text-start text-decoration-underline" >Navigation</h5>
+        <div class="m-3 text-start">  <a href="/" >Home</a>
+        </div>
+        <div class="m-3 text-start">  <a href="/#features" >Features</a></div>
+        <div class="m-3 text-start"> <a href="/" >Pricing</a></div>
+      
+      
+       
+       
+      </div>
+      <hr>
+      <p class="text-center m-0">© Kadmin 2024</p>
+     
     </div>
 
   </div>
 
-  <%- include('./partials/footer.ejs') %>
+
 </body>
 
 

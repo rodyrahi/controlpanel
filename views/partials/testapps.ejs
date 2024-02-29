@@ -10,7 +10,6 @@
 
 
 <div class="row p-1 bg-dark rounded-3 m-md-2">
-    
 
 
 <% apps.forEach(element => { %>
@@ -95,6 +94,8 @@
         <label for="port">App File (ex.server.js)</label>
         <input type="text" class="form-control form-control-sm mb-2" id="appname" placeholder="Server.js">
         <button class="btn btn-primary btn-sm" onclick="createapp(this)">Create App</button>
+        <button class="btn btn-primary btn-sm " style="display: none;" id="refresh" hx-get="/testapps" hx-trigger="click" hx-target="#output" hx-boost="{ preload: true }" >Refresh</button>
+
     </div>
     
 </div>
@@ -184,9 +185,14 @@ function restartapp(element) {
 
         const data = await execute(`cd /${username}/app && git clone ${url}\ncd /${username}/app/${repoName}\npm2 start ${appname}\nnpm i`)
         
-        el.innerHTML = `<i class="fa-solid fa-circle-check"></i> Done..` 
+        el.style.display = 'none'
+        document.getElementById('refresh').style.display = 'block'
+   
 
         document.getElementById('log').innerHTML = data
+
+        
+
       
 
     

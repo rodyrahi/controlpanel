@@ -70,6 +70,16 @@ const putConfig = {
   autoClose: true, // automatically close the write stream when finished
 };
 
+
+
+
+
+
+
+
+
+
+
 app.post("/upload", async (req, res) => {
   try {
     ssh.putFile("./kadmin.png", "/root/app/kadmin.png").then(
