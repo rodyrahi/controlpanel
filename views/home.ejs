@@ -121,9 +121,68 @@
 
 
   <div class="container-fluid ">
+    <style>
+      .card-1, .card-2, .card-3, .card-4 {
+          position: absolute;
+          opacity: 0;
+          box-shadow: 2px 2px 5px rgba(63, 63, 63, 0.459);
+      }
+  
+      .card-1 { top: 40%; left: 10%;  }
+      .card-2 { top: 0%;  right: 0%; }
+      .card-3 { top: 70%; left: 40%; right: 0%; }
+      .card-4 { top: 50%;  left: 30%;  right: 0%; }
+  
+      .pm2-progress, .pm2-progress2 {
+          width: 0%;
+          height: 20px;
+          background-color: green;
+      }
+  
+      .rotation {
+          transform: rotate(0deg);
+          display: inline-block;
+      }
+  
+      .pop {
+          scale: 1;
+      }
+  
+      @media only screen and (min-width: 768px) {
+          /* Adjust styles for screens with a width of 768 pixels or more */
+          .card-1, .card-2, .card-3, .card-4 {
+              left: 20%;
+              
+          }
+          .card-4 {
+              right: -30%;
+              
+          }
+      }
+  
+      /* Add more media queries for other screen sizes if needed */
+  </style>
+  
+  <script>
+      $(document).ready(function () {
+          var tl = gsap.timeline();
+  
+          tl.to(".card-2", { top: "30%" , opacity: 1, duration: 1.5 })
+            .to(".card-1", { top: "20%", opacity: 1, duration: 1.5 }, "=0.5")
+            .to(".popbtn", { scale: 1.05, duration: .2 })
+            .to(".popbtn", { scale: 1 , backgroundColor:"green" , duration: 0.2 })
+            .to(".card-3", { top: "50%" , opacity: 1, duration: 1.5 }, "=0.5") 
+            .to(".pm2-progress, .pm2-progress2", { width: "65%", duration: 0.4 })
+            .to(".rotation", { rotation: 180, duration: .4 })
+            .to(".pop", { scale: 1.3, duration: .4 })
+            .to(".pop", { scale: 1, duration: 0.1 })
+            .to(".card-4", { top: "20%", opacity: 1, duration: 1 }, "=0.1");
+      });
+  </script>
+
 
     <div class="row " style="height: 90vh;">
-      <div class="col-6 d-flex ">
+      <div class="col d-flex ">
 
         <div class="m-auto">
           <div class="d-flex">
@@ -149,176 +208,64 @@
         </div>
 
       </div>
-      <div class="col-6 d-flex">
-        <div class="container m-auto">
+      <div class="col d-flex" style="position: relative; margin-bottom: 5rem;">
+        <div class="container-fluid" style="height: 300px;">
 
-        
-          <style>
-              .card-1 {
-                  position: absolute;
-                  z-index: 10;
-                  bottom: 223px;
-                  /* left: 200px; */
-                  
-                  opacity: 0;
-                  box-shadow: 2px 2px 5px rgba(63, 63, 63, 0.459);
-              }
-          
-              .card-2 {
-                  position: absolute;
-                  z-index: -10;
-                  opacity: 0;
-                  bottom: 223px;
-                  box-shadow: 2px 2px 5px rgba(63, 63, 63, 0.459);
-              }
-              
-              .card-3 {
-                  position: absolute;
-                  z-index: 13;
-                  opacity: 0;
-                  right: 200px;
-                  top: 223px;
-                  box-shadow: 2px 2px 5px rgba(63, 63, 63, 0.459);
-              }
-              .card-4 {
-                  position: absolute;
-                  z-index: 13;
-                  opacity: 0;
-                  right: 650px;
-                  
-                  box-shadow: 2px 2px 5px rgba(63, 63, 63, 0.459);
-              }
-          
-              .pm2-progress,
-              .pm2-progress2 {
-                  width: 0%;
-                  height: 20px; /* Set a height for the progress bars */
-                  background-color: green; /* Set a background color for the progress bars */
-              }
-              .pm2-progress2 {
-                  width: 100%;
-               
-              }
-          
-              .rotation {
-                  transform: rotate(0deg);
-                  display: inline-block; /* Ensure inline-block display for rotation to work properly */
-              }
-              .pop{
-                  scale: 1;
-              }
-          </style>
-          <script>
-              $(document).ready(function () {
-                  // Create a timeline with GSAP
-                  var tl = gsap.timeline();
-          
-                  // Add animations to the timeline
-                  tl.to(".card-2", { bottom: 250, opacity: 1, duration: 1.5 })
-                    .to(".card-1", { bottom: 200, opacity: 1, duration: 1.5 }, "=0.5")
-                    .to(".popbtn", { scale: 1.05, duration: .2 })
-                    .to(".popbtn", { scale: 1 , backgroundColor:"green" , duration: 0.2 })
-                    .to(".card-3", { top: 200, opacity: 1, duration: 1.5 }, "=0.5") 
-                    .to(".pm2-progress, .pm2-progress2", { width: "65%", duration: 0.4 }, )
-                    .to(".rotation", { rotation: 180, duration: .4 }, )
-                    .to(".pop", { scale: 1.3, duration: .4 }, )
-                    .to(".pop", { scale: 1, duration: 0.1 })
-                    .to(".card-4", { top: 300, opacity: 1, duration: 1 }, "=0.1") ;
-              });
-          </script>
-          
-          
-     
-              <div class="container p-1">
-          
-                 <div class="row h-100"  >
-          
-          
-                   <div class="border container-fluid bg-primary bg-dark rounded-2 p-0 text-center d-flex card-2" style="height: 300px; width: 500px;">
-                     <div class="row w-100 ">
-                      <div class="col-1 bg-black ">
-          
-                      </div>
-                      <div class="col bg-dark  d-flex flex-column">
-                          <div class="row mt-2">
-                              <div class="col p-2 bg-black m-1 p-3">
-          
-                              </div>
-                              <div class="col p-2 bg-black m-1">
-          
-                              </div>
-                              <div class="col p-2 bg-black m-1">
-          
-                              </div>
-                              <div class="col p-2 bg-black m-1">
-          
-                              </div>
-                          </div>
-                          <div class="row bg-light p-2 mt-2 " style="height: 50%;"></div>
-                          <div class="row bg-black text-light mt-auto" >
-                              logs
-                          </div>
-                      </div>
-                     </div>
-                   </div>
-          
-                   <div class="border bg-dark rounded-4 p-2 text-light text-center d-flex flex-column card-1" style=" width: 200px;">
-                     <p>Create Website</p>
-          
-                     <input type="text" class="form-control mb-2" value="kamingo.in" name="" id="" disabled >
-          
-                     <button class="btn btn-sm btn-primary popbtn">Create</button>
-                   </div>
-          
-          
-                   <div class="border text-light bg-dark rounded-4 p-2 text-center d-flex card-3" style=" width: 200px;">
-                     <div class="d-flex flex-column w-100 text-start">
-                 
-                      <h6 class="m-0">PM2 APPS</h6>
-                      
-                     
-          
-                      <p class="m-0" style="font-size: 0.6rem;" >Memory</p>
-                      <div class="bg-success p-1 pm2-progress " style="height: 15px;" ></div>
-                      <p class="m-0" style="font-size: 0.6rem;" >Cpu</p>
-                      <div class="bg-success p-1 pm2-progress2" style="height: 15px;" ></div>
-                     
-          
-                      <div class="bg-black mt-2 p-1 rounded-2 d-flex">
-                          <i class="fa-solid fa-rotate text-warning pop rotation mx-auto" style="font-size: 1.3rem;"></i>
-                          <i class="fa-solid fa-circle-play text-success pop  mx-auto" style="font-size: 1.3rem;"></i>
-                          <i class="fa-solid fa-code-pull-request text-primary  pop mx-auto" style="font-size: 1.3rem;"></i>
-                          <i class="fa-solid fa-code text-light pop  mx-auto"  style="font-size: 1.3rem;"></i>
-          
-                      </div>
-                      </div>
-                     
-                   </div>
-                   
-                   <div class="border container-fluid bg-primary bg-dark text-light rounded-4  text-center d-flex flex-column card-4" style=" height: 120px; width: 200px;">
-                      <p class="m-0">File Explorer</p>
-          
-                      <div class="row   ">
-                       <div class="col-1 bg-dark ">
-                          <i class="fa-solid fa-folder text-light " style="font-size: 0.5rem;"></i>
-                          <i class="fa-solid fa-folder text-light" style="font-size: 0.5rem;"></i>
-                          <i class="fa-solid fa-folder text-light" style="font-size: 0.5rem;"></i>
-          
-                      </div>
-                       <div class="col bg-dark   d-flex flex-column m-1">
-          
-                           <div class="row bg-light text-dark p-2 mt-2 " style="height: 90%;">
-                              <p >print("Hello!")</p>
-                          </div>
-                         
-                       </div>
-                      </div>
+          <div class="row h-100">
+            <div class="border container-fluid bg-primary bg-dark text-light rounded  text-center d-flex flex-colum card-2" style="height: 300px; width: 500px;">
+                <div class="row w-100 ">
+                    <div class="col-1 bg-black "></div>
+                    <div class="col bg-dark  d-flex flex-column">
+                        <div class="row mt-2">
+                            <div class="col p-2 bg-black m-1 p-3"></div>
+                            <div class="col p-2 bg-black m-1"></div>
+                            <div class="col p-2 bg-black m-1"></div>
+                            <div class="col p-2 bg-black m-1"></div>
+                        </div>
+                        <div class="row bg-light p-2 mt-2 " style="height: 50%;"></div>
+                        <div class="row bg-black text-light mt-auto">logs</div>
                     </div>
-          
-                 </div>
-          
-              </div>
-   
+                </div>
+            </div>
+
+            <div class="border bg-dark rounded p-2 text-light text-center d-flex flex-column card-1" style=" width: 200px;">
+                <p>Create Website</p>
+                <input type="text" class="form-control mb-2" value="kamingo.in" name="" id="" disabled >
+                <button class="btn btn-sm btn-primary popbtn">Create</button>
+            </div>
+
+            <div class="border container-fluid bg-primary bg-dark text-light rounded p-1  text-center d-flex flex-colum card-3" style=" max-width: 200px;">
+                <div class="d-flex flex-column w-100 text-start">
+                    <h6 class="m-0">PM2 APPS</h6>
+                    <p class="m-0" style="font-size: 0.6rem;" >Memory</p>
+                    <div class="bg-success p-1 pm2-progress " style="height: 15px;" ></div>
+                    <p class="m-0" style="font-size: 0.6rem;" >Cpu</p>
+                    <div class="bg-success p-1 pm2-progress2" style="height: 15px;" ></div>
+                    <div class="bg-black my-1 p-1 rounded-2 d-flex">
+                        <i class="fa-solid fa-rotate text-warning pop rotation mx-auto" style="font-size: 1.3rem;"></i>
+                        <i class="fa-solid fa-circle-play text-success pop  mx-auto" style="font-size: 1.3rem;"></i>
+                        <i class="fa-solid fa-code-pull-request text-primary  pop mx-auto" style="font-size: 1.3rem;"></i>
+                        <i class="fa-solid fa-code text-light pop  mx-auto"  style="font-size: 1.3rem;"></i>
+                    </div>
+                </div>
+            </div>
+
+            <div class="border container-fluid bg-primary bg-dark text-light rounded  text-center d-flex flex-column card-4" style=" height: 120px; width: 200px;">
+                <p class="m-0">File Explorer</p>
+                <div class="row   ">
+                    <div class="col-1 bg-dark ">
+                        <i class="fa-solid fa-folder text-light " style="font-size: 0.5rem;"></i>
+                        <i class="fa-solid fa-folder text-light" style="font-size: 0.5rem;"></i>
+                        <i class="fa-solid fa-folder text-light" style="font-size: 0.5rem;"></i>
+                    </div>
+                    <div class="col bg-dark   d-flex flex-column m-1">
+                        <div class="row bg-light text-dark p-2 mt-2 " style="height: 90%;">
+                            <p >print("Hello!")</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
         </div>
 
 
@@ -326,7 +273,7 @@
       </div>
 
     </div>
-    <div class="row text-center" >
+    <div class="row text-center" style="margin-top: 5rem;" >
       <h1 class="fw-light">
         ONE CLICK TO SETUP
       </h1>
