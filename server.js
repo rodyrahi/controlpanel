@@ -1,5 +1,6 @@
 const http = require("http");
 const session = require("express-session");
+const FileStore = require('session-file-store')(session);
 const express = require("express");
 const app = express();
 const bodyParser = require("body-parser");
@@ -7,10 +8,10 @@ const { NodeSSH } = require("node-ssh");
 const server = http.createServer(app);
 const { userdb, scriptsdb } = require("./routes/db.js");
 const path = require("path");
-const crypto = require("crypto");
+// const crypto = require("crypto");
 const fs = require("fs");
 const { auth, requiresAuth } = require("express-openid-connect");
-const simpleGit = require("simple-git");
+// const simpleGit = require("simple-git");
 const multer = require('multer');
 const FormData = require('form-data');
 
@@ -34,10 +35,18 @@ app.use(auth(config));
 app.use(
   session({
     secret: "fasfasgdghreyt4wsgsdfsdfwer",
+    store: new FileStore({
+      path: '/session/kadmin', // Choose a directory to store session files
+      ttl: 86400 // Session expiration time in seconds (optional)
+    }),
     resave: false,
     saveUninitialized: true,
   })
 );
+
+
+
+;
 
 
 const ssh = new NodeSSH();
@@ -80,57 +89,57 @@ const putConfig = {
 
 
 
-app.post("/upload", async (req, res) => {
-  try {
-    ssh.putFile("./kadmin.png", "/root/app/kadmin.png").then(
-      function () {
-        console.log("The File thing is done");
-      },
-      function (error) {
-        console.log("Something's wrong");
-        console.log(error);
-      }
-    );
-  } catch (error) {
-    console.log(error);
-  }
-});
+// app.post("/upload", async (req, res) => {
+//   try {
+//     ssh.putFile("./kadmin.png", "/root/app/kadmin.png").then(
+//       function () {
+//         console.log("The File thing is done");
+//       },
+//       function (error) {
+//         console.log("Something's wrong");
+//         console.log(error);
+//       }
+//     );
+//   } catch (error) {
+//     console.log(error);
+//   }
+// });
 
-app.get("/server", requiresAuth(), (req, res) => {
-  const user = req.oidc.user.sub;
-  const email = req.oidc.user.email;
+// app.get("/server", requiresAuth(), (req, res) => {
+//   const user = req.oidc.user.sub;
+//   const email = req.oidc.user.email;
 
-  // Check if the user exists in the database
-  const result = userdb.prepare("SELECT * FROM user WHERE user = ?").get(user);
+//   // Check if the user exists in the database
+//   const result = userdb.prepare("SELECT * FROM user WHERE user = ?").get(user);
 
-  if (result) {
-    // User exists; check if their expiration date is within the limit
-    const expirationDate = new Date(result.expire);
-    const currentDate = new Date();
-    //   currentDate.setDate(currentDate.getDate() + 7); // Adjust this limit as needed
+//   if (result) {
+//     // User exists; check if their expiration date is within the limit
+//     const expirationDate = new Date(result.expire);
+//     const currentDate = new Date();
+//     //   currentDate.setDate(currentDate.getDate() + 7); // Adjust this limit as needed
 
-    console.log(expirationDate, currentDate);
+//     console.log(expirationDate, currentDate);
 
-    if (expirationDate > currentDate) {
-      // The user's expiration date is within the limit, render the 'login' page
-      res.render("login", { ssh: req.session.sshConfig });
-    } else {
-      res.send("buy it now 😄");
-    }
-  } else {
-    // User doesn't exist, so create a new user with a 7-day trial
-    const today = new Date();
-    today.setDate(today.getDate() + 7);
-    const expire = today.toISOString().split("T")[0];
+//     if (expirationDate > currentDate) {
+//       // The user's expiration date is within the limit, render the 'login' page
+//       res.render("login", { ssh: req.session.sshConfig });
+//     } else {
+//       res.send("buy it now 😄");
+//     }
+//   } else {
+//     // User doesn't exist, so create a new user with a 7-day trial
+//     const today = new Date();
+//     today.setDate(today.getDate() + 7);
+//     const expire = today.toISOString().split("T")[0];
 
-    userdb
-      .prepare("INSERT INTO user (user, email, expire) VALUES (?, ?, ?)")
-      .run(user, email, expire);
+//     userdb
+//       .prepare("INSERT INTO user (user, email, expire) VALUES (?, ?, ?)")
+//       .run(user, email, expire);
 
-    // Render the 'login' page since a new user was created
-    res.render("login");
-  }
-});
+//     // Render the 'login' page since a new user was created
+//     res.render("login");
+//   }
+// });
 
 app.get("/", (req, res) => {
   res.render("home", { isauth: req.oidc.isAuthenticated() });
@@ -163,7 +172,7 @@ async function fetchdata(command , req) {
 
 
 
-app.get("/dashboard/me", async(req, res) => {
+app.get("/dashboard", async(req, res) => {
 
   const server = req.oidc.user.sub || req.session.server
 
@@ -207,7 +216,7 @@ app.post("/execommand/:server", async (req, res) => {
 
 
 
-app.get("/sandbox", async (req, res) => {
+app.get("/server", requiresAuth(), async (req, res) => {
   const servers = req.oidc.user.sub;
 
 
@@ -218,7 +227,7 @@ app.get("/sandbox", async (req, res) => {
     
 
 
-    if (responseGet.status === 200) {
+    if (responseGet.status === 200 && req.session.sshConfig) {
 
       console.log('found ');
       res.render('partials/sandbox', { servers: [servers] , user: req.oidc.user });
@@ -255,7 +264,9 @@ function generateRandomString(length) {
 
 app.post('/sandboxconnect', upload.single('privateKey'), async (req, res) => {
   try {
-    const { host, user } = req.body;
+    const { host, user ,port } = req.body;
+
+
     const gid = req.oidc.user.sub
     console.log(gid);
     // Access the uploaded file via req.file
@@ -278,7 +289,15 @@ app.post('/sandboxconnect', upload.single('privateKey'), async (req, res) => {
       contentType: privateKeyFile.mimetype,
     });
    
+    req.session.sshConfig = {
+      host,
+      username:user,
+      port,
+      privateKey:privateKeyFile.buffer.toString(),
+    }
+
     
+ 
 
     
     const postUrl = 'https://api.kadmin.online/connect'; // Replace with your API endpoint
@@ -467,10 +486,6 @@ app.get("/monitor", async (req, res) => {
 });
 
 
-app.get("/goterminal", async (req, res) => {
-  const server = req.oidc.user.sub;
-  res.render("partials/goterminal" , {server})
-});
 
 
 
@@ -564,23 +579,23 @@ const checkSessionVariables = (req, res, next) => {
 
 app.use(checkSessionVariables);
 
-app.get("/dashboard", async (req, res) => {
+// app.get("/dashboard", async (req, res) => {
 
-  const server =req.session.servers
+//   const server =req.session.servers
 
-  const result = scriptsdb
-    .prepare("SELECT * FROM scripts WHERE user=?")
-    .all(req.oidc.user.sub);
+//   const result = scriptsdb
+//     .prepare("SELECT * FROM scripts WHERE user=?")
+//     .all(req.oidc.user.sub);
 
-  const isuser = userdb
-    .prepare("SELECT * FROM user WHERE user=?")
-    .all(req.oidc.user.sub);
+//   const isuser = userdb
+//     .prepare("SELECT * FROM user WHERE user=?")
+//     .all(req.oidc.user.sub);
 
-  console.log(isuser);
-  isuser[0].phone
-    ? res.render("index.ejs" , { scripts: result, sysuser, user: req.oidc.user, server })
-    : res.redirect("/userinfo");
-});
+//   console.log(isuser);
+//   isuser[0].phone
+//     ? res.render("index.ejs" , { scripts: result, sysuser, user: req.oidc.user, server })
+//     : res.redirect("/userinfo");
+// });
 
 app.get("/status", async (req, res) => {
   const result = scriptsdb

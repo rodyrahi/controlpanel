@@ -9,9 +9,16 @@ const { NodeSSH } = require("node-ssh");
 router.get("/", async (req, res) => {
   try {
     if (!req.session.sshConfig) {
+      
       return res.status(400).send("Missing session information");
     }
-
+ 
+    try {
+      await ssh.connect(req.session.sshConfig);
+    } catch(error){
+      console.log(error);
+    }
+    
     res.render("partials/terminal");
 
 
