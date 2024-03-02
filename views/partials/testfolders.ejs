@@ -37,6 +37,11 @@
     .context-menu-item:hover .sub-menu {
       display: block;
     }
+    #recents {
+            overflow-x: auto;
+            white-space: nowrap; /* Ensures that the content doesn't wrap to the next line */
+            max-width: 100%; /* Adjust this if you want a specific width */
+        }
 </style>
 
 
@@ -71,14 +76,13 @@
 <div class=" p-3 py-0 col " style="max-width: 400px; "  >
 
   <div class="d-flex mt-1" >
-    <div class="mx-1" >
-      <button style="font-size: 0.6rem;" class="btn btn-primary btn-sm me-auto" onclick="toggleFolders(this)" id="saveButton"><i class="fa-solid fa-eye"></i></button>
-      <!-- <button class="btn btn-primary btn-sm " onclick="deletefile(this)" id="saveButton"><i class="fa-solid fa-file-circle-plus"></i></button> -->
+    <div id="recents" class="m-1 d-flex " >
+
 
     </div>
     <div class="mx-1">
       <!-- <button class="btn btn-primary btn-sm me-auto" onclick="deletefile(this)" id="saveButton"><i class="fa-solid fa-folder-plus"></i></button> -->
-      <button style="font-size: 0.6rem;" class="btn btn-primary btn-sm " onclick="" id="saveButton"><i class="fa-solid fa-file-circle-plus"></i></button>
+      <!-- <button style="font-size: 0.6rem;" class="btn btn-primary btn-sm " onclick="" id="saveButton"><i class="fa-solid fa-file-circle-plus"></i></button> -->
 
     </div>
   </div>
@@ -196,24 +200,31 @@
 
 
 
-
 <script>
 
-function toggleFolders(el) {
-  var folders = document.querySelectorAll('.folders');
-  folders.forEach(element => {
-    var folderName = element.querySelector('span').innerHTML.trim();
-    console.log(folderName);
-    
-    if (folderName[0] === '.') {
-      // If folder starts with '.', toggle the display property
-      element.style.display = (element.style.display === 'none') ? '' : 'none';
-      console.log(folderName);
-    }
-  });
-  el.innerHTML === '<i class="fa-solid fa-eye-slash"></i>'?el.innerHTML='<i class="fa-solid fa-eye"></i>':el.innerHTML='<i class="fa-solid fa-eye-slash"></i>'
-}
+recents.forEach(element => {
+  let directoryName = element.split('/') .slice(-2, -1)[0]; 
+  console.log(directoryName);
+  document.getElementById('recents').innerHTML += `<button class="m-0 mx-1 btn-primary btn-sm" onclick="cdrecent(this)" data-dir="${element}" >${directoryName}</button>`;
+});
+  
 
+
+function cdrecent(el){
+  const dir = el.getAttribute('data-dir');
+ 
+          
+          
+ 
+
+      const command = `cd ${dir}\nls -la`;
+      console.log(command);
+      console.log(dir);
+
+      document.getElementById('changedir').innerHTML = command;
+      document.getElementById('changedir').click();
+  
+}
 
 </script>
 
@@ -323,6 +334,10 @@ async function cd(el , name) {
 
         document.getElementById('changedir').innerHTML = command;
         document.getElementById('changedir').click();
+        if (!recents.includes(dir)) {
+        recents.push(dir);
+        console.log(recents);
+      }
         }
     }else{
      

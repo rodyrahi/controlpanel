@@ -110,8 +110,17 @@
             <a class="nav-link" href="#">Blogs</a>
           </li>
         </ul>
-        <a href="/login" class="btn btn-light  me-2 d-flex"> <p class="m-auto">Login</p></a>
-        <a href="/server" class="btn btn-light d-flex"> <p class="m-auto">Get Started</p></a>
+        
+
+        <% if (isauth) { %>
+          <a href="/logout" class="btn btn-light  me-2 d-flex"> <p class="m-auto">Logout</p></a>
+          <a href="/server" class="btn btn-light d-flex"> <p class="m-auto">Dashboard</p></a>
+        <% } else { %>
+          <a href="/login" class="btn btn-light  me-2 d-flex"> <p class="m-auto">Login</p></a>
+       
+
+          <% }%>
+      
       </div>
 
     </div>

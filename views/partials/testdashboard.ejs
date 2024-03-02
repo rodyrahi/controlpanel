@@ -53,7 +53,7 @@
         console.log(data);
 
         el.innerHTML = `<i class="fa-solid fa-circle-check"></i> Starting Daemon` 
-        const data2 = await execute(`\ncd /${username}/app/deamon/\npgrep -xc "deamon.py" || (echo "Starting deamon.py" && python3 deamon.py)`)
+        const data2 = await execute(`\ncd /${username}/app/deamon/\n pip install python-daemon psutil\npgrep -xc "deamon.py" || (echo "Starting deamon.py" && python3 deamon.py)`)
         document.getElementById('logs').innerHTML = data
 
 

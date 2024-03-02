@@ -74,7 +74,7 @@
 
       <nav class="navbar  navbar-dark bg-dark p-0">
         <div class="container-fluid">
-          <a class="navbar-brand" style="font-family: 'Rubik', sans-serif;" href="#">Kadmin.Online</a>
+          <a class="navbar-brand" style="font-family: 'Rubik', sans-serif;" href="/server"><i class="fa-solid fa-circle-left"></i> Kadmin.Online</a>
         </div>
       </nav>
 
@@ -133,7 +133,7 @@
         </div>
 
         <div class="d-flex p-2">
-          <p class=" hover m-auto" type="button" hx-get="/testcreatewebsite" onclick="stopintervals()" hx-trigger="click" hx-target="#output">
+          <p class=" hover m-auto" type="button" hx-get="/testcreatewebsite" onclick="" hx-trigger="click" hx-target="#output">
             <i class="fa-solid fa-globe"></i>
             <span>
               Website
@@ -143,7 +143,7 @@
         </div>
 
         <div class="d-flex p-2">
-          <p class=" hover m-auto" type="button" hx-get="/testscripts" onclick="stopintervals()" hx-trigger="click" hx-target="#output">
+          <p class=" hover m-auto" type="button" hx-get="/testscripts" onclick="" hx-trigger="click" hx-target="#output">
             <i class="fa-solid fa-code"></i>
             <span>
               Scripts
@@ -205,11 +205,14 @@
 
 
 <script>
-  let dir = '/root/';
+  var username = "<%= username.User%>"
+  let dir = `/${username}/`;
   let editor
   var copyfile = ''
 
   let file = ''
+
+  let recents = []
 </script>
 
 
@@ -217,7 +220,7 @@
 
 <script>
 
-      var username = "<%= username.User%>"
+      
       console.log(user);
 
   function togglePanel() {
@@ -304,13 +307,6 @@
 
 
 
-<script>
-  function changedir() {
-    
-    dir = '/root/'
-
-  }
-</script>
 
 
 
