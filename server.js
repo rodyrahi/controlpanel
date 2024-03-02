@@ -37,7 +37,7 @@ app.use(
     secret: "fasfasgdghreyt4wsgsdfsdfwer",
     store: new FileStore({
       path: '/session/kadmin', // Choose a directory to store session files
-      ttl: 86400 // Session expiration time in seconds (optional)
+      ttl: 1296000  // Session expiration time in seconds (optional)
     }),
     resave: false,
     saveUninitialized: true,
@@ -341,7 +341,7 @@ app.post('/sandboxconnect', upload.single('privateKey'), async (req, res) => {
 
 
 
-    res.send('File uploaded successfully!'  );
+    res.redirect('/dashboard');
   } catch (error) {
     console.error('Error:', error.message);
     res.send(error.message);
