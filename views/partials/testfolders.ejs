@@ -311,6 +311,10 @@ async function cd(el , name) {
     if (type === "dic") {
 
         const currentDir = name
+        if (!dir.includes(currentDir)) {
+          
+          
+         
         dir += currentDir + '/';
 
         const command = `cd ${dir}\nls -la`;
@@ -319,6 +323,7 @@ async function cd(el , name) {
 
         document.getElementById('changedir').innerHTML = command;
         document.getElementById('changedir').click();
+        }
     }else{
      
   
