@@ -51,6 +51,9 @@
 
         const data = await execute(`sudo apt-cache install git -y \nsudo apt-get install nodejs -y\nsudo apt-get install npm -y\nnpm install pm2 -g\n sudo apt-get install nginx -y\nsudo apt-get install jq -y\napt-get install pyhton3 -y`)
         console.log(data);
+
+        el.innerHTML = `<i class="fa-solid fa-circle-check"></i> Starting Daemon` 
+        const data2 = await execute(`\ncd /${username}/app/deamon/\npgrep -xc "deamon.py" || (echo "Starting deamon.py" && python3 deamon.py)`)
         document.getElementById('logs').innerHTML = data
 
 

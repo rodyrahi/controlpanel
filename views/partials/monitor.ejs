@@ -15,7 +15,7 @@
         </div>
        
         <div class="ms-auto my-auto ">
-          <select style="" class="form-select form-select-sm" id="daysFilter" onchange="fetchAndDrawCharts()">
+          <select style="" class="form-select form-select-sm" id="daysFilter" onchange="fetchAndDrawChart()">
             <option value="5">Last 5 mins</option>
             <option value="2880">Last 2 Days</option>
             <option value="604800">Last 7 Days</option>
@@ -138,7 +138,7 @@
       async function fetchAndDrawChart() {
         const selectedMinutes = document.getElementById('daysFilter').value;
         const data = await execute('cat /root/app/deamon/logfile.log');
-    
+        
         const metrics = ['CPU', 'Memory', 'Disk'];
     
         metrics.forEach(metric => {
