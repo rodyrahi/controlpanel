@@ -36,14 +36,13 @@ app.use(
   session({
     secret: "fasfasgdghreyt4wsgsdfsdfwer",
     store: new FileStore({
-      path: '/session/kadmin', // Choose a directory to store session files
-      ttl: 1296000  // Session expiration time in seconds (optional)
+      path: '/session/kadmin',
+      ttl: 2592000  // 30 days in seconds
     }),
     resave: false,
     saveUninitialized: true,
   })
 );
-
 
 
 ;
