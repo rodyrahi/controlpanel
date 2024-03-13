@@ -37,16 +37,14 @@ app.use(
     secret: "fasfasgdghreyt4wsgsdfsdfwer",
     store: new FileStore({
       path: '/session/kadmin',
-       
     }),
     resave: false,
     saveUninitialized: true,
+    cookie: {
+      maxAge: 15 * 24 * 60 * 60 * 1000, // 15 days in milliseconds
+    },
   })
 );
-
-
-;
-
 
 const ssh = new NodeSSH();
 module.exports = { ssh, server, app, bodyParser };
