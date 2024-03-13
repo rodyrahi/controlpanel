@@ -37,7 +37,7 @@ app.use(
     secret: "fasfasgdghreyt4wsgsdfsdfwer",
     store: new FileStore({
       path: '/session/kadmin',
-      ttl: null 
+       
     }),
     resave: false,
     saveUninitialized: true,
