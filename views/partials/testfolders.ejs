@@ -109,9 +109,7 @@
              
               <!-- Context menu -->
               <div class="context-menu" id="contextMenu" style="font-size: 0.8rem; z-index: 1000; position: fixed;">
-                <!-- <div class="context-menu-item" onclick="renameAction()">
-                  <i class="fa-solid fa-square-up-right"></i> Open
-                </div> -->
+
                 
                 <div class="context-menu-item" onclick="renameAction()">
                   <i class="fas fa-edit"></i> Rename
@@ -146,15 +144,15 @@
         <% } %>
      
     <% }) %>
-    <div class="context-menu" id="contextMenuExplorer" style="font-size: 0.8rem; z-index: 0; position: fixed;">
+    <div class="context-menu" id="contextMenuExplorer"   style="font-size: 0.8rem; z-index: 0; position: fixed;  ">
       <div class="context-menu-item" onclick="">
         <i class="fa-solid fa-file-code"></i> Scripts
         <!-- Sub-menu for "Scripts" -->
-        <div class="sub-menu p-1 rounded-2">
+        <div class="sub-menu p-1 rounded-2" style="overflow: auto; max-height: 140px;">
 
           <% scripts.forEach(element => { %>
             <div class="context-menu-item" onclick="runScript(this)">
-              <i class="fas fa-code"></i> <%= element.name %>
+              <i class="fas fa-gear"></i> <%= element.name %>
               <textarea class="d-none" id="" cols="30" rows="10"><%= element.script %></textarea>
             </div>
           <% }) %>
@@ -260,20 +258,49 @@ function menu(el) {
 
 function showMenu(event, menu, el = null) {
   Array.from(folders).forEach(item => item.style.backgroundColor = '');
-  if (document.getElementById('contextMenu')) {
-    document.getElementById('contextMenu').style.display = 'none';
-  }
+
+
+
+  if (menu.id === 'contextMenuExplorer') {
+
+
+
+    const allContextMenus = document.querySelectorAll('#contextMenu');
+      allContextMenus.forEach(function(menu) {
+        menu.style.display = 'none';
+      });
+
+
+
+   
+    }
+
+  // if (document.getElementById('contextMenu')) {
+  //   document.getElementById('contextMenu').style.display = 'none';
+  // }
   
+
+
+
   document.getElementById('contextMenuExplorer').style.display = 'none';
 
   const maxleft = document.getElementById("explorer").offsetWidth - menu.offsetWidth;
   const maxtop = document.getElementById("explorer").offsetHeight - menu.offsetHeight;
 
+  const sub_menu_maxtop = document.getElementById("explorer").offsetHeight - contextMenuExplorer.offsetHeight;
 
+  console.log(sub_menu_maxtop);
+
+ 
 
   menu.style.display = 'block';
+
+
+  
   menu.style.left = Math.min( maxleft, event.clientX)  + 'px';
   menu.style.top = Math.min(maxtop, event.clientY)  + 'px';
+
+
 
   if(el){
     file = el.querySelector('span').textContent.trim();
@@ -287,6 +314,7 @@ function showMenu(event, menu, el = null) {
    
     
   });
+
 
   if (el) {
     el.style.backgroundColor = 'red';
@@ -556,8 +584,18 @@ async function createfile() {
 
 async function runScript(el) {
 
-  document.getElementById('overlay').style.display = 'block';
+
   var script = el.querySelector('textarea').value
+
+  if (script.includes('$$$')) {
+
+    const input = prompt(`${script.replace('$$$', '')} : `);
+    script = script.replace('$$$', input);
+    
+
+  }
+  document.getElementById('overlay').style.display = 'block';
+  
   const data = await execute(`cd ${dir}\n${script}`);
 
   document.getElementById('changedir').innerHTML = `cd ${dir}\nls -la`;
