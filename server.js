@@ -86,6 +86,11 @@ const putConfig = {
 
 
 
+app.use((req, res, next) => {
+  console.log(`${req.method} ${req.url}`);
+  next();
+});
+
 
 
 
@@ -267,11 +272,12 @@ function generateRandomString(length) {
 
 app.post('/sandboxconnect', upload.single('privateKey'), async (req, res) => {
   try {
+
     const { host, user ,port } = req.body;
 
 
     const gid = req.oidc.user.sub
-    console.log(gid);
+    console.log(req.file);
     // Access the uploaded file via req.file
     const privateKeyFile = req.file;
 
@@ -313,37 +319,31 @@ app.post('/sandboxconnect', upload.single('privateKey'), async (req, res) => {
     const data = response.data;
 
 
-    
 
-    const getUrl = 'https://api.kadmin.online/connect/' + gid; // Replace with your GET API endpoint
-    // console.log(gid);
+    const getUrl = 'https://api.kadmin.online/connect/' + gid; 
+    console.log(getUrl);
  
     try {
         const responseGet = await axios.get(getUrl);
         
+
+        console.log(responseGet.data);
         if (responseGet.status === 200) {
 
-            // console.log('Request successful:', responseGet.data);
+
             req.session.server = []
             req.session.server.push(gid+'@'+host)
-            // userdb.prepare("UPDATE user SET servers = servers || ? WHERE user = ?").run(',' + id+'@'+host, req.oidc.user.sub);
-
-      
 
         } else {
 
-            // console.log('Unexpected response status:', responseGet.status);
+            console.log('Unexpected response status:', responseGet.status);
         }
     } catch (error) {
 
         console.error('Error making the request:', error.message);
     }
 
-    // const dataFromGet = responseGet.data;
-
-
-
-
+  
     res.redirect('/dashboard');
   } catch (error) {
     console.error('Error:', error.message);
@@ -554,6 +554,8 @@ app.post("/connect", async (req, res) => {
       privateKey,
     };
   }
+
+
 
   try {
     await ssh.connect(req.session.sshConfig);
