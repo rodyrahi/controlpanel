@@ -32,7 +32,7 @@ const config = {
   issuerBaseURL: "https://dev-t42orpastoaad3st.us.auth0.com",
 };
 
-app.use("trust proxy", true);
+
 
 
 app.use(auth(config));
