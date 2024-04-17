@@ -31,6 +31,10 @@ const config = {
   clientID: "zj17AAKjTh0ZrdOmD3O7hiXTKc1UwHAy",
   issuerBaseURL: "https://dev-t42orpastoaad3st.us.auth0.com",
 };
+
+app.use("trust proxy", true);
+
+
 app.use(auth(config));
 app.use(
   session({
