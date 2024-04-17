@@ -86,7 +86,7 @@
 
     </div>
   </div>
-    <div class="p-2 scrollbar-pink" id="explorer" style="height: 79vh;  overflow-y: auto; " >
+    <div class="p-2 scrollbar-pink border" id="explorer" style="height: 79vh;  overflow-y: auto; " >
       <% folders.forEach((element , index) => { %>
         <% if (index >2 && element !== '' ) { %>
             <% let parts = element.split(" "); %>
@@ -108,7 +108,7 @@
               
              
               <!-- Context menu -->
-              <div class="context-menu" id="contextMenu" style="font-size: 0.8rem; z-index: 1000;">
+              <div class="context-menu" id="contextMenu" style="font-size: 0.8rem; z-index: 1000; position: fixed;">
                 <!-- <div class="context-menu-item" onclick="renameAction()">
                   <i class="fa-solid fa-square-up-right"></i> Open
                 </div> -->
@@ -146,7 +146,7 @@
         <% } %>
      
     <% }) %>
-    <div class="context-menu" id="contextMenuExplorer" style="font-size: 0.8rem; z-index: 0;">
+    <div class="context-menu" id="contextMenuExplorer" style="font-size: 0.8rem; z-index: 0; position: fixed;">
       <div class="context-menu-item" onclick="">
         <i class="fa-solid fa-file-code"></i> Scripts
         <!-- Sub-menu for "Scripts" -->
@@ -243,13 +243,6 @@ explorer.addEventListener('contextmenu', function(event) {
   showMenu(event, contextMenuExplorer , null);
 });
 
-// folders.forEach(function (item) {
-//   item.addEventListener('contextmenu', function(event) {
-//     event.preventDefault();
-//     event.stopPropagation();
-//     showMenu(event, contextMenu, item);
-//   });
-// });
 
 
 function menu(el) {
@@ -273,9 +266,14 @@ function showMenu(event, menu, el = null) {
   
   document.getElementById('contextMenuExplorer').style.display = 'none';
 
+  const maxleft = document.getElementById("explorer").offsetWidth - menu.offsetWidth;
+  const maxtop = document.getElementById("explorer").offsetHeight - menu.offsetHeight;
+
+
+
   menu.style.display = 'block';
-  menu.style.left = event.clientX  + 'px';
-  menu.style.top = event.clientY-80  + 'px';
+  menu.style.left = Math.min( maxleft, event.clientX)  + 'px';
+  menu.style.top = Math.min(maxtop, event.clientY)  + 'px';
 
   if(el){
     file = el.querySelector('span').textContent.trim();
@@ -386,10 +384,14 @@ async function cd(el , name) {
   const data = await execute(`cd ${dir}\ncat ${el}` )
 
 
-  setTimeout(function () {
-            editor.setValue(data);
-        }, 100); // 100 milliseconds (0.1 seconds) delay
+  editor.setValue(data);
 
+  editor.on("change", function () {
+    if (editor.getValue != data) {
+      document.getElementById('asterisk').style.display = 'block';
+    }
+   
+  });
 
   el.innerHTML = name
 

@@ -1,12 +1,12 @@
 
 
 <div class="d-flex">
-  <div class="m-1">
-    <button class="btn btn-sm btn-primary" onclick="saveFile(this)" id="saveButton"><i class="fa-solid fa-floppy-disk"></i></button>
+  <div class="m-1 ">
+    <button class="btn btn-sm btn-primary" onclick="saveFile(this)" id="saveButton"><i class="fa-solid fa-asterisk" id="asterisk" style="display: none; font-size: 0.5rem;"></i><i class="fa-solid fa-floppy-disk"></i></button>
 
   </div>
   <div class="m-1">
-    <button class="btn btn-sm btn-success" onclick="saveFile(this)" id="saveButton"><i class="fa-solid fa-circle-play"></i></button>
+    <button class="btn btn-sm btn-success" onclick="saveFile(this)" id="playButton"><i class="fa-solid fa-circle-play"></i></button>
 
   </div>
 
@@ -25,32 +25,56 @@
   </div>
  
  
- 
+  <style type="text/css" media="screen">
+    #editor { 
+        
+
+    }
+</style>
+
+
 
 </div>
+
+
+
   <div id="editor" style="height: 75vh;"></div>
+
+
+
+
+
+
+
+
+
+<script>
+  
+  editor = '';
+
+  editor = ace.edit("editor");
+  editor.setTheme("ace/theme/monokai");
+  editor.session.setMode("ace/mode/python");
+
+
+  
+  
+  
+</script>
 
 
 
 <script>
 
 
-editor = '';
-
-    
-require.config({ paths: { 'vs': 'https://unpkg.com/monaco-editor@0.30.1/min/vs' } });
-require(['vs/editor/editor.main'], async function () {
-    editor = monaco.editor.create(document.getElementById('editor'), {
-        value: '',
-        language: 'plaintext'
-    });
-});
 
 document.getElementById('filename').innerText = file
 
 
 
 async function saveFile(el) {
+   
+    document.getElementById('asterisk').style.display = 'none';
     var name = el.innerHTML
     el.innerHTML = '<i class="fas fa-spinner fa-spin "></i>'
 
