@@ -22,7 +22,7 @@ app.use(express.json());
 app.use(express.static("public"));
 
 var isWin = process.platform === "win32";
-var baseurl = !isWin ? "https://kadmin.online" : "http://localhost:9111";
+var baseurl = !isWin ? "https://kadmin.online/callback" : "http://localhost:9111";
 const config = {
   authRequired: false,
   auth0Logout: true,
