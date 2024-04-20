@@ -63,7 +63,7 @@ switch (file.split(".").pop()) {
 
 document.getElementById("filename").innerText = file;
 
-editor.setValue(filedata );
+editor.setValue(filedata , -1 );
 editor.clearSelection();
 async function saveFile(el) {
   document.getElementById("asterisk").style.display = "none";
