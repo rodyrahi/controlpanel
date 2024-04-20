@@ -149,7 +149,7 @@ async function readfile(el) {
     files_opened.push(dir + el);
   }
 
-  data = await execute(`cd ${dir}\ncat ${el}`);
+  filedata = await execute(`cd ${dir}\ncat ${el}`);
 
 
 

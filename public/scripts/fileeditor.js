@@ -63,7 +63,7 @@ switch (file.split(".").pop()) {
 
 document.getElementById("filename").innerText = file;
 
-editor.setValue(data);
+editor.setValue(filedata);
 
 async function saveFile(el) {
   document.getElementById("asterisk").style.display = "none";
@@ -106,7 +106,7 @@ function closefile(el) {
 async function  openfile(name) {
     
     file = name
-    data = await execute(`cd ${dir}\ncat ${name}`);
+    filedata = await execute(`cd ${dir}\ncat ${name}`);
    
     console.log(data);
 
