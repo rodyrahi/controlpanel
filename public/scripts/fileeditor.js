@@ -108,7 +108,7 @@ async function  openfile(name) {
     file = name
     filedata = await execute(`cd ${dir}\ncat ${name}`);
    
-    console.log(data);
+    
 
     htmx.ajax('GET', '/testfileditor' , {target:'#file', swap:'innerHTML'})
 
