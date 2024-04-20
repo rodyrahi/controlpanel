@@ -63,6 +63,8 @@ switch (file.split(".").pop()) {
 
 document.getElementById("filename").innerText = file;
 
+editor.setValue(data);
+
 async function saveFile(el) {
   document.getElementById("asterisk").style.display = "none";
   var name = el.innerHTML;
@@ -103,16 +105,12 @@ function closefile(el) {
 
 async function  openfile(name) {
     
-    htmx.ajax('GET', '/testfileditor' , {target:'#file', swap:'innerHTML'}).then(
-       async () => {
-            console.log("from");
-            file = name
-            const data = await execute(`cd ${dir}\ncat ${name}`);
-            editor.setValue(data);
-            console.log(data);
-        }
-    )
+    file = name
+    data = await execute(`cd ${dir}\ncat ${name}`);
+   
+    console.log(data);
 
+    htmx.ajax('GET', '/testfileditor' , {target:'#file', swap:'innerHTML'})
 
     
 
