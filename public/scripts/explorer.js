@@ -116,7 +116,7 @@ async function cd(el, name) {
     }
   } else {
    
-    htmx.ajax('GET', '/testfileditor' , {target:'#file', swap:'innerHTML'})
+   
     readfile(name);
 
 
@@ -153,6 +153,11 @@ async function readfile(el) {
 
 
   console.log(data);
+
+  
+
+  htmx.ajax('GET', '/testfileditor' , {target:'#file', swap:'innerHTML'})
+
 
   
   editor.setValue(data);
