@@ -89,7 +89,7 @@
       <% let name = parts[parts.length - 1]; %>
 
       <div class=" folders " style="border-bottom: 1px solid rgba(104, 104, 104, 0.37);  " oncontextmenu="menu(this)">
-        <p onclick="cd( this , '<%= name %>')" type="button"`%>  data-type="<%= parts[0].includes("d") ? "dic" : "file"  %>" class="text-light mb-1  ">
+        <p onclick="cd( this , '<%= name %>')" type="button"%>  data-type="<%= parts[0].includes("d") ? "dic" : "file"  %>" class="text-light mb-1  ">
           <i style="opacity: <%= name[0]==="." ? 0.3 : 1%>" class="<%= parts[0].includes("d") ? "fa-solid fa-folder text-primary " : "fa-solid fa-file"%>">
           </i>
           <span class="hover">

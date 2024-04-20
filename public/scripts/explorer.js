@@ -115,9 +115,11 @@ async function cd(el, name) {
       }
     }
   } else {
+   
     htmx.ajax('GET', '/testfileditor' , {target:'#file', swap:'innerHTML'})
-
     readfile(name);
+
+
 
     file = name;
   }
