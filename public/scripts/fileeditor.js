@@ -90,9 +90,6 @@ files_opened.forEach((element) => {
     <button class="btn btn-dark btn-sm" onclick="closefile(this)"><i class="fa-solid fa-xmark"></i></button>
   </div>
 
-
-
-
 `;
 });
 
@@ -111,7 +108,7 @@ async function  openfile(name) {
     file = name
     const data = await execute(`cd ${dir}\ncat ${name}`);
     editor.setValue(data);
-    console.log("to");
+    console.log(data);
     
 
 }
