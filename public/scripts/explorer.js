@@ -151,6 +151,10 @@ async function readfile(el) {
 
   const data = await execute(`cd ${dir}\ncat ${el}`);
 
+
+  console.log(data);
+
+  
   editor.setValue(data);
 
   editor.on("change", function () {
