@@ -105,7 +105,7 @@ function closefile(el) {
 
 async function  openfile(el,name) {
     
-    const dir =el.getAttribute("data-dir")
+    const dir =el.getAttribute("data-dir").split("/").slice(0, -1).join("/");
 
     file = name
     filedata = await execute(`cd ${dir}\ncat ${name}`);
