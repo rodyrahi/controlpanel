@@ -2,33 +2,7 @@ editor = "";
 
 editor = ace.edit("editor");
 editor.setTheme("ace/theme/cloud_editor_dark");
-
-if (file.includes(".js")) {
-  editor.session.setMode("ace/mode/javascript");
-}
-
-if (file.includes(".py")) {
-  editor.session.setMode("ace/mode/python");
-}
-
-if (file.includes(".java")) {
-  editor.session.setMode("ace/mode/java");
-}
-
-if (file.includes(".cpp")) {
-  editor.session.setMode("ace/mode/c_cpp");
-}
-
-if (file.includes(".html")) {
-  editor.session.setMode("ace/mode/html");
-}
-
-if (file.includes(".css")) {
-  editor.session.setMode("ace/mode/css");
-}
-
-
-
+editor.session.setMode("ace/mode/javascript");
 
 document.getElementById("filename").innerText = file;
 
