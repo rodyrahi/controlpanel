@@ -103,12 +103,17 @@ function closefile(el) {
 
 async function  openfile(name) {
     
-    // htmx.ajax('GET', '/testfileditor' , {target:'#file', swap:'innerHTML'})
-    console.log("from");
-    file = name
-    const data = await execute(`cd ${dir}\ncat ${name}`);
-    editor.setValue(data);
-    console.log(data);
+    htmx.ajax('GET', '/testfileditor' , {target:'#file', swap:'innerHTML'}).then(
+       async () => {
+            console.log("from");
+            file = name
+            const data = await execute(`cd ${dir}\ncat ${name}`);
+            editor.setValue(data);
+            console.log(data);
+        }
+    )
+
+
     
 
 }
