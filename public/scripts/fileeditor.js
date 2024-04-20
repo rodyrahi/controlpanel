@@ -88,7 +88,7 @@ files_opened.forEach((element) => {
   document.getElementById("files-tab").innerHTML += `
   <div class="btn-group" role="group">
   
-    <button class="btn btn-primary btn-sm" type="button" onclick="openfile('${fileName}')"   hx-target="#file" hx-swap="innerHTML"  data-dir="${element}">${fileName}</button>
+    <button class="btn btn-primary btn-sm" type="button" onclick="openfile( this , '${fileName}')"    data-dir="${element}">${fileName}</button>
     <button class="btn btn-dark btn-sm" onclick="closefile(this)"><i class="fa-solid fa-xmark"></i></button>
   </div>
 
@@ -103,8 +103,10 @@ function closefile(el) {
     openlastfile();
 }
 
-async function  openfile(name) {
+async function  openfile(el,name) {
     
+    const dir =el.getAttribute("data-dir")
+
     file = name
     filedata = await execute(`cd ${dir}\ncat ${name}`);
    
