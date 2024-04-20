@@ -149,18 +149,17 @@ async function readfile(el) {
     files_opened.push(dir + el);
   }
 
-  const data = await execute(`cd ${dir}\ncat ${el}`);
+  data = await execute(`cd ${dir}\ncat ${el}`);
 
-
-  console.log(data);
-
-  
-
-  // htmx.ajax('GET', '/testfileditor' , {target:'#file', swap:'innerHTML'})
 
 
   
-  editor.setValue(data);
+
+  htmx.ajax('GET', '/testfileditor' , {target:'#file', swap:'innerHTML'})
+
+
+  
+  
 
   editor.on("change", function () {
     if (editor.getValue != data) {
