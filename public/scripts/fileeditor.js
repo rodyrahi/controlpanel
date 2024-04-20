@@ -56,7 +56,7 @@ switch (file.split(".").pop()) {
     case "go":
     editor.session.setMode("ace/mode/go");
     break;
-    
+
   default:
     break;
 }
@@ -107,8 +107,11 @@ function closefile(el) {
 async function  openfile(name) {
     
     htmx.ajax('GET', '/testfileditor' , {target:'#file', swap:'innerHTML'})
+    console.log("from");
     file = name
     const data = await execute(`cd ${dir}\ncat ${name}`);
     editor.setValue(data);
+    console.log("to");
+    
 
 }

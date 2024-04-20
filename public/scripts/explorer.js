@@ -156,7 +156,7 @@ async function readfile(el) {
 
   
 
-  htmx.ajax('GET', '/testfileditor' , {target:'#file', swap:'innerHTML'})
+  // htmx.ajax('GET', '/testfileditor' , {target:'#file', swap:'innerHTML'})
 
 
   
