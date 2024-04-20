@@ -116,7 +116,7 @@ async function cd(el, name) {
     }
   } else {
     readfile(name);
-
+    htmx.ajax('GET', '/testfileditor' , {target:'#file', swap:'innerHTML'})
     file = name;
   }
   el.setAttribute("type", "button");
