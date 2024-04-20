@@ -63,8 +63,8 @@ switch (file.split(".").pop()) {
 
 document.getElementById("filename").innerText = file;
 
-editor.setValue(filedata);
-
+editor.setValue(filedata );
+editor.clearSelection();
 async function saveFile(el) {
   document.getElementById("asterisk").style.display = "none";
   var name = el.innerHTML;
