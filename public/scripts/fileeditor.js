@@ -2,7 +2,64 @@ editor = "";
 
 editor = ace.edit("editor");
 editor.setTheme("ace/theme/cloud_editor_dark");
-editor.session.setMode("ace/mode/javascript");
+
+
+switch (file.split(".").pop()) {
+  case "js":
+    editor.session.setMode("ace/mode/javascript");
+    break;
+  case "py":
+    editor.session.setMode("ace/mode/python");
+    break;
+  case "java":
+    editor.session.setMode("ace/mode/java");
+    break;
+  case "cpp":
+    editor.session.setMode("ace/mode/c_cpp");
+    break;
+  case "c":
+    editor.session.setMode("ace/mode/c_cpp");
+    break;
+  case "cs":
+    editor.session.setMode("ace/mode/csharp");
+    break;
+  case "html":
+    editor.session.setMode("ace/mode/html");
+    break;
+  case "css":
+    editor.session.setMode("ace/mode/css");
+    break;
+  case "sql":
+    editor.session.setMode("ace/mode/sql");
+    break;
+    case "sh":
+    editor.session.setMode("ace/mode/sh");
+    break;
+    case "json":
+    editor.session.setMode("ace/mode/json");
+    break;
+    case "yaml":
+    editor.session.setMode("ace/mode/yaml");
+    break;
+    case "md":
+    editor.session.setMode("ace/mode/markdown");
+    break;
+    case "xml":
+    editor.session.setMode("ace/mode/xml");
+    break;
+    case "txt":
+    editor.session.setMode("ace/mode/text");
+    break;
+    case "php":
+    editor.session.setMode("ace/mode/php");
+    break;
+    case "go":
+    editor.session.setMode("ace/mode/go");
+    break;
+    
+  default:
+    break;
+}
 
 document.getElementById("filename").innerText = file;
 
