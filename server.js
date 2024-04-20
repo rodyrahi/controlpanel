@@ -1,6 +1,6 @@
 const http = require("http");
 const session = require("express-session");
-const FileStore = require('session-file-store')(session);
+const FileStore = require("session-file-store")(session);
 const express = require("express");
 const app = express();
 const bodyParser = require("body-parser");
@@ -12,10 +12,10 @@ const path = require("path");
 const fs = require("fs");
 const { auth, requiresAuth } = require("express-openid-connect");
 // const simpleGit = require("simple-git");
-const multer = require('multer');
-const FormData = require('form-data');
+const multer = require("multer");
+const FormData = require("form-data");
 
-const axios = require('axios');
+const axios = require("axios");
 app.set("view engine", "ejs");
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -32,17 +32,12 @@ const config = {
   issuerBaseURL: "https://dev-t42orpastoaad3st.us.auth0.com",
 };
 
-
-
-
 app.use(auth(config));
 app.use(
   session({
     secret: "fasfasgdghreyt4wsgsdfsdfwer",
     store: new FileStore({
-      path: '/session/kadmin',
-
-      
+      path: "/session/kadmin",
     }),
     resave: false,
     saveUninitialized: true,
@@ -51,10 +46,6 @@ app.use(
     },
   })
 );
-
-
-
-
 
 const ssh = new NodeSSH();
 module.exports = { ssh, server, app, bodyParser };
@@ -75,8 +66,7 @@ app.use("/cronjob", cronjobRouter);
 app.use("/blog", blogRouter);
 app.use("/subscription", subRouter);
 
-
-const storage = multer.memoryStorage(); 
+const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
 
 const putConfig = {
@@ -86,20 +76,10 @@ const putConfig = {
   autoClose: true, // automatically close the write stream when finished
 };
 
-
-
-
-
 app.use((req, res, next) => {
   console.log(`${req.method} ${req.url}`);
   next();
 });
-
-
-
-
-
-
 
 // app.post("/upload", async (req, res) => {
 //   try {
@@ -157,113 +137,102 @@ app.get("/", (req, res) => {
   res.render("home", { isauth: req.oidc.isAuthenticated() });
 });
 
-
-
- 
-async function fetchdata(command , req) {
-  const server = req.session.server
+async function fetchdata(command, req) {
+  const server = req.session.server;
 
   const postData = {
-    command: command
+    command: command,
   };
 
-  const response = await axios.post(`https://api.kadmin.online/execute/${server}`, postData, {
-    headers: {
-      'Content-Type': 'application/x-www-form-urlencoded',
-    },
-  });
+  const response = await axios.post(
+    `https://api.kadmin.online/execute/${server}`,
+    postData,
+    {
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+    }
+  );
 
-  return response.data
-     
+  return response.data;
 }
 
+app.get("/dashboard", async (req, res) => {
+  console.log(req.oidc.user);
+  const server = req.oidc.user.sub || req.session.server;
 
+  req.session.server = server;
 
-
-
-
-
-
-app.get("/dashboard", async(req, res) => {
-
-  const server = req.oidc.user.sub || req.session.server
-
-  req.session.server = server
-
-  
   // const responseGet = await axios.get(getUrl);
-  const username = await axios.get(`https://api.kadmin.online/username/${server}`);
+  const username = await axios.get(
+    `https://api.kadmin.online/username/${server}`
+  );
 
   // console.log(username.data.data.User);
-  res.render("partials/test",{server , username:username.data.data});
-
+  res.render("partials/test", { server, username: username.data.data });
 });
-
 
 app.post("/execommand/:server", async (req, res) => {
   const { command } = req.body;
 
-  const user = req.oidc.user.sub
+  const user = req.oidc.user.sub;
   const postData = {
-    command: command
+    command: command,
   };
 
   try {
-    const response = await axios.post(`https://api.kadmin.online/execute/${user}`, postData, {
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-      },
-    });
-    console.log('Response from the server:', response.data);
+    const response = await axios.post(
+      `https://api.kadmin.online/execute/${user}`,
+      postData,
+      {
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+      }
+    );
+    console.log("Response from the server:", response.data);
     // const data = response.data
 
-    res.send(response.data)
-
+    res.send(response.data);
   } catch (error) {
-    console.error('Error making POST request:', error.response ? error.response.status : error.message);
+    console.error(
+      "Error making POST request:",
+      error.response ? error.response.status : error.message
+    );
     // Handle errors as needed, e.g., res.status(500).send('Internal Server Error');
   }
 });
 
-
-
-
 app.get("/server", requiresAuth(), async (req, res) => {
   const servers = req.oidc.user.sub;
-
 
   const getUrl = `https://api.kadmin.online/user/${servers}`;
 
   try {
     const responseGet = await axios.get(getUrl);
-    
-
 
     if (responseGet.status === 200 && req.session.sshConfig) {
-
-      console.log('found ');
-      res.render('partials/sandbox', { servers: [servers] , user: req.oidc.user });
+      console.log("found ");
+      res.render("partials/sandbox", {
+        servers: [servers],
+        user: req.oidc.user,
+      });
     } else {
-      
-      
-      res.render('partials/sandbox', { servers: [""] , user: req.oidc.user });
+      res.render("partials/sandbox", { servers: [""], user: req.oidc.user });
     }
   } catch (error) {
     console.error(
       `Error fetching data for server ${servers}: ${error.message}`
     );
-    console.log('not found ');
-    res.render('partials/sandbox', { servers: [""] , user: req.oidc.user});
-
+    console.log("not found ");
+    res.render("partials/sandbox", { servers: [""], user: req.oidc.user });
   }
-
-
 });
 
-
 function generateRandomString(length) {
-  const characters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-  let randomString = '';
+  const characters =
+    "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+  let randomString = "";
 
   for (let i = 0; i < length; i++) {
     const randomIndex = Math.floor(Math.random() * characters.length);
@@ -273,189 +242,170 @@ function generateRandomString(length) {
   return randomString;
 }
 
-
-app.post('/sandboxconnect', upload.single('privateKey'), async (req, res) => {
+app.post("/sandboxconnect", upload.single("privateKey"), async (req, res) => {
   try {
+    const { host, user, port } = req.body;
 
-    const { host, user ,port } = req.body;
-
-
-    const gid = req.oidc.user.sub
+    const gid = req.oidc.user.sub;
     console.log(req.file);
     // Access the uploaded file via req.file
     const privateKeyFile = req.file;
 
     if (!privateKeyFile) {
-      return res.status(400).send('No private key uploaded.');
+      return res.status(400).send("No private key uploaded.");
     }
 
     const id = generateRandomString(20);
 
     // Create a new FormData object
     const formData = new FormData();
-    formData.append('host', host);
-    formData.append('user', user);
-    formData.append('id', id);
-    formData.append('gid', gid);
-    formData.append('privateKey', privateKeyFile.buffer, {
+    formData.append("host", host);
+    formData.append("user", user);
+    formData.append("id", id);
+    formData.append("gid", gid);
+    formData.append("privateKey", privateKeyFile.buffer, {
       filename: privateKeyFile.originalname,
       contentType: privateKeyFile.mimetype,
     });
-   
+
     req.session.sshConfig = {
       host,
-      username:user,
+      username: user,
       port,
-      privateKey:privateKeyFile.buffer.toString(),
-    }
+      privateKey: privateKeyFile.buffer.toString(),
+    };
 
-    
- 
-
-    
-    const postUrl = 'https://api.kadmin.online/connect'; // Replace with your API endpoint
+    const postUrl = "https://api.kadmin.online/connect"; // Replace with your API endpoint
 
     // Make the POST request using axios
     const response = await axios.post(postUrl, formData, {
       headers: formData.getHeaders(),
     });
-   
+
     const data = response.data;
 
-
-
-    const getUrl = 'https://api.kadmin.online/connect/' + gid; 
+    const getUrl = "https://api.kadmin.online/connect/" + gid;
     console.log(getUrl);
- 
+
     try {
-        const responseGet = await axios.get(getUrl);
-        
+      const responseGet = await axios.get(getUrl);
 
-        console.log(responseGet.data);
-        if (responseGet.status === 200) {
-
-
-            req.session.server = []
-            req.session.server.push(gid+'@'+host)
-
-        } else {
-
-            console.log('Unexpected response status:', responseGet.status);
-        }
+      console.log(responseGet.data);
+      if (responseGet.status === 200) {
+        req.session.server = [];
+        req.session.server.push(gid + "@" + host);
+      } else {
+        console.log("Unexpected response status:", responseGet.status);
+      }
     } catch (error) {
-
-        console.error('Error making the request:', error.message);
+      console.error("Error making the request:", error.message);
     }
 
-  
-    res.redirect('/dashboard');
+    res.redirect("/dashboard");
   } catch (error) {
-    console.error('Error:', error.message);
+    console.error("Error:", error.message);
     res.send(error.message);
   }
-
-
-
-
 });
 
-
 app.get("/testapps", async (req, res) => {
-
-
-  const server = req.session.server
+  const server = req.session.server;
 
   // const server = user[0].split("@")[0]
-
 
   // console.log(user);
 
   const postData = {
     command: `pm2 jlist | jq -c '.[] | {name, status: .pm2_env.status,id:.pm_id, memory: .monit.memory, cpu: .monit.cpu, repo: .pm2_env.versioning.repo_path}'
-    `
+    `,
   };
 
   try {
-    const response = await axios.post(`https://api.kadmin.online/execute/${server}`, postData, {
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-      },
-    });
-
-
-
+    const response = await axios.post(
+      `https://api.kadmin.online/execute/${server}`,
+      postData,
+      {
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+      }
+    );
 
     // const json = JSON.stringify(response.data)
 
+    const data = response.data.split("\n");
 
-    const data = response.data.split('\n');
-    
-    const jsonArray = data.filter(item => item.trim() !== '').map(JSON.parse);
-
+    const jsonArray = data.filter((item) => item.trim() !== "").map(JSON.parse);
 
     const scripts = scriptsdb
-    .prepare("SELECT * FROM scripts WHERE user=?")
-    .all(req.oidc.user.sub);
+      .prepare("SELECT * FROM scripts WHERE user=?")
+      .all(req.oidc.user.sub);
 
-  res.render("partials/testapps", { apps:jsonArray , sysuser, scripts  , server});
+    res.render("partials/testapps", {
+      apps: jsonArray,
+      sysuser,
+      scripts,
+      server,
+    });
     // res.send(response.data)
   } catch (error) {
-    console.error('Error making POST request:', error.response ? error.response.status : error.message);
+    console.error(
+      "Error making POST request:",
+      error.response ? error.response.status : error.message
+    );
     // Handle errors as needed, e.g., res.status(500).send('Internal Server Error');
   }
 });
 
-
-
 app.get("/testdash", async (req, res) => {
-  res.render("partials/testdashboard")
+  res.render("partials/testdashboard");
 });
 
 app.get("/testfolders", async (req, res) => {
-
-  try{
-    const data = await fetchdata('ls -la' , req)
-    const scripts = scriptsdb.prepare("SELECT * FROM scripts WHERE user=?").all(req.oidc.user.sub);
+  try {
+    const data = await fetchdata("ls -la", req);
+    const scripts = scriptsdb
+      .prepare("SELECT * FROM scripts WHERE user=?")
+      .all(req.oidc.user.sub);
     console.log(scripts);
-    res.render("partials/testfolders", { folders:data.split('\n') , scripts});
-  }catch(error){
-    console.error('Error making POST request:', error.response ? error.response.status : error.message);
-
+    res.render("partials/testfolders", { folders: data.split("\n"), scripts });
+  } catch (error) {
+    console.error(
+      "Error making POST request:",
+      error.response ? error.response.status : error.message
+    );
   }
-
 });
-
 
 app.get("/testfileditor", async (req, res) => {
-
   res.render("partials/testfileditor");
-
-
 });
 
-
-
 app.post("/testchangedic", async (req, res) => {
-
-  const {command} = req.body
-  try{
-    const data = await fetchdata(command , req)
-    const scripts = scriptsdb.prepare("SELECT * FROM scripts WHERE user=?").all(req.oidc.user.sub);
-    res.render("partials/testfolders", { folders:data.split('\n') , scripts});
-  }catch(error){
-    console.error('Error making POST request:', error.response ? error.response.status : error.message);
-
+  const { command } = req.body;
+  try {
+    const data = await fetchdata(command, req);
+    const scripts = scriptsdb
+      .prepare("SELECT * FROM scripts WHERE user=?")
+      .all(req.oidc.user.sub);
+    res.render("partials/testfolders", { folders: data.split("\n"), scripts });
+  } catch (error) {
+    console.error(
+      "Error making POST request:",
+      error.response ? error.response.status : error.message
+    );
   }
-
 });
 
 app.get("/testcreatewebsite", async (req, res) => {
-  res.render("partials/testcreatewebsite")
+  res.render("partials/testcreatewebsite");
 });
 
 app.get("/testscripts", async (req, res) => {
-  const scripts = scriptsdb.prepare("SELECT * FROM scripts WHERE user=?").all(req.oidc.user.sub);
-  res.render("partials/testscripts", { scripts})
+  const scripts = scriptsdb
+    .prepare("SELECT * FROM scripts WHERE user=?")
+    .all(req.oidc.user.sub);
+  res.render("partials/testscripts", { scripts });
 });
 
 app.post("/testcreatescript", (req, res) => {
@@ -463,7 +413,7 @@ app.post("/testcreatescript", (req, res) => {
 
   const result = scriptsdb.prepare("SELECT * FROM scripts WHERE id= ?").get(id);
 
-  if (!result) {  
+  if (!result) {
     scriptsdb
       .prepare(`INSERT INTO scripts (name , script ,user) VALUES (?,? ,?) `)
       .run(scriptname, script, req.oidc.user.sub);
@@ -486,24 +436,10 @@ app.get("/testdeletescript/:id", (req, res) => {
   res.redirect("/testscripts"); // Redirect to the scripts page after successful deletion
 });
 
-
 app.get("/monitor", async (req, res) => {
   const server = req.oidc.user.sub;
-  res.render("partials/monitor" , {server})
+  res.render("partials/monitor", { server });
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 app.get("/apps", async (req, res) => {
   try {
@@ -558,8 +494,6 @@ app.post("/connect", async (req, res) => {
       privateKey,
     };
   }
-
-
 
   try {
     await ssh.connect(req.session.sshConfig);
