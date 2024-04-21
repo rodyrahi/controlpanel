@@ -72,6 +72,15 @@ async function saveFile(el) {
 
   const content = editor.getValue().toString();
 
+  
+  filedata = content;
+
+  let fileobject = recents_files_data.find(item => item.name === file);
+
+  fileobject.data = content;
+
+
+
   console.log(` cat > ${dir + file} << "EOF"  '${content}' EOF`);
   const data = await execute(`cat <<EOF > ${dir + file}\n${content}\nEOF`);
 
