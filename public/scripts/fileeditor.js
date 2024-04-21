@@ -108,8 +108,11 @@ async function  openfile(el,name) {
     const dir =el.getAttribute("data-dir").split("/").slice(0, -1).join("/");
 
     file = name
-    filedata = await execute(`cd ${dir}\ncat ${name}`);
-   
+
+    let fileobject = recents_files_data.find(item => item.name === name);
+
+    filedata = fileobject.data
+    console.log(filedata);
     
 
     htmx.ajax('GET', '/testfileditor' , {target:'#file', swap:'innerHTML'})

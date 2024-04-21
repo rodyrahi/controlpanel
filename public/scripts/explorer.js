@@ -104,11 +104,12 @@ async function cd(el, name) {
       dir += currentDir + "/";
 
       const command = `cd ${dir}\nls -la`;
-      console.log(command);
-      console.log(dir);
+
 
       document.getElementById("changedir").innerHTML = command;
       document.getElementById("changedir").click();
+
+      
       if (!recents.includes(dir)) {
         recents.push(dir);
         console.log(recents);
@@ -151,6 +152,20 @@ async function readfile(el) {
 
   filedata = await execute(`cd ${dir}\ncat ${el}`);
 
+  console.log(el);
+  
+  let file_json = {
+    name: el,
+    data: filedata,
+  };
+  
+  if (!recents_files_data.includes(file_json)) {
+    recents_files_data.push(file_json);
+    
+  }
+
+  console.log(recents_files_data);
+  
 
 
   

@@ -58,120 +58,12 @@
 <div class="row" style="height: 100%;">
 
 
-
-
-
-  <div class="  col px-1 d-flex flex-column " style="max-width: 400px; height: 100%; ">
-    <div class=" my-1" style="">
-      <div class="input-group flex-nowrap   ">
-
-
-        <button class="btn btn-dark me-2 btn-sm" onclick="back()"><i class="fa-solid fa-arrow-left"></i></button>
-        <button class="btn btn-primary me-2 btn-sm" onclick="reload()"><i class="fa-solid fa-rotate-right"></i></button>
-        <input type="text" class="form-control" id="filterInput" placeholder="Type to Search" aria-label="Username" aria-describedby="addon-wrapping" style="font-size: 0.7rem; border-radius: 0;">
-
-
-      </div>
-    </div>
-
-    <div class="d-flex mt-1">
-      <div id="recents" class="my-1 d-flex ">
-        <button class="btn btn-primary me-1 btn-sm" onclick="home()"><i class="fa-solid fa-house"></i></button>
-
-
-      </div>
-
-    </div>
-    <div class="p-2 scrollbar-pink " id="explorer" style="   overflow-y: auto; border: 2px solid black; height: 100%; ">
-      <% folders.forEach((element , index) => { %>
-      <% if (index >2 && element !== '' ) { %>
-      <% let parts = element.split(" "); %>
-      <% let name = parts[parts.length - 1]; %>
-
-      <div class=" folders " style="border-bottom: 1px solid rgba(104, 104, 104, 0.37);  " oncontextmenu="menu(this)">
-        <p onclick="cd( this , '<%= name %>')" type="button"%>  data-type="<%= parts[0].includes("d") ? "dic" : "file"  %>" class="text-light mb-1  ">
-          <i style="opacity: <%= name[0]==="." ? 0.3 : 1%>" class="<%= parts[0].includes("d") ? "fa-solid fa-folder text-primary " : "fa-solid fa-file"%>">
-          </i>
-          <span class="hover">
-            <%= name %>
-          </span>
-
-        </p>
-
-
-
-
-        <!-- Context menu -->
-        <div class="context-menu" id="contextMenu" style="font-size: 0.8rem; z-index: 1000; position: fixed;">
-
-
-          <div class="context-menu-item" onclick="renameAction()">
-            <i class="fas fa-edit"></i> Rename
-          </div>
-          <div class="context-menu-item" onclick="copy('<%= name %>')">
-            <i class="fa-solid fa-copy"></i> Copy
-          </div>
-
-          <% if (parts[0].includes("d")) { %>
-          <div class="context-menu-item" onclick="pasteInsideAction()">
-            <i class="fas fa-clipboard"></i> Paste Inside
-          </div>
-
-          <% } %>
-
-
-          <div class="context-menu-item" onclick="deletefile(this)">
-            <i class="fas fa-trash"></i> Delete
-          </div>
-        </div>
-
-
-
-
-      </div>
-
-
-
-
-
-      <% } %>
-
-      <% }) %>
-      <div class="context-menu" id="contextMenuExplorer" style="font-size: 0.8rem; z-index: 0; position: fixed;  ">
-        <div class="context-menu-item" onclick="">
-          <i class="fa-solid fa-file-code"></i> Scripts
-          <!-- Sub-menu for "Scripts" -->
-          <div class="sub-menu p-1 rounded-2" style="overflow: auto; max-height: 140px;">
-
-            <% scripts.forEach(element => { %>
-            <div class="context-menu-item" onclick="runScript(this)">
-              <i class="fas fa-gear"></i> <%= element.name %>
-              <textarea class="d-none" id="" cols="30" rows="10"><%= element.script %></textarea>
-            </div>
-            <% }) %>
-
-
-
-          </div>
-        </div>
-        <div class="context-menu-item" onclick="createfile()">
-          <i class="fa-solid fa-file-circle-plus"></i> New File
-        </div>
-        <div class="context-menu-item" onclick="createfolder()">
-          <i class="fa-solid fa-folder-plus"></i> New Folder
-        </div>
-        <div class="context-menu-item" onclick="paste(this)">
-          <i class="fas fa-clipboard"></i> Paste
-        </div>
-      </div>
-
-    </div>
-
-
-
-
-
+  <div class="  col px-1 d-flex flex-column " id="folderslist" style="max-width: 400px; height: 100%; ">
+    <%- include('./folderslist.ejs') %>
   </div>
+
+
+
 
   <div class="col">
     <div id="" style="height: 75vh;">
@@ -192,6 +84,6 @@
 </div>
 
 
-
+<textarea hx-post="/testchangedic" hx-trigger="click" hx-target="#folderslist" name="command" id="changelist" style="display: none;"></textarea>
 
 <textarea hx-post="/testchangedic" hx-trigger="click" hx-target="#output" name="command" id="changedir" style="display: none;"></textarea>
