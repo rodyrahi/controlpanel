@@ -302,6 +302,39 @@ async function createfile() {
   }
 }
 
+
+async function downloadAction(filename) {
+  try {
+
+      const data = await execute(`cd ${dir} && cat ${filename}`);
+
+   
+      const blob = new Blob([data]);
+
+  
+      const url = URL.createObjectURL(blob);
+
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = filename; 
+
+      document.body.appendChild(a);
+      a.click();
+
+     
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+
+      console.log(`File "${downloadFilename}" downloaded successfully.`);
+  } catch (error) {
+      console.error('Error while downloading the file:', error);
+  }
+}
+
+
+
+
+
 async function runScript(el) {
   var script = el.querySelector("textarea").value;
 
