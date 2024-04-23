@@ -59,6 +59,8 @@
         <i class="fas fa-clipboard"></i> Paste Inside
       </div>
 
+
+
       <% } %>
 
 
@@ -104,6 +106,22 @@
     </div>
     <div class="context-menu-item" onclick="paste(this)">
       <i class="fas fa-clipboard"></i> Paste
+    </div>
+
+    <div class="context-menu-item" >
+           
+      <form style="" id="file-upload-form" action="/upload" method="post" enctype="multipart/form-data">
+        <input type="hidden" id="file-input" name="file" onchange="uploadAction()" />
+      </form>
+      <i class="fas fa-upload" type="button" onclick="triggerUpload()"></i> Upload
+
+      <script>
+          
+          function triggerUpload() {
+              document.getElementById('file-input').click(); 
+          }
+      </script>
+      
     </div>
   </div>
 

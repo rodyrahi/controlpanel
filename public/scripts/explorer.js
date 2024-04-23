@@ -331,6 +331,23 @@ async function downloadAction(filename) {
   }
 }
 
+async function uploadAction() {
+  const form = document.getElementById("file-upload-form");
+  const fileInput = document.getElementById("file-input");
+  const file = fileInput.files[0];
+
+  const blob = await file.text()
+
+  const fileurl = `cat <<EOF > ${dir}${file.name}\n${blob}\nEOF`
+  console.log(fileurl);
+  const data = await execute(fileurl);
+
+  document.getElementById("changedir").innerHTML = `cd ${dir}\nls -la`;
+  document.getElementById("changedir").click();
+
+
+}
+
 
 
 
