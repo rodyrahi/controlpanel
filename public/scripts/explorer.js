@@ -65,7 +65,7 @@ function showMenu(event, menu, el = null) {
     document.getElementById("explorer").offsetHeight -
     contextMenuExplorer.offsetHeight;
 
-  console.log(sub_menu_maxtop);
+  
 
   menu.style.display = "block";
 
@@ -397,4 +397,12 @@ htmx.ajax('GET', '/testfileditor' , {target:'#file', swap:'innerHTML'})
 file = name
 const data = await execute(`cd ${dir}\ncat ${name}`);
 editor.setValue(data);
+}
+
+
+
+function triggerUpload() {
+            
+  console.log(document.getElementById('file-input'));
+  document.getElementById('file-input').click(); 
 }
