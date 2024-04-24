@@ -109,14 +109,24 @@
     </div>
 
     <div class="context-menu-item" onclick="triggerUpload()">
-      <form style="" id="file-upload-form" action="/upload" method="post" enctype="multipart/form-data">
-        <input type="file" class="d-none " id="file-input" name="file" onchange="uploadAction()" />
+
+      <form class="d-none"  id="uploadfile" hx-post="/upload" hx-trigger="change" hx-target="#task-notification"  enctype="multipart/form-data">
+        <input type="text"  name="path" id="uploadpath" >
+        <input type="file" class="" id="file-input" name="file"  />
+
       </form>
+        
+
+
    
       <i class="fas fa-upload"></i> Upload
     </div>
 
    
-  </div>
 
+   
+  </div>
+  <div id="task-notification" class="text-success" >
+
+  </div>
 </div>

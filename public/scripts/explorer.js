@@ -405,7 +405,7 @@ editor.setValue(data);
 
 
 function triggerUpload() {
-            
+  document.getElementById("uploadpath").value = dir          
   console.log(document.getElementById('file-input'));
   document.getElementById('file-input').click(); 
 }

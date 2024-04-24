@@ -8,12 +8,13 @@ const { NodeSSH } = require("node-ssh");
 const server = http.createServer(app);
 const { userdb, scriptsdb } = require("./routes/db.js");
 const path = require("path");
-// const crypto = require("crypto");
 const fs = require("fs");
 const { auth, requiresAuth } = require("express-openid-connect");
-// const simpleGit = require("simple-git");
 const multer = require("multer");
 const FormData = require("form-data");
+const { Client } = require('ssh2');
+
+
 
 const axios = require("axios");
 app.set("view engine", "ejs");
@@ -47,7 +48,7 @@ app.use(
   })
 );
 
-const ssh = new NodeSSH();
+const ssh = new Client();
 module.exports = { ssh, server, app, bodyParser };
 
 const scriptsRouter = require("./routes/scripts/scripts.js");
@@ -66,8 +67,8 @@ app.use("/cronjob", cronjobRouter);
 app.use("/blog", blogRouter);
 app.use("/subscription", subRouter);
 
-const storage = multer.memoryStorage();
-const upload = multer({ storage: storage });
+// const storage = multer.memoryStorage();
+
 
 const putConfig = {
   flags: "w", // w - write and a - append
@@ -81,57 +82,69 @@ app.use((req, res, next) => {
   next();
 });
 
-// app.post("/upload", async (req, res) => {
-//   try {
-//     ssh.putFile("./kadmin.png", "/root/app/kadmin.png").then(
-//       function () {
-//         console.log("The File thing is done");
-//       },
-//       function (error) {
-//         console.log("Something's wrong");
-//         console.log(error);
-//       }
-//     );
-//   } catch (error) {
-//     console.log(error);
-//   }
-// });
 
-// app.get("/server", requiresAuth(), (req, res) => {
-//   const user = req.oidc.user.sub;
-//   const email = req.oidc.user.email;
 
-//   // Check if the user exists in the database
-//   const result = userdb.prepare("SELECT * FROM user WHERE user = ?").get(user);
+// Use temporary storage for multer
+const storage = multer.memoryStorage();
 
-//   if (result) {
-//     // User exists; check if their expiration date is within the limit
-//     const expirationDate = new Date(result.expire);
-//     const currentDate = new Date();
-//     //   currentDate.setDate(currentDate.getDate() + 7); // Adjust this limit as needed
+const upload = multer({ storage: storage });
 
-//     console.log(expirationDate, currentDate);
+app.post('/upload', upload.single('file'), (req, res) => {
+  const path = req.body.path;
 
-//     if (expirationDate > currentDate) {
-//       // The user's expiration date is within the limit, render the 'login' page
-//       res.render("login", { ssh: req.session.sshConfig });
-//     } else {
-//       res.send("buy it now 😄");
-//     }
-//   } else {
-//     // User doesn't exist, so create a new user with a 7-day trial
-//     const today = new Date();
-//     today.setDate(today.getDate() + 7);
-//     const expire = today.toISOString().split("T")[0];
+  console.log(path);
+  if (!req.file) {
+    return res.status(400).json({ message: 'No file uploaded' });
+  }
 
-//     userdb
-//       .prepare("INSERT INTO user (user, email, expire) VALUES (?, ?, ?)")
-//       .run(user, email, expire);
+  const remoteFilePath = `${path}${req.file.originalname}`;
 
-//     // Render the 'login' page since a new user was created
-//     res.render("login");
-//   }
-// });
+    
+
+    ssh.sftp((err, sftp) => {
+      if (err) {
+        console.error('SFTP Error:', err);
+        res.status(500).json({ message: 'SFTP error' });
+        ssh.end();
+        return;
+      }
+
+      // Create a read stream from the buffer
+      const readStream = require('stream').Readable.from(req.file.buffer);
+      const writeStream = sftp.createWriteStream(remoteFilePath);
+
+      writeStream.on('close', () => {
+        console.log('- File transferred successfully');
+        res.status(200).json({ message: 'File uploaded successfully' });
+        ssh.end();
+      });
+
+      writeStream.on('error', (writeErr) => {
+        console.error('Error while writing to SFTP:', writeErr);
+        res.status(500).json({ message: 'File upload failed' });
+        ssh.end();
+      });
+
+      // Start the file transfer from buffer
+      readStream.pipe(writeStream);
+
+
+    });
+
+
+  ssh.on('error', (connErr) => {
+    console.error('SSH Connection Error:', connErr);
+    res.status(500).json({ message: 'SSH connection error' });
+  });
+
+ 
+});
+
+
+
+
+
+
 
 app.get("/", (req, res) => {
   res.render("home", { isauth: req.oidc.isAuthenticated() });
@@ -158,6 +171,11 @@ async function fetchdata(command, req) {
 }
 
 app.get("/dashboard", async (req, res) => {
+
+  ssh.connect(req.session.sshConfig);
+
+
+
   console.log(req.oidc.user);
   const server = req.oidc.user.sub || req.session.server;
 
@@ -505,6 +523,7 @@ app.post("/connect", async (req, res) => {
 });
 
 const checkSessionVariables = (req, res, next) => {
+
   if (
     req.path === "/connect" ||
     req.path === "/" ||
@@ -512,8 +531,9 @@ const checkSessionVariables = (req, res, next) => {
     req.path === "/profile" ||
     req.path === "/userinfo" ||
     req.path === "/createwebsite.sh" ||
-    req.session.sshConfig
+    req.session.sshConfig 
   ) {
+
     next();
   } else {
     res.redirect("/login");
