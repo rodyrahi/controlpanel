@@ -9,10 +9,13 @@ recents.forEach((element) => {
 });
 
 function cdrecent(el) {
-  const dir = el.getAttribute("data-dir");
+  const recentdir = el.getAttribute("data-dir");
 
-  const command = `cd ${dir}\nls -la`;
+  const command = `cd ${recentdir}\nls -la`;
   console.log(command);
+  
+
+  dir = recentdir
   console.log(dir);
 
   document.getElementById("changedir").innerHTML = command;
