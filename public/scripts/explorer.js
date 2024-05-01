@@ -60,15 +60,15 @@ function showMenu(event, menu, el = null) {
   document.getElementById("contextMenuExplorer").style.display = "none";
 
   const maxleft =
-    document.getElementById("explorer").offsetWidth - menu.offsetWidth;
+  $("#explorer").Width() - menu.offsetWidth;
   const maxtop =
-    document.getElementById("explorer").offsetHeight - menu.offsetHeight;
+  $("#explorer").height() - menu.offsetHeight;
 
   const sub_menu_maxtop =
     document.getElementById("explorer").offsetHeight -
     contextMenuExplorer.offsetHeight;
 
-  
+  console.log($("#explorer").height());
 
   menu.style.display = "block";
 
